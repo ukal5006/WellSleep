@@ -13,4 +13,19 @@ public class RestAreas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @Column (name = "category", nullable = false)
+    private Category category;
+
+    @Column (name = "address", nullable = false)
+    private String address;
+
+    @Column (name = "latitude", nullable = false)
+    private double latitude;
+
+    @Column (name = "longitude", nullable = false)
+    private double longitude;
+
+    @Column (name = "name", nullable = false)
+    private String name;
 }

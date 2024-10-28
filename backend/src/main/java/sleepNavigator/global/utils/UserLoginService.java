@@ -2,6 +2,10 @@ package sleepNavigator.global.utils;
 
 
 // 임시로 설정함 삭제 예정
+
+import org.springframework.stereotype.Service;
+
+@Service
 public class UserLoginService {
     public String getRefreshTokenByUserId(int userId) {
         return "";
