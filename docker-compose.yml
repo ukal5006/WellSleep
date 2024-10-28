@@ -1,6 +1,6 @@
 services:
   backend:
-    image: backend
+    image: sleep-back
     build:
       context: ./backend
     environment:
