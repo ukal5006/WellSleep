@@ -3,6 +3,7 @@ services:
     image: sleep-back
     build:
       context: ./backend
+    container_name: sleep-backend
     environment:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
