@@ -1,0 +1,21 @@
+services:
+  backend:
+    image: backend
+    build:
+      context: ./backend
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    ports:
+      - "8080:8080" 
+    networks:
+      - sleep-net
+    restart: always
+
+networks:
+  sleep-net:
+    driver: bridge
+
+volumes:
+  db_data:
