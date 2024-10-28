@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import sleepNavigator.global.utils.JwtUtil;
-import sleepNavigator.global.utils.UserLoginService;
+import sleepNavigator.domain.user.service.UserLoginService;
 
 import java.io.IOException;
 
