@@ -13,10 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import sleepNavigator.domain.user.service.UserLoginService;
 import sleepNavigator.global.auth.JwtAuthenticationEntryPoint;
 import sleepNavigator.global.auth.JwtAuthenticationFilter;
 import sleepNavigator.global.utils.JwtUtil;
-import sleepNavigator.global.utils.UserLoginService;
 
 import java.util.List;
 
