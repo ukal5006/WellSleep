@@ -27,13 +27,6 @@ public class UserController {
     private final UserLoginService userLoginService;
     private final JwtUtil jwtUtil;
 
-    @Autowired
-    public UserController(KakaoService kakaoService, UserLoginService userLoginService, JwtUtil jwtUtil) {
-        this.kakaoService = kakaoService;
-        this.userLoginService = userLoginService;
-        this.jwtUtil = jwtUtil;
-    }
-
     @Operation (summary = "카카오 로그인")
     @PostMapping ("/login")
     public ResponseEntity<?> kakaoLogin(@RequestBody KakaoTokenDTO kakaoTokenDTO) {
