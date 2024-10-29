@@ -28,4 +28,7 @@ public class O2Information {
 
     @Column (name = "value", nullable = false)
     private double value;
+
+    @Column (name = "is_sleep", nullable = false)
+    private boolean isSleep;
 }
