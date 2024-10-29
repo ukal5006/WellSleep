@@ -14,6 +14,7 @@ public class RestAreas {
     @Column(name = "id")
     private int id;
 
+    @Enumerated(EnumType.STRING)
     @Column (name = "category", nullable = false)
     private Category category;
 

@@ -13,10 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import sleepNavigator.domain.user.service.UserLoginService;
 import sleepNavigator.global.auth.JwtAuthenticationEntryPoint;
 import sleepNavigator.global.auth.JwtAuthenticationFilter;
 import sleepNavigator.global.utils.JwtUtil;
-import sleepNavigator.global.utils.UserLoginService;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(
                                         // 경로 추가 ex) "/api/user/**",
-                                        "/**/"
+                                        "/**"
                                 ).permitAll() // 인증 없이 접근 가능한 경로 설정
                                 .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userLoginService), UsernamePasswordAuthenticationFilter.class);
@@ -77,7 +77,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
                 // 경로 추가 ex) "/api/user/**",
-                "/**/"
+                "/**"
         );
     }
 
