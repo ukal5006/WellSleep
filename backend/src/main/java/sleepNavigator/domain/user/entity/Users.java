@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import sleepNavigator.domain.driveInfo.entity.DriveInformation;
+import sleepNavigator.domain.totalInformation.entity.TotalInformation;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +37,6 @@ public class Users {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<DriveInformation> userDriveInformationList;
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<TotalInformation> totalInformations;
 }
