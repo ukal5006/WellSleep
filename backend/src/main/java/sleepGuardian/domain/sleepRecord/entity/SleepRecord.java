@@ -22,19 +22,19 @@ public class SleepRecord {
     private LocalDateTime measureTime;
 
     @Column(name = "illumination")
-    private double Illumination;
+    private double illumination;
 
     @Column(name = "humidity")
-    private double Humidity;
+    private double humidity;
 
     @Column(name = "temperature")
-    private double Temperature;
+    private double temperature;
 
     @Column(name = "noise")
-    private double Noise;
+    private double noise;
 
     @Column(name = "emg")
-    private double Emg;
+    private double emg;
 
     @Column(name = "o2")
     private double o2;
