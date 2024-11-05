@@ -2,6 +2,7 @@ package sleepGuardian.domain.totalInformation.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import sleepGuardian.domain.user.entity.Users;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@ToString
 public class TotalInformation {
 
     @Id
@@ -21,8 +23,10 @@ public class TotalInformation {
     @Column(name = "avg")
     private double avg;
 
+    @CreationTimestamp
     @Column(name = "date")
     private LocalDateTime date;
+
 
     @Column(name = "sleep_time")
     private int sleepTime;
@@ -48,4 +52,14 @@ public class TotalInformation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
+
+    public TotalInformation(Users user) {
+        this.users = user;
+    }
+
+    public void setSleepImpact(int alcoholIntake, int caffeineIntake) {
+        this.alcoholIntake = alcoholIntake;
+        this.caffeineIntake = caffeineIntake;
+
+    }
 }

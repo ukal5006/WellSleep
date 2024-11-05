@@ -36,7 +36,7 @@ public class Users {
     private LocalDateTime createdAt;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "constellation", nullable = false)
+    @Column(name = "constellation", nullable = true)
     private Constellation constellation;
 
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
