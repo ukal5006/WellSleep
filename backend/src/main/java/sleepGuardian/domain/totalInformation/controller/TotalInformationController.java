@@ -3,12 +3,12 @@ package sleepGuardian.domain.totalInformation.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
 import sleepGuardian.domain.totalInformation.service.TotalInformationService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,14 +26,17 @@ public class TotalInformationController {
 
     //알코올, 카페인 저장
     @PostMapping("/sleepImpact")
-    public ResponseEntity<?> savesleepImpact(@RequestBody SleepImpactRequestDTO dto) {
-        System.out.println(dto);
-        totalInformationService.savesleepImpact(dto);
-        return ResponseEntity.ok("카페인, 알코올 저장 완료");
+    public ResponseEntity<Map<String, Object>> savesleepImpact(@RequestBody SleepImpactRequestDTO dto) {
+        int id = totalInformationService.savesleepImpact(dto);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("message", "카페인, 알코올 저장 완료");
+        responseMap.put("number", id);
+        return ResponseEntity.ok(responseMap);
     }
 
-//    @PostMapping("/end-sleep")
-//    public ResponseEntity<?> endSleep(HttpServletRequest request) {
-//
-//    }
+    @PostMapping("/end-sleep/{totalInformationId}")
+    public ResponseEntity<?> endSleep(HttpServletRequest request, @PathVariable int totalInformationId) {
+        totalInformationService.endSleep(totalInformationId);
+        return ResponseEntity.ok("수면 측정 완료");
+    }
 }

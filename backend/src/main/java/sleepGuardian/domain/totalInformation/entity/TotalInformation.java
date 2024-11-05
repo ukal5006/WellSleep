@@ -3,6 +3,7 @@ package sleepGuardian.domain.totalInformation.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.cglib.core.Local;
 import sleepGuardian.domain.user.entity.Users;
 
 import java.time.LocalDateTime;
@@ -55,11 +56,20 @@ public class TotalInformation {
 
     public TotalInformation(Users user) {
         this.users = user;
+        this.startTime = LocalDateTime.now();
     }
 
     public void setSleepImpact(int alcoholIntake, int caffeineIntake) {
         this.alcoholIntake = alcoholIntake;
         this.caffeineIntake = caffeineIntake;
+    }
 
+    public void setSleepEnd(double avg, LocalDateTime date, int sleepTime, int realSleepTime, LocalDateTime endTime, LocalDateTime startSleepTime) {
+            this.avg = avg;
+            this.date = date;
+            this.sleepTime = sleepTime;
+            this.realSleepTime = realSleepTime;
+            this.endTime = endTime;
+            this.startSleepTime = startSleepTime;
     }
 }
