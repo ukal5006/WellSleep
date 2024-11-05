@@ -77,7 +77,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
                 // 경로 추가 ex) "/api/user/**",
-                "/**"
+                "/api/login"
         );
     }
 

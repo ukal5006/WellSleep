@@ -1,5 +1,6 @@
 package sleepGuardian.domain.sleepRecord.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,9 @@ public class SleepRecordController {
     private final SleepRecordService sleepRecordService;
 
     @PostMapping("/live-record/save")
-    public ResponseEntity<String> saveSleepRecord(@RequestBody SleepRecordRequestDTO request) {
-        sleepRecordService.saveSleepRecord(request.getKey(), request.getValue());
+    public ResponseEntity<String> saveSleepRecord(HttpServletRequest request, @RequestBody SleepRecordRequestDTO requestDto) {
+        int userId = (Integer) request.getAttribute("userId");
+        sleepRecordService.saveSleepRecord(userId, requestDto.getKey(), requestDto.getValue());
         return ResponseEntity.ok("Sleep record saved successfully.");
     }
 

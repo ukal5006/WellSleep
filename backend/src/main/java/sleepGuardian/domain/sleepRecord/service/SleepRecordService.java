@@ -19,10 +19,16 @@ public class SleepRecordService {
         this.objectMapper = mapper;
     }
 
-    public void saveSleepRecord(SleepRecordKeyDTO keyDTO, SleepRecordValueDTO record) {
+    public void saveSleepRecord(int userId, SleepRecordKeyDTO keyDTO, SleepRecordValueDTO record) {
         String key = "sleep_record:" + keyDTO.getTotalInformationId() + ":" + keyDTO.getTmpId();
-        redisTemplate.opsForValue().set(key, record);
+        SleepRecordValueDTO value = record;
 
+
+        value = SleepRecordValueDTO.builder()
+                .score(11)
+                .build();
+
+        redisTemplate.opsForValue().set(key, record);
     }
 
     public SleepRecordValueDTO getSleepRecord(int totalInformationId, int tmpId) {
