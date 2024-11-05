@@ -32,8 +32,8 @@ public class TotalInformationController {
         return ResponseEntity.ok("카페인, 알코올 저장 완료");
     }
 
-    @PostMapping("/end-sleep")
-    public ResponseEntity<?> endSleep(HttpServletRequest request) {
-
-    }
+//    @PostMapping("/end-sleep")
+//    public ResponseEntity<?> endSleep(HttpServletRequest request) {
+//
+//    }
 }
