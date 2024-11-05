@@ -56,4 +56,9 @@ public class Users {
     public void updateRefreshToken(String token) {
         this.refreshToken = token;
     }
+
+    // 별자리 update
+    public void updateConstellation(Constellation newConstellation) {
+        this.constellation = newConstellation;
+    }
 }
