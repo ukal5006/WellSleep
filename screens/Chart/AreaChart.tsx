@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { VictoryChart, VictoryArea, VictoryAxis } from "victory-native";
+import { Defs, LinearGradient, Stop } from "react-native-svg";
 
 // TODO: 이후 API 연결
 const generateDummyData = (type: string) => {
@@ -54,6 +55,12 @@ const AreaChart = ({ tabs = [] }: { tabs: string[] }) => {
         ))}
       </View>
       <VictoryChart height={260} domain={{ y: [0, 100] }}>
+        <Defs>
+          <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <Stop offset="0%" stopColor="#FFE770" stopOpacity="0.5" />
+            <Stop offset="100%" stopColor="#FFE770" stopOpacity="0.1" />
+          </LinearGradient>
+        </Defs>
         <VictoryAxis
           dependentAxis
           style={{
