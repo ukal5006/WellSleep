@@ -6,13 +6,14 @@ import { Alert } from 'react-native';
 import { useEffect } from 'react';
 import useAxios from '../hooks/useAxios';
 import { LOGIN } from '../constants/apis';
+import { KAKAOYELLOW } from '../constants/colors';
 
 const KakaoBtn = styled(TouchableOpacity)`
     font-size: 24px;
     padding: 10px 20px;
     border-radius: 15px;
     width: 90%;
-    background-color: yellow;
+    background-color: ${KAKAOYELLOW};
     display: flex;
     justify-content: center;
 `;
