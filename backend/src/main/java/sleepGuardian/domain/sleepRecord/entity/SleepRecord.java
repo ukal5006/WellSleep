@@ -2,6 +2,7 @@ package sleepGuardian.domain.sleepRecord.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import sleepGuardian.domain.totalInformation.entity.TotalInformation;
 
 import java.time.LocalDateTime;
@@ -19,22 +20,23 @@ public class SleepRecord {
     private int id;
 
     @Column(name = "measure_time", nullable = false)
+    @CreationTimestamp
     private LocalDateTime measureTime;
 
     @Column(name = "illumination")
-    private double Illumination;
+    private double illumination;
 
     @Column(name = "humidity")
-    private double Humidity;
+    private double humidity;
 
     @Column(name = "temperature")
-    private double Temperature;
+    private double temperature;
 
     @Column(name = "noise")
-    private double Noise;
+    private double noise;
 
     @Column(name = "emg")
-    private double Emg;
+    private double emg;
 
     @Column(name = "o2")
     private double o2;

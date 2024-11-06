@@ -110,11 +110,11 @@ public class JwtUtil {
 
 
         String bearerToken = httpServletRequest.getHeader(AUTHORIZATION_HEADER);
-        System.out.println("accessToken: " + bearerToken);
+//        System.out.println("accessToken: " + bearerToken);
 
         //
         String rt = httpServletRequest.getHeader(REFRESH_HEADER);
-        System.out.println("refreshToken: " + rt);
+//        System.out.println("refreshToken: " + rt);
         //
 
         if (StringUtils.hasText(bearerToken)) {
