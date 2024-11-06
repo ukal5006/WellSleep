@@ -7,3 +7,8 @@ export const LOGOUT = `${DOMAIN}logout`;
 
 // 회원 정보 조회
 export const USER = `${DOMAIN}user`;
+
+// 수면 지원
+export const TIP = `${DOMAIN}support/tip`;
+export const FOODS = `${DOMAIN}support/foods`;
+export const VIDEOS = `${DOMAIN}support/videos`;
