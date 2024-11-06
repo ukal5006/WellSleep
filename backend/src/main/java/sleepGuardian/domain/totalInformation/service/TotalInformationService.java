@@ -1,10 +1,7 @@
 package sleepGuardian.domain.totalInformation.service;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sleepGuardian.domain.sleepRecord.dto.SleepRecordValueDTO;
 import sleepGuardian.domain.sleepRecord.service.SleepRecordService;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
@@ -15,8 +12,6 @@ import sleepGuardian.domain.user.repository.UserRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
