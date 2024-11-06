@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^8.2.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-kakao/core": "^2.2.6",
     "@react-native-kakao/user": "^2.2.6",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
+    "@types/react-native": "^0.73.0",
     "typescript": "^5.1.3"
   },
   "private": true
