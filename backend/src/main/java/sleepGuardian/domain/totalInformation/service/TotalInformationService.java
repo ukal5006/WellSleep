@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sleepGuardian.domain.sleepRecord.dto.SleepRecordValueDTO;
 import sleepGuardian.domain.sleepRecord.service.SleepRecordService;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
+import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
 import sleepGuardian.domain.totalInformation.entity.TotalInformation;
 import sleepGuardian.domain.totalInformation.repository.TotalInformationRepository;
 import sleepGuardian.domain.user.entity.Users;
@@ -33,7 +34,16 @@ public class TotalInformationService {
         totalInformationRepository.save(totalInformation);
     }
 
-    public int savesleepImpact(SleepImpactRequestDTO dto) {
+    // 알코올, 카페인 기록 조회
+    public SleepImpactResponseDTO getSleepImpact(int totalInformationId) {
+        TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 수면정보가 존재하지 않습니다."));
+
+        return new SleepImpactResponseDTO(totalInfo.getId(), totalInfo.getAlcoholIntake(), totalInfo.getCaffeineIntake());
+    }
+
+    // 알코올, 카페인 기록 저장
+    public int saveSleepImpact(SleepImpactRequestDTO dto) {
         TotalInformation totalInfo = totalInformationRepository.findById(dto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("수면정보종합이 잘못되었습니다."));
 
