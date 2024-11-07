@@ -13,7 +13,6 @@ public class SleepTipResponseDTO {
     private String content;
     private String image;
     private String created_at;
-    private String updated_at;
 
     public static SleepTipResponseDTO fromEntity(SleepTip sleepTip) {
         return new SleepTipResponseDTO(
@@ -22,8 +21,7 @@ public class SleepTipResponseDTO {
                 sleepTip.getTitle(),
                 sleepTip.getContent(),
                 sleepTip.getImage(),
-                sleepTip.getCreatedAt().toString(),
-                sleepTip.getUpdatedAt() != null ? sleepTip.getUpdatedAt().toString() : null
+                sleepTip.getCreatedAt().toString()
         );
     }
 }
