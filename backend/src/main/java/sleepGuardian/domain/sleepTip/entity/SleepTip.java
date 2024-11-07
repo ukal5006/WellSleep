@@ -34,7 +34,4 @@ public class SleepTip {
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 }
