@@ -3,7 +3,6 @@ package sleepGuardian.domain.totalInformation.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.cglib.core.Local;
 import sleepGuardian.domain.user.entity.Users;
 
 import java.time.LocalDateTime;

@@ -1,12 +1,11 @@
 package sleepGuardian.domain.totalInformation.service;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sleepGuardian.domain.sleepRecord.dto.SleepRecordValueDTO;
+import sleepGuardian.domain.sleepRecord.dto.SleepRecordResultDTO;
 import sleepGuardian.domain.sleepRecord.service.SleepRecordService;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
+import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
 import sleepGuardian.domain.totalInformation.entity.TotalInformation;
 import sleepGuardian.domain.totalInformation.repository.TotalInformationRepository;
 import sleepGuardian.domain.user.entity.Users;
@@ -14,8 +13,6 @@ import sleepGuardian.domain.user.repository.UserRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +30,16 @@ public class TotalInformationService {
         totalInformationRepository.save(totalInformation);
     }
 
-    public int savesleepImpact(SleepImpactRequestDTO dto) {
+    // 알코올, 카페인 기록 조회
+    public SleepImpactResponseDTO getSleepImpact(int totalInformationId) {
+        TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 수면정보가 존재하지 않습니다."));
+
+        return new SleepImpactResponseDTO(totalInfo.getId(), totalInfo.getAlcoholIntake(), totalInfo.getCaffeineIntake());
+    }
+
+    // 알코올, 카페인 기록 저장
+    public int saveSleepImpact(SleepImpactRequestDTO dto) {
         TotalInformation totalInfo = totalInformationRepository.findById(dto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("수면정보종합이 잘못되었습니다."));
 
@@ -48,12 +54,22 @@ public class TotalInformationService {
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now(); //수면 측정 완료 시각
         int sleepTime = (int)Duration.between(totalInfo.getStartTime(), endTime).toMinutes();//총 수면 시간
-        LocalDateTime start_sleep_time = LocalDateTime.now(); //최용훈이 줄 거.
-        double avg = 12.5;
-        int realSleepTime = (int) Duration.between(totalInfo.getStartTime(), start_sleep_time).toMinutes();
-//        public void setSleepEnd(double avg, LocalDateTime date, int sleepTime, int realSleepTime, LocalDateTime endTime, LocalDateTime startSleepTime) {
+//        LocalDateTime start_sleep_time = LocalDateTime.now(); //최용훈이 줄 거.
+        System.out.println("레디스 접근?? 전");
+        SleepRecordResultDTO sleepRecord = sleepRecordService.getSleepRecord(totalInformationId);
+        System.out.println("레디스 접근?? 후");
 
-        totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, start_sleep_time);
+        LocalDateTime startSleepTime = sleepRecord.getStartSleepTime();
+        double avg = sleepRecord.getAvg();
+        System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
+
+        if(startSleepTime == null) {
+            startSleepTime = endTime;
+        }
+
+        int realSleepTime = (int) Duration.between(totalInfo.getStartTime(), startSleepTime).toMinutes();
+
+        totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, startSleepTime);
         totalInformationRepository.save(totalInfo);
     }
 }

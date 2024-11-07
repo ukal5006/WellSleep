@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import sleepGuardian.domain.totalInformation.entity.TotalInformation;
+import sleepGuardian.domain.user.dto.UserInitDataDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -60,5 +61,11 @@ public class Users {
     // 별자리 update
     public void updateConstellation(Constellation newConstellation) {
         this.constellation = newConstellation;
+    }
+
+    public void updateInitData(UserInitDataDTO userInitDataDTO) {
+        this.emg = userInitDataDTO.getEmg();
+        this.o2 = userInitDataDTO.getO2();
+        this.pulse = userInitDataDTO.getPulse();
     }
 }

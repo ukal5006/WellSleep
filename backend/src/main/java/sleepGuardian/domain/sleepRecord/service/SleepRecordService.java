@@ -52,6 +52,13 @@ public class SleepRecordService {
         double userPulse = 115 - (((record.getPulse() / user.getPulse()) * 100) / 2);
         double avg = (userEmg + userO2 + userPulse) / 3;
 
+        if (avg < 0) {
+            avg = 0;
+        }
+        else if (avg > 100) {
+            avg = 100;
+        }
+
         SleepRecordValueDTO value = SleepRecordValueDTO.builder()
                 .measureTime(LocalDateTime.now())
                 .illumination(record.getIllumination())
@@ -143,6 +150,7 @@ public class SleepRecordService {
 
         sleepTimeRepository.save(sleepTime);
 
+
         SleepRecordResultDTO result = SleepRecordResultDTO.builder()   //평균점수, 입면시간 저장
                 .avg(sum / count)
                 .startSleepTime(startSleep)
@@ -153,6 +161,7 @@ public class SleepRecordService {
 
     public SleepRecordValueDTO getSleep(int totalInformationId, int tmpId) {
         String key = "sleep_record:" + totalInformationId + ":" + tmpId;
+        System.out.println(key);
         Object value = redisTemplate.opsForValue().get(key);
 
         if (value == null) {

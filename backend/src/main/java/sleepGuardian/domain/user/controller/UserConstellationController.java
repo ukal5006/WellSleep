@@ -1,5 +1,6 @@
 package sleepGuardian.domain.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,11 @@ import sleepGuardian.domain.user.service.UserService;
 @RequestMapping("/api")
 public class UserConstellationController {
     private final UserService userService;
-    @PutMapping("/user/{id}/constellation")
-    public ResponseEntity<?> updateUserConstellation(@PathVariable int id, @RequestBody UserConstellationRequestDTO requestDTO) {
-        boolean isUpdated = userService.updateUserConstellation(id, requestDTO.getConstellation());
+
+    @PutMapping("/user/constellation")
+    public ResponseEntity<?> updateUserConstellation(HttpServletRequest request, @RequestBody UserConstellationRequestDTO requestDTO) {
+        int userId = (int) request.getAttribute("userId");
+        boolean isUpdated = userService.updateUserConstellation(userId, requestDTO.getConstellation());
         if (isUpdated) {
             return ResponseEntity.ok("사용자의 별자리가 업데이트되었습니다.");
         } else {
