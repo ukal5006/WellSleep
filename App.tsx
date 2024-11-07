@@ -14,6 +14,7 @@ import Exampage from "./screens/Exampage";
 
 import Login from "./screens/Login";
 import Main from "./screens/Main/Main";
+import Tip from "./screens/Main/Tip";
 
 const StyledText = styled(Text)`
   background-color: tomato;
@@ -45,6 +46,11 @@ export default function App() {
           name="Main"
           component={Main}
           options={{ title: "Main Screen" }}
+        />
+        <Stack.Screen
+          name="Tip"
+          component={Tip}
+          options={{ title: "수면 지원 센터" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
