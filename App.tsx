@@ -22,33 +22,20 @@ const StyledText = styled(Text)`
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const loginInfo = null;
-  useEffect(() => {
-    initializeKakaoSDK("c9f9a5b0717e5e19f774465dcb85522b");
-    if (loginInfo === null) {
-    }
-  });
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Example"
-          component={Exampage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Main"
-          component={Main}
-          options={{ title: "Main Screen" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    const loginInfo = null;
+    useEffect(() => {
+        initializeKakaoSDK('c9f9a5b0717e5e19f774465dcb85522b');
+        if (loginInfo === null) {
+        }
+    });
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Example">
+                <Stack.Screen name="Example" component={Exampage} options={{ headerShown: false }} />
+                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
