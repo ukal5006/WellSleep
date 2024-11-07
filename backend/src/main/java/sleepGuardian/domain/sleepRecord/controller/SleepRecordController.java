@@ -5,12 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sleepGuardian.domain.sleepRecord.dto.SleepRecordRequestDTO;
-import sleepGuardian.domain.sleepRecord.dto.SleepRecordResultDTO;
-import sleepGuardian.domain.sleepRecord.dto.SleepRecordValueDTO;
 import sleepGuardian.domain.sleepRecord.service.SleepRecordService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
