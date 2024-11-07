@@ -3,9 +3,9 @@ package sleepGuardian.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sleepGuardian.domain.user.entity.Constellation;
 import sleepGuardian.domain.user.dto.UserInitDataDTO;
 import sleepGuardian.domain.user.dto.UserResponseDTO;
-import sleepGuardian.domain.user.entity.Constellation;
 import sleepGuardian.domain.user.entity.Users;
 import sleepGuardian.domain.user.repository.UserRepository;
 
@@ -53,5 +53,11 @@ public class UserService {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         userRepository.delete(user);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Constellation> getUserConstellation(int userId) {
+        return userRepository.findById(userId)
+                .map(Users::getConstellation);
     }
 }

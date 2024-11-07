@@ -18,4 +18,11 @@ public class ConstellationFortune {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "constellation", nullable = false)
     private Constellation constellation;
+
+    @Column(name = "fortune", nullable = false, columnDefinition = "TEXT")
+    private String fortune;
+
+    public void updateFortune(String fortune) {
+        this.fortune = fortune;
+    }
 }
