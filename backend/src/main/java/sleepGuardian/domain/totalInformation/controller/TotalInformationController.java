@@ -4,16 +4,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sleepGuardian.domain.totalInformation.dto.SleepRecordDetailResponseDTO;
+import sleepGuardian.domain.totalInformation.dto.SleepSummariesResponseDTO;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
 import sleepGuardian.domain.totalInformation.service.TotalInformationService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/totalInformation")
 public class TotalInformationController {
     private final TotalInformationService totalInformationService;
 
@@ -47,5 +50,15 @@ public class TotalInformationController {
     public ResponseEntity<?> endSleep(HttpServletRequest request, @PathVariable int totalInformationId) {
         totalInformationService.endSleep(totalInformationId);
         return ResponseEntity.ok("수면 측정 완료");
+    }
+
+    @GetMapping("/sleepRecords")
+    public ResponseEntity<List<SleepSummariesResponseDTO>> getSleepRecords(HttpServletRequest request, @RequestParam String date) {
+        return ResponseEntity.ok(totalInformationService.getSleepRecords((Integer) request.getAttribute("userId"), date));
+    }
+
+    @GetMapping("/sleepRecords/{totalInformationId}")
+    public ResponseEntity<SleepRecordDetailResponseDTO> getSleepRecordDetail(@PathVariable int totalInformationId) {
+        return ResponseEntity.ok(totalInformationService.getSleepRecordDetail(totalInformationId));
     }
 }
