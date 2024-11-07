@@ -1,13 +1,12 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { Button, View, Alert } from 'react-native';
-import YoutubePlayer from 'react-native-youtube-iframe';
+import { View } from 'react-native';
+import Tip from '../../components/Tip';
+import Food from '../../components/Food';
 
 function Exampage() {
     return (
         <View>
-            <YoutubePlayer height={300} play={false} videoId={'dQw4w9WgXcQ'} />
-            <YoutubePlayer height={300} play={false} videoId={'dQw4w9WgXcQ'} />
-            <YoutubePlayer height={300} play={false} videoId={'dQw4w9WgXcQ'} />
+            <Tip />
+            <Food />
         </View>
     );
 }

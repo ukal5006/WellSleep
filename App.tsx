@@ -1,43 +1,37 @@
-import { getKeyHashAndroid, initializeKakaoSDK } from '@react-native-kakao/core';
-import { login } from '@react-native-kakao/user';
-import { StatusBar } from 'expo-status-bar';
+import { initializeKakaoSDK } from '@react-native-kakao/core';
 import { useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import styled from 'styled-components';
+import { ImageBackground, StatusBar, Text } from 'react-native';
+import styled from 'styled-components/native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import NavBar from './components/NavBar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Exampage from './screens/Exampage';
+import Main from './screens/Main';
 import Login from './screens/Login';
 
-const StyledText = styled(Text)`
-    background-color: tomato;
+const BackgroundImage = styled(ImageBackground)`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
 `;
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     const loginInfo = null;
+
     useEffect(() => {
         initializeKakaoSDK('c9f9a5b0717e5e19f774465dcb85522b');
         if (loginInfo === null) {
+            // 로그인 정보가 없을 때의 처리
         }
-    });
+    }, []); // 의존성 배열 추가
+
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Example">
-                <Stack.Screen name="Example" component={Exampage} options={{ headerShown: false }} />
-                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <>
+            <StatusBar backgroundColor="#001234" barStyle="light-content" animated={true} />
+            <NavBar />
+        </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

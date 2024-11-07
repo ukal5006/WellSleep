@@ -28,8 +28,8 @@ function LoginBtn() {
     const handleLogin = async () => {
         try {
             const result = await login();
-            const kakaoToken: string = result.accessToken;
             console.log('카카오 로그인 성공');
+            const kakaoToken: string = result.accessToken;
             await dataFetch('POST', LOGIN, { kakaoToken: kakaoToken });
         } catch (error) {
             console.error('로그인 실패:', error);
