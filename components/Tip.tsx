@@ -28,6 +28,8 @@ function Tip() {
     }, []);
 
     useEffect(() => {
+        console.log(error);
+        console.log(data);
         if (data !== null) {
             console.log(data);
             setTips(data);
@@ -36,6 +38,7 @@ function Tip() {
 
     return (
         <View>
+            <Text>TIP</Text>
             {tips &&
                 tips.map((tip) => (
                     <View key={tip.id}>
