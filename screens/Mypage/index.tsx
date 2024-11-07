@@ -1,6 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Image, ImageBackground, Switch, Text, TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components/native';
+import { MypageNavigationProp } from '../../types/navigation';
 
 const MypageContainer = styled(ImageBackground)`
     align-items: center;
@@ -93,6 +95,7 @@ const Toggle = styled(Switch)`
 `;
 
 function Mypage() {
+    const navigation = useNavigation<MypageNavigationProp>();
     const [sleepNoti, setSleepNoti] = useState(false);
     const [wakeAlarm, setWakeAlarm] = useState(false);
     const [limitNoti, setLimitNoti] = useState(false);
@@ -110,13 +113,13 @@ function Mypage() {
                 />
             </ProfileContainer>
             <NavigatorContainer>
-                <NavigatorBtn>
+                <NavigatorBtn onPress={() => navigation.navigate('Luck')}>
                     <NavigatorText>오늘의 운세</NavigatorText>
                 </NavigatorBtn>
-                <NavigatorBtn>
+                <NavigatorBtn onPress={() => navigation.navigate('SleepLab')}>
                     <NavigatorText>수면 연구소</NavigatorText>
                 </NavigatorBtn>
-                <NavigatorBtn>
+                <NavigatorBtn onPress={() => navigation.navigate('Info')}>
                     <NavigatorText>이용 안내</NavigatorText>
                 </NavigatorBtn>
             </NavigatorContainer>

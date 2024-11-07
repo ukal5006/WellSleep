@@ -35,6 +35,7 @@ function Food() {
 
     return (
         <View>
+            <Text>Food</Text>
             {foods &&
                 foods.map((food) => (
                     <View key={food.id}>
