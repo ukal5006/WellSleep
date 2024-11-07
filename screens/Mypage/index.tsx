@@ -31,12 +31,26 @@ const ProfileImg = styled(Image)`
 `;
 
 const NavigatorContainer = styled(View)`
-    background-color: blanchedalmond;
     width: 90%;
     height: 40%;
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
-const NavigatorBtn = styled(TouchableOpacity)``;
+const NavigatorBtn = styled(TouchableOpacity)`
+    width: 100%;
+    height: 30%;
+    padding: 20px;
+    background-color: rgba(219, 176, 189, 0.5);
+    justify-content: center;
+    border-radius: 15px;
+`;
+
+const NavigatorText = styled(Text)`
+    font-size: 15px;
+    color: white;
+    /* text-align: center; */
+`;
 
 const ReminderContainer = styled(View)`
     width: 90%;
@@ -70,6 +84,7 @@ const AlarmWrapper = styled(View)`
 const ReminderText = styled(Text)`
     text-align: center;
     color: white;
+    font-size: 15px;
 `;
 
 const Toggle = styled(Switch)`
@@ -94,7 +109,17 @@ function Mypage() {
                     }}
                 />
             </ProfileContainer>
-            <NavigatorContainer></NavigatorContainer>
+            <NavigatorContainer>
+                <NavigatorBtn>
+                    <NavigatorText>오늘의 운세</NavigatorText>
+                </NavigatorBtn>
+                <NavigatorBtn>
+                    <NavigatorText>수면 연구소</NavigatorText>
+                </NavigatorBtn>
+                <NavigatorBtn>
+                    <NavigatorText>이용 안내</NavigatorText>
+                </NavigatorBtn>
+            </NavigatorContainer>
             <ReminderContainer>
                 <BlurContainer>
                     <NotificationWrapper>
