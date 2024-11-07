@@ -1,7 +1,13 @@
-import { Text } from 'react-native';
+import { View } from 'react-native';
+import Tip from '../../components/Tip';
+import Food from '../../components/Food';
 
 function Exampage() {
-    return <Text>ExamPage</Text>;
+    return (
+        <View>
+            <Tip />
+            <Food />
+        </View>
+    );
 }
-
 export default Exampage;

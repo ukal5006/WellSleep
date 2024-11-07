@@ -36,6 +36,7 @@ async function storeTokens(accessToken: string, refreshToken: string) {
 }
 
 function LoginBtn() {
+<<<<<<< HEAD
   const { dataFetch, loading, error, data } = useAxios();
   const handleLogin = async () => {
     try {
@@ -48,6 +49,20 @@ function LoginBtn() {
       Alert.alert("로그인 실패", "로그인에 실패했습니다. 다시 시도하세요.");
     }
   };
+=======
+    const { dataFetch, loading, error, data } = useAxios();
+    const handleLogin = async () => {
+        try {
+            const result = await login();
+            console.log('카카오 로그인 성공');
+            const kakaoToken: string = result.accessToken;
+            await dataFetch('POST', LOGIN, { kakaoToken: kakaoToken });
+        } catch (error) {
+            console.error('로그인 실패:', error);
+            Alert.alert('로그인 실패', '로그인에 실패했습니다. 다시 시도하세요.');
+        }
+    };
+>>>>>>> 75c174b (feat : 마이페이지 구현)
 
   useEffect(() => {
     if (data !== null) {
