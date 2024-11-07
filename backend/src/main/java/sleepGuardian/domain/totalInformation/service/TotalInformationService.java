@@ -62,6 +62,11 @@ public class TotalInformationService {
         LocalDateTime startSleepTime = sleepRecord.getStartSleepTime();
         double avg = sleepRecord.getAvg();
         System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
+
+        if(startSleepTime == null) {
+            startSleepTime = endTime;
+        }
+
         int realSleepTime = (int) Duration.between(totalInfo.getStartTime(), startSleepTime).toMinutes();
 
         totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, startSleepTime);
