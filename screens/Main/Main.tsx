@@ -9,14 +9,14 @@ import {
   Modal,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { NativeModules } from "react-native";
-
-const { AlarmModule } = NativeModules;
+import PushNotification from "react-native-push-notification";
+import { useNavigation } from "@react-navigation/native"; // 네비게이션 훅 import
 
 const Main = () => {
+  const navigation = useNavigation(); // 네비게이션 훅 사용
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [showModal, setShowModal] = useState(false); // 모달 상태
+  const [showModal, setShowModal] = useState(false);
 
   const onChange = (event, selectedTime) => {
     setShowPicker(false);
@@ -30,23 +30,36 @@ const Main = () => {
   };
 
   const setAlarm = () => {
-    setShowModal(true); // 수면 시작 버튼 클릭 시 모달 열기
+    setShowModal(true);
   };
 
   const confirmAlarm = (caffeineIntake) => {
     const hours = time.getHours();
     const minutes = time.getMinutes();
-    const weekBit = 0b0111110; // 주중에만 알람 설정 예시
+    const now = new Date();
+    const alarmTime = new Date(now);
+    alarmTime.setHours(hours);
+    alarmTime.setMinutes(minutes);
+    alarmTime.setSeconds(0);
 
-    if (AlarmModule && AlarmModule.reserveAlarm) {
-      AlarmModule.reserveAlarm(hours, minutes, weekBit);
-      console.log(
-        `Alarm set for ${hours}:${minutes} with weekBit ${weekBit} and caffeine intake: ${caffeineIntake}`
-      );
-    } else {
-      console.warn("AlarmModule or reserveAlarm method is not available.");
+    if (alarmTime <= now) {
+      alarmTime.setDate(alarmTime.getDate() + 1);
     }
-    setShowModal(false); // 모달 닫기
+
+    PushNotification.localNotificationSchedule({
+      channelId: "alarm-channel",
+      title: "기상 알람",
+      message: caffeineIntake
+        ? "카페인을 섭취하셨습니다. 기상 시간이 다가옵니다!"
+        : "기상 시간이 다가옵니다!",
+      date: alarmTime,
+      allowWhileIdle: true,
+    });
+
+    console.log(
+      `Alarm set for ${hours}:${minutes} with caffeine intake: ${caffeineIntake}`
+    );
+    setShowModal(false);
   };
 
   return (
@@ -74,13 +87,11 @@ const Main = () => {
         )}
       </View>
 
-      {/* 수면 시작 버튼 */}
       <TouchableOpacity style={styles.sleepButton} onPress={setAlarm}>
         <Image source={require("../../assets/moon.png")} style={styles.icon} />
         <Text style={styles.buttonText}>수면 시작</Text>
       </TouchableOpacity>
 
-      {/* 카페인 섭취 여부를 묻는 모달 */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -107,6 +118,14 @@ const Main = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Tip 페이지로 이동하는 버튼 */}
+      <TouchableOpacity
+        style={styles.tipButton}
+        onPress={() => navigation.navigate("Tip")}
+      >
+        <Text style={styles.tipButtonText}>수면 관련 팁 보기</Text>
+      </TouchableOpacity>
     </ImageBackground>
   );
 };
@@ -205,6 +224,20 @@ const styles = StyleSheet.create({
   },
   modalButtonText: {
     color: "#fff",
+    fontWeight: "bold",
+  },
+  tipButton: {
+    backgroundColor: "#FFA500", // 버튼 배경색 (예: 주황색)
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    position: "absolute",
+    bottom: 50,
+    alignSelf: "center",
+  },
+  tipButtonText: {
+    color: "#fff",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });
