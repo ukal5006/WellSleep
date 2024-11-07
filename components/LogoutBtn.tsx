@@ -17,10 +17,10 @@ const Btn = styled(TouchableOpacity)`
     justify-content: center;
 `;
 
-// async function storeTokens(accessToken: string, refreshToken: string) {
-//     await SecureStore.setItemAsync('accessToken', accessToken);
-//     await SecureStore.setItemAsync('refreshToken', refreshToken);
-// }
+async function storeTokens(accessToken: string, refreshToken: string) {
+    await SecureStore.setItemAsync('accessToken', accessToken);
+    await SecureStore.setItemAsync('refreshToken', refreshToken);
+}
 
 function LogoutBtn() {
     const { dataFetch, loading, error, data } = useAxios();
@@ -37,8 +37,8 @@ function LogoutBtn() {
 
     useEffect(() => {
         if (data !== null) {
-            // console.log(data);
-            // storeTokens(data.accessToken, data.refreshToken);
+            console.log(data);
+            storeTokens('', '');
             console.log('WellSleep 로그아웃 성공');
         }
     }, [data]);
