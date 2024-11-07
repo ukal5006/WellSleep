@@ -52,6 +52,13 @@ public class SleepRecordService {
         double userPulse = 115 - (((record.getPulse() / user.getPulse()) * 100) / 2);
         double avg = (userEmg + userO2 + userPulse) / 3;
 
+        if (avg < 0) {
+            avg = 0;
+        }
+        else if (avg > 100) {
+            avg = 100;
+        }
+
         SleepRecordValueDTO value = SleepRecordValueDTO.builder()
                 .measureTime(LocalDateTime.now())
                 .illumination(record.getIllumination())
@@ -142,7 +149,6 @@ public class SleepRecordService {
                 .build();
 
         sleepTimeRepository.save(sleepTime);
-
 
 
         SleepRecordResultDTO result = SleepRecordResultDTO.builder()   //평균점수, 입면시간 저장
