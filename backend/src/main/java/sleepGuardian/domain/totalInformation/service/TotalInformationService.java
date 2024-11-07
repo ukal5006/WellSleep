@@ -3,9 +3,15 @@ package sleepGuardian.domain.totalInformation.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sleepGuardian.domain.sleepRecord.dto.SleepRecordResultDTO;
+import sleepGuardian.domain.sleepRecord.entity.SleepRecord;
+import sleepGuardian.domain.sleepRecord.repository.SleepRecordRepository;
 import sleepGuardian.domain.sleepRecord.service.SleepRecordService;
+import sleepGuardian.domain.sleepTime.entity.SleepTime;
+import sleepGuardian.domain.sleepTime.repository.SleepTimeRepository;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
 import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
+import sleepGuardian.domain.totalInformation.dto.SleepRecordDetailResponseDTO;
+import sleepGuardian.domain.totalInformation.dto.SleepSummariesResponseDTO;
 import sleepGuardian.domain.totalInformation.entity.TotalInformation;
 import sleepGuardian.domain.totalInformation.repository.TotalInformationRepository;
 import sleepGuardian.domain.user.entity.Users;
@@ -13,6 +19,8 @@ import sleepGuardian.domain.user.repository.UserRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +29,8 @@ public class TotalInformationService {
     private final UserRepository userRepository;
     private final TotalInformationRepository totalInformationRepository;
     private final SleepRecordService sleepRecordService;
+    private final SleepRecordRepository sleepRecordRepository;
+    private final SleepTimeRepository sleepTimeRepository;
 
     public void startSleep(int userId) {
         Users user = userRepository.findById(userId)
@@ -71,5 +81,71 @@ public class TotalInformationService {
 
         totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, startSleepTime);
         totalInformationRepository.save(totalInfo);
+    }
+
+    public List<SleepSummariesResponseDTO> getSleepRecords(int userId, String date) {
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("찾는 유저가 없습니다"));
+        List<TotalInformation> allByUserId = totalInformationRepository.findAllByUsers(user);
+
+        List<SleepSummariesResponseDTO> result = new ArrayList<>();
+
+        // "2024-11"에서 연도와 월을 추출
+        int year = Integer.parseInt(date.split("-")[0]);
+        int month = Integer.parseInt(date.split("-")[1]);
+
+        for (TotalInformation totalInformation : allByUserId) {
+            if (totalInformation.getDate().getYear() == year && totalInformation.getDate().getMonthValue() == month) {
+                result.add(SleepSummariesResponseDTO.builder()
+                        .totalInformationId(totalInformation.getId())
+                        .date(totalInformation.getDate().toLocalDate())
+                        .avg(totalInformation.getAvg())
+                        .sleepTime(totalInformation.getSleepTime())
+                        .isCaffeine(totalInformation.getCaffeineIntake())
+                        .isAlcohol(totalInformation.getAlcoholIntake())
+                        .build());
+            }
+        }
+
+        return result;
+    }
+
+    public SleepRecordDetailResponseDTO getSleepRecordDetail(int totalInformationId) {
+        TotalInformation totalInformation = totalInformationRepository.findById(totalInformationId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 TotalInformationID"));
+        List<SleepRecord> allByTotalInformation = sleepRecordRepository.findAllByTotalInformation(totalInformation);
+        SleepTime sleepTimes = sleepTimeRepository.findByTotalInformation(totalInformation);
+        // SleepRecord를 SleepRecordDTO로 변환
+        List<SleepRecordDetailResponseDTO.SleepRecordDTO> sleepRecordDTOList = new ArrayList<>();
+        for (SleepRecord sleepRecord : allByTotalInformation) {
+            sleepRecordDTOList.add(SleepRecordDetailResponseDTO.SleepRecordDTO.builder()
+                    .measureTime(sleepRecord.getMeasureTime())
+                    .illumination(sleepRecord.getIllumination())
+                    .humidity(sleepRecord.getHumidity())
+                    .temperature(sleepRecord.getTemperature())
+                    .noise(sleepRecord.getNoise())
+                    .emg(sleepRecord.getEmg())
+                    .o2(sleepRecord.getO2())
+                    .pulse(sleepRecord.getPulse())
+                    .score(sleepRecord.getScore())
+                    .build());
+        }
+
+        return SleepRecordDetailResponseDTO.builder()
+                .date(totalInformation.getDate().toLocalDate())
+                .avg(totalInformation.getAvg())
+                .sleepTime(totalInformation.getSleepTime())
+                .realSleepTime(totalInformation.getRealSleepTime())
+                .isCaffeine(totalInformation.getCaffeineIntake())
+                .isAlcohol(totalInformation.getAlcoholIntake())
+                .startTime(totalInformation.getStartTime())
+                .endTime(totalInformation.getEndTime())
+                .startSleep(totalInformation.getStartSleepTime())
+                .shallowSleepTime(sleepTimes.getShallowSleepTime())
+                .deepSleepTime(sleepTimes.getDeepSleepTime())
+                .remSleepTime(sleepTimes.getRemSleepTime())
+                .noSleepTime(sleepTimes.getNoSleepTime())
+                .sleepRecord(sleepRecordDTOList)
+                .build();
     }
 }
