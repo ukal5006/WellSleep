@@ -31,7 +31,7 @@ public class SleepTime {
     @Column(name = "start_sleep_time")
     private int startSleepTime;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "total_information_id", nullable = false)
     private TotalInformation totalInformation;
 }
