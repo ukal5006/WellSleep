@@ -1,11 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Image, ImageBackground, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ImageBackground, Switch, Text, TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components/native';
 import { MypageNavigationProp } from '../../types/navigation';
+import useAxios from '../../hooks/useAxios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import * as SecureStore from 'expo-secure-store';
+import { LOGOUT, USER } from '../../constants/apis';
 
 const MypageContainer = styled(ImageBackground)`
     align-items: center;
+    flex: 1;
 `;
 
 const ProfileContainer = styled(View)`
@@ -17,12 +23,16 @@ const ProfileContainer = styled(View)`
     align-items: center;
 `;
 
-const UserNameWrapper = styled(TouchableOpacity)`
-    width: 100px;
-`;
+const UserNameWrapper = styled(View)``;
 
 const UserName = styled(Text)`
     font-size: 20px;
+    color: white;
+    margin-bottom: 10px;
+`;
+
+const UserEmail = styled(Text)`
+    font-size: 15px;
     color: white;
 `;
 
@@ -34,7 +44,7 @@ const ProfileImg = styled(Image)`
 
 const NavigatorContainer = styled(View)`
     width: 90%;
-    height: 40%;
+    height: 30%;
     flex-direction: column;
     justify-content: space-between;
 `;
@@ -94,17 +104,75 @@ const Toggle = styled(Switch)`
     transform: scaleY(1.3);
 `;
 
+const MemberContainer = styled(View)`
+    width: 90%;
+    height: 10%;
+    padding-left: 10px;
+`;
+
+const MemberBtn = styled(TouchableOpacity)`
+    width: 100%;
+    height: 50%;
+`;
+
+const MemberText = styled(Text)`
+    color: white;
+    font-size: 15px;
+`;
+
 function Mypage() {
+    const { dataFetch, loading, error, data } = useAxios();
     const navigation = useNavigation<MypageNavigationProp>();
+    const userInfo = useSelector((state: RootState) => state.user.userInfo);
+
     const [sleepNoti, setSleepNoti] = useState(false);
     const [wakeAlarm, setWakeAlarm] = useState(false);
     const [limitNoti, setLimitNoti] = useState(false);
     const [luckNoti, setLuckNoti] = useState(false);
+
+    async function storeTokens(accessToken: string, refreshToken: string) {
+        await SecureStore.setItemAsync('accessToken', accessToken);
+        await SecureStore.setItemAsync('refreshToken', refreshToken);
+    }
+
+    const handleMember = (type: string) => {
+        Alert.alert(type, `정말 ${type} 하시겠습니까?`, [
+            { text: '확인', onPress: () => handleMemberState(type) },
+            { text: '취소', style: 'cancel' },
+        ]);
+    };
+
+    const handleMemberState = async (type: string) => {
+        if (type === '로그아웃') {
+            console.log('type');
+            try {
+                await dataFetch('POST', LOGOUT).then(console.log);
+            } catch (error) {
+                console.error('로그아웃 실패:', error);
+                Alert.alert('로그아웃 실패', '로그아웃에 실패했습니다. 다시 시도하세요.');
+            }
+        } else {
+            console.log('type');
+            try {
+                await dataFetch('DELETE', USER).then(console.log);
+            } catch (error) {
+                console.error('회원탈퇴 실패:', error);
+                Alert.alert('회원탈퇴 실패', '회원탈퇴에 실패했습니다. 다시 시도하세요.');
+            }
+        }
+        storeTokens('', '');
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Main' }], // 추후에 메인말고 로그인페이지로 이동...
+        });
+    };
+
     return (
         <MypageContainer source={require('@assets/backgroundImg.png')}>
             <ProfileContainer>
                 <UserNameWrapper>
-                    <UserName>정경원</UserName>
+                    <UserName>{userInfo ? userInfo.name : '이름 없음'}</UserName>
+                    <UserEmail>{userInfo ? userInfo.email : '이메일 없음'}</UserEmail>
                 </UserNameWrapper>
                 <ProfileImg
                     source={{
@@ -163,6 +231,14 @@ function Mypage() {
                     </NotificationWrapper>
                 </BlurContainer>
             </ReminderContainer>
+            <MemberContainer>
+                <MemberBtn onPress={() => handleMember('로그아웃')}>
+                    <MemberText>로그아웃</MemberText>
+                </MemberBtn>
+                <MemberBtn onPress={() => handleMember('회원탈퇴')}>
+                    <MemberText>회원탈퇴</MemberText>
+                </MemberBtn>
+            </MemberContainer>
         </MypageContainer>
     );
 }

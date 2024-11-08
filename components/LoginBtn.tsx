@@ -1,17 +1,18 @@
 import { login } from '@react-native-kakao/user';
 import { Text, TouchableOpacity, Image } from 'react-native';
-import styled from 'styled-components/native'; // styled-components/native로 변경
+import styled from 'styled-components/native';
 import * as SecureStore from 'expo-secure-store';
 import { Alert } from 'react-native';
 import { useEffect } from 'react';
 import useAxios from '../hooks/useAxios';
-import { LOGIN } from '../constants/apis';
+import { LOGIN, USER } from '../constants/apis';
 import { KAKAOYELLOW } from '../constants/colors';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '../store/userSlice';
 
 const KakaoBtn = styled(TouchableOpacity)`
     flex-direction: row;
     align-items: center;
-
     padding: 10px 20px;
     border-radius: 18px;
     width: 371px;
@@ -36,7 +37,9 @@ async function storeTokens(accessToken: string, refreshToken: string) {
 }
 
 function LoginBtn() {
-    const { dataFetch, loading, error, data } = useAxios();
+    const dispatch = useDispatch(); // Redux dispatch 사용
+    const { dataFetch, data, userDataFetch } = useAxios();
+
     const handleLogin = async () => {
         try {
             const result = await login();
@@ -50,12 +53,25 @@ function LoginBtn() {
     };
 
     useEffect(() => {
-        if (data !== null) {
-            storeTokens(data.accessToken, data.refreshToken);
-            console.log(data);
-            console.log('WellSleep 로그인 성공');
-        }
-    }, [data]);
+        const fetchUserData = async () => {
+            if (data !== null) {
+                console.log('헤더 토큰 설정');
+                console.log(data);
+                await storeTokens(data.accessToken, data.refreshToken);
+
+                // 사용자 정보 가져오기
+                const userInfo = await userDataFetch('GET', USER); // USER URL로 요청
+                console.log(userInfo); // 사용자 데이터 확인
+                if (userInfo) {
+                    dispatch(setUserInfo(userInfo)); // 사용자 정보를 Redux에 저장
+                }
+
+                console.log('WellSleep 로그인 성공');
+            }
+        };
+
+        fetchUserData();
+    }, [data, dispatch]);
 
     return (
         <KakaoBtn onPress={handleLogin}>
