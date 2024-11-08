@@ -10,7 +10,13 @@ WORKDIR /app
 # JAR 파일을 컨테이너 내로 복사
 COPY ${JAR_FILE} app.jar
 
+# Asia/Seoul 시간대를 설정
+ENV TZ=Asia/Seoul
+
+RUN apk update && apk add --no-cache tzdata
+
+
 EXPOSE 8080
 
-# 애플리케이션을 실행
-ENTRYPOINT ["java", "-Dfile.encoding=UTF-8", "-jar", "app.jar"]
+# 애플리케이션을 실행 (시간대 추가)
+ENTRYPOINT ["java", "-Dfile.encoding=UTF-8", "-Duser.timezone=Asia/Seoul", "-jar", "app.jar"]
