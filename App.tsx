@@ -8,8 +8,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Luck from './screens/Mypage/Luck';
 import SleepLab from './screens/Mypage/SleepLab';
 import Info from './screens/Mypage/Info';
-import Exampage from './screens/Exampage';
 import { StackParamList } from './types/navigation'; // 타입 import
+import Tip from './screens/Main/Tip';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 const Stack = createNativeStackNavigator<StackParamList>(); // 타입을 명시합니다.
 
@@ -24,21 +26,23 @@ export default function App() {
     }, []); // 의존성 배열 추가
 
     return (
-        <NavigationContainer>
-            <StatusBar backgroundColor="#001234" barStyle="light-content" animated={true} />
-            <Stack.Navigator
-                initialRouteName="Main"
-                screenOptions={{
-                    headerShown: false,
-                }}
-            >
-                <Stack.Screen name="Main" component={NavBar} />
-                {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
-                {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
-                <Stack.Screen name="Luck" component={Luck} />
-                <Stack.Screen name="SleepLab" component={SleepLab} />
-                <Stack.Screen name="Info" component={Info} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer>
+                <StatusBar backgroundColor="#001234" barStyle="light-content" animated={true} />
+                <Stack.Navigator
+                    initialRouteName="Main"
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+                >
+                    <Stack.Screen name="Main" component={NavBar} />
+                    {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
+                    {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
+                    <Stack.Screen name="Luck" component={Luck} />
+                    <Stack.Screen name="SleepLab" component={Tip} />
+                    <Stack.Screen name="Info" component={Info} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
     );
 }

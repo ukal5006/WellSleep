@@ -1,4 +1,3 @@
-import { login, logout } from '@react-native-kakao/user';
 import { Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native'; // styled-components/native로 변경
 import * as SecureStore from 'expo-secure-store';
@@ -27,8 +26,6 @@ function LogoutBtn() {
     const handleLogout = async () => {
         try {
             await dataFetch('POST', LOGOUT).then(console.log);
-            // await logout();
-            console.log('카카오 로그아웃 성공');
         } catch (error) {
             console.error('로그아웃 실패:', error);
             Alert.alert('로그아웃 실패', '로그인에 실패했습니다. 다시 시도하세요.');

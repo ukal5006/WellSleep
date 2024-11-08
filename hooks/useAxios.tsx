@@ -41,7 +41,38 @@ const useAxios = () => {
         }
     };
 
-    return { dataFetch, loading, error, data };
+    const userDataFetch = async (method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, body: any = null) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const accessToken = await SecureStore.getItemAsync('accessToken');
+            const refreshToken = await SecureStore.getItemAsync('refreshToken');
+
+            const headers = {
+                Authorization: accessToken,
+                RefreshToken: refreshToken,
+            };
+
+            const config: AxiosRequestConfig = {
+                method,
+                url,
+                headers,
+                data: body,
+            };
+            console.log('보낸 요청');
+            console.log(config);
+            const response = await axios(config);
+            return response.data; // 응답 데이터 반환
+        } catch (err) {
+            setError(err);
+            throw err; // 에러 발생 시 에러를 던짐
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { dataFetch, loading, error, data, userDataFetch };
 };
 
 export default useAxios;

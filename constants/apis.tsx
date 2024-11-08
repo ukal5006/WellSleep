@@ -5,7 +5,7 @@ const DOMAIN = 'https://k11b108.p.ssafy.io/api/';
 export const LOGIN = `${DOMAIN}login`;
 export const LOGOUT = `${DOMAIN}logout`;
 
-// 회원 정보 조회
+// 회원 정보 조회, 회원 탈퇴
 export const USER = `${DOMAIN}user`;
 
 // 수면 지원
