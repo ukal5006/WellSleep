@@ -61,6 +61,7 @@ dependencies {
 
 	// s3 설정
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 	// youtube api 설정
 	implementation 'com.google.api-client:google-api-client:1.33.0'
@@ -70,6 +71,7 @@ dependencies {
 
 	// 크롤링 설정
 	implementation 'org.jsoup:jsoup:1.15.4'
+
 }
 
 
