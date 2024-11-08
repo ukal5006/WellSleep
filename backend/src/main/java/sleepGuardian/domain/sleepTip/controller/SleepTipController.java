@@ -16,6 +16,7 @@ import sleepGuardian.domain.sleepTip.service.SleepVideoService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/api/support")
 @RequiredArgsConstructor
@@ -44,9 +45,11 @@ public class SleepTipController {
     }
 
     @GetMapping("/videos")
-    public ResponseEntity<?> getVideos(@RequestParam String keyword) {
-        SleepVideoResponseDTO sleepVideoResponseDTO = sleepVideoService.searchVideo(keyword);
-        return ResponseEntity.ok(sleepVideoResponseDTO);
+    public ResponseEntity<?> getVideos(
+            @RequestParam String keyword,
+            @RequestParam(required = false, defaultValue = "5") int maxResults) {
+        List<SleepVideoResponseDTO> sleepVideoResponseDTOs = sleepVideoService.searchVideo(keyword, maxResults);
+        return ResponseEntity.ok(sleepVideoResponseDTOs);
     }
 
 }
