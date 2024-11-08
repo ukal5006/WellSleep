@@ -16,14 +16,13 @@ import store from './store/store';
 const Stack = createNativeStackNavigator<StackParamList>(); // 타입을 명시합니다.
 
 export default function App() {
-    const loginInfo = null;
+  const [fontsLoaded] = useFonts({
+    NotoSerifKR_400Regular,
+    NotoSerifKR_700Bold,
+    Quicksand_400Regular,
+  });
 
-    useEffect(() => {
-        initializeKakaoSDK('c9f9a5b0717e5e19f774465dcb85522b');
-        if (loginInfo === null) {
-            // 로그인 정보가 없을 때의 처리
-        }
-    }, []); // 의존성 배열 추가
+  const loginInfo = null;
 
     return (
         <Provider store={store}>
