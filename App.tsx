@@ -39,7 +39,7 @@ export default function App() {
                     {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
                     {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
                     <Stack.Screen name="Luck" component={Luck} />
-                    <Stack.Screen name="SleepLab" component={Tip} />
+                    <Stack.Screen name="SleepLab" component={SleepLab} />
                     <Stack.Screen name="Info" component={Info} />
                 </Stack.Navigator>
             </NavigationContainer>

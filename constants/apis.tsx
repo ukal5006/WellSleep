@@ -11,4 +11,5 @@ export const USER = `${DOMAIN}user`;
 // 수면 지원
 export const TIP = `${DOMAIN}support/tip`;
 export const FOODS = `${DOMAIN}support/foods`;
-export const VIDEOS = `${DOMAIN}support/videos`;
+// export const VIDEOS = `${DOMAIN}support/videos`;
+export const VIDEOS = `https://k11b108.p.ssafy.io/api/support/videos?keyword=잠잘오는`;
