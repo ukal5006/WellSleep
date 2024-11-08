@@ -1,0 +1,29 @@
+services:
+  backend:
+    image: sleep-back
+    build:
+      context: ./backend
+    container_name: sleep-backend
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - REDIS_DOMAIN=${REDIS_DOMAIN}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+    ports:
+      - "8080:8080" 
+    networks:
+      - sleep-net
+    restart: always
+
+networks:
+  sleep-net:
+    driver: bridge
+
+volumes:
+  db_data:
