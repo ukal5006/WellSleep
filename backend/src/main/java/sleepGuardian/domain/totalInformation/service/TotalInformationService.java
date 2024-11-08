@@ -101,6 +101,7 @@ public class TotalInformationService {
                         .date(totalInformation.getDate().toLocalDate())
                         .avg(totalInformation.getAvg())
                         .sleepTime(totalInformation.getSleepTime())
+                        .realSleepTime(totalInformation.getRealSleepTime())
                         .isCaffeine(totalInformation.getCaffeineIntake())
                         .isAlcohol(totalInformation.getAlcoholIntake())
                         .build());
