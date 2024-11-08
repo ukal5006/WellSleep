@@ -49,6 +49,8 @@ public class Users {
     @Column(name = "pulse")
     private double pulse;
 
+    @Column(name = "profile_image")
+    private String profileImage;
 
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TotalInformation> totalInformationList;
@@ -67,5 +69,9 @@ public class Users {
         this.emg = userInitDataDTO.getEmg();
         this.o2 = userInitDataDTO.getO2();
         this.pulse = userInitDataDTO.getPulse();
+    }
+
+    public void updateProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }
