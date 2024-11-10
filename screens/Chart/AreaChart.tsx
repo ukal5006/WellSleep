@@ -3,23 +3,26 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { VictoryChart, VictoryArea, VictoryAxis } from "victory-native";
 import { Defs, LinearGradient, Stop } from "react-native-svg";
 
-// TODO: 이후 API 연결
-const generateDummyData = (type: string) => {
-  return Array.from({ length: 30 }, (_, i) => ({
-    x: `${23 + Math.floor(i / 6)}:${(i % 6) * 10 === 0 ? "00" : (i % 6) * 10}`,
-    y: Math.floor(Math.random() * (80 - 20 + 1)) + 20,
-  }));
-};
+interface AreaChartProps {
+  tabs: string[];
+  data: { label: string; x: string; y: number }[];
+}
 
-const AreaChart = ({ tabs = [] }: { tabs: string[] }) => {
+const AreaChart: React.FC<AreaChartProps> = ({ tabs = [], data }) => {
   const [activeTab, setActiveTab] = useState(tabs[0] || "");
-  const [data, setData] = useState<{ x: string; y: number }[]>([]);
+  const [chartData, setChartData] = useState<{ x: string; y: number }[]>([]);
 
   useEffect(() => {
     if (activeTab) {
-      setData(generateDummyData(activeTab));
+      const filteredData = data
+        .filter((item) => item.label === activeTab && !isNaN(item.y))
+        .map((item) => ({
+          x: item.x,
+          y: item.y,
+        }));
+      setChartData(filteredData);
     }
-  }, [activeTab]);
+  }, [activeTab, data]);
 
   return (
     <View
@@ -54,6 +57,7 @@ const AreaChart = ({ tabs = [] }: { tabs: string[] }) => {
           </TouchableOpacity>
         ))}
       </View>
+
       <VictoryChart height={260} domain={{ y: [0, 100] }}>
         <Defs>
           <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -76,7 +80,7 @@ const AreaChart = ({ tabs = [] }: { tabs: string[] }) => {
           }}
         />
         <VictoryArea
-          data={data}
+          data={chartData}
           style={{
             data: { fill: "url(#grad)", stroke: "#FFE770", strokeWidth: 2 },
           }}

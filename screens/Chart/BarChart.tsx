@@ -8,42 +8,28 @@ import {
 } from "victory-native";
 
 type BarChartProps = {
+  data: any[];
   dataType: string;
 };
 
-// TODO: 추후 API로 연결해서 바꾸기
-const generateDummyData = (dataType: string, isGrouped: boolean = false) => {
-  const data = Array.from({ length: 0 }, (_, i) => {
-    const day = i + 1;
-    if (isGrouped) {
-      const actual = Math.floor(Math.random() * (480 - 180) + 180);
-      const observed = actual + Math.floor(Math.random() * 180);
-      return {
-        day,
-        observed,
-        actual,
-      };
-    } else {
-      return {
-        day,
-        value: Math.floor(Math.random() * 100) + 1,
-      };
-    }
-  });
-  return data;
-};
-
-const BarChart: React.FC<BarChartProps> = ({ dataType }) => {
-  const isGrouped = dataType === "sleepTime";
+const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
+  const isGrouped = dataType === "realSleepTime";
   const yDomain =
-    dataType === "score" ? { min: 0, max: 100 } : { min: 0, max: 600 };
+    dataType === "avg" ? { min: 0, max: 100 } : { min: 0, max: 10 };
   const yTickValues =
-    dataType === "score"
-      ? [0, 25, 50, 75, 100]
-      : [0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600];
+    dataType === "avg"
+      ? [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+      : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const xTickValues = [1, 8, 15, 22, 29];
 
-  const data = generateDummyData(dataType, isGrouped);
+  const chartData = data.map((record) => ({
+    day: new Date(record.date).getDate(),
+    sleepTime: Number(record.sleepTime) || 0,
+    realSleepTime: Number(record.realSleepTime) || 0,
+    avg: Math.round(Number(record.avg)) || 0,
+  }));
+
+  console.log("Chart Data:", chartData);
 
   return (
     <View
@@ -65,7 +51,6 @@ const BarChart: React.FC<BarChartProps> = ({ dataType }) => {
         <VictoryAxis
           dependentAxis
           tickValues={yTickValues}
-          tickFormat={dataType === "sleepTime" ? (t) => t / 60 : undefined}
           style={{
             axis: { stroke: "transparent" },
             tickLabels: { fill: "white", fontSize: 12 },
@@ -75,32 +60,30 @@ const BarChart: React.FC<BarChartProps> = ({ dataType }) => {
         {isGrouped ? (
           <VictoryGroup>
             <VictoryBar
-              data={data}
+              data={chartData}
               x="day"
-              y={(item) => item.actual ?? 0}
-              style={{ data: { fill: "#FFE770", opacity: 1, width: 6 } }}
-              animate={{ duration: 500, easing: "cubicInOut" }}
+              y="sleepTime"
+              style={{
+                data: { fill: "#FFE770", opacity: 0.5, width: 6 },
+              }}
             />
             <VictoryBar
-              data={data}
+              data={chartData}
               x="day"
-              y={(item) => item.observed ?? 0}
-              style={{ data: { fill: "#FFE770", opacity: 0.5, width: 6 } }}
-              animate={{ duration: 300, easing: "cubicInOut" }}
+              y="realSleepTime"
+              style={{
+                data: { fill: "#FFE770", opacity: 1, width: 6 },
+              }}
             />
           </VictoryGroup>
         ) : (
           <VictoryBar
-            data={data}
+            data={chartData}
             x="day"
-            y={(item) => item.value ?? 0}
+            y="avg"
             style={{
-              data: {
-                fill: "#FFE770",
-                width: 6,
-              },
+              data: { fill: "#FFE770", width: 6 },
             }}
-            animate={{ duration: 500, easing: "cubicInOut" }}
           />
         )}
       </VictoryChart>
