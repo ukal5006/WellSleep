@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sleepGuardian.domain.constellationFortune.entity.ConstellationFortune;
 import sleepGuardian.domain.constellationFortune.service.ConstellationFortuneService;
-import sleepGuardian.domain.constellationFortune.service.FortuneCrawler;
+import sleepGuardian.domain.constellationFortune.service.FortuneScheduler;
 import sleepGuardian.domain.user.service.UserService;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class ConstellationFortuneController {
     private final ConstellationFortuneService constellationFortuneService;
     private final UserService userService;
-    private final FortuneCrawler fortuneCrawler;
+    private final FortuneScheduler fortuneScheduler;
 
     @GetMapping("/user/constellation")
     public ResponseEntity<?> getTodayFortune(HttpServletRequest request) {
@@ -38,4 +38,12 @@ public class ConstellationFortuneController {
         return fortune.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404).build());
     }
+
+    // 테스트 코드 : 개발 완료 시 삭제
+//    @PostMapping("/user/constellation")
+//    public ResponseEntity<?> saveFortune() {
+//        // 별자리와 운세 내용이 포함된 FortuneUpdateRequest 객체를 받아서 저장
+//        fortuneScheduler.scheduleDailyFortuneUpdate();
+//        return ResponseEntity.ok("성공");
+//    }
 }
