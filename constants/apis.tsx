@@ -1,5 +1,5 @@
 // 기본 도메인
-const DOMAIN = 'https://k11b108.p.ssafy.io/api/';
+const DOMAIN = "https://k11b108.p.ssafy.io/api/";
 
 // 로그인, 로그아웃
 export const LOGIN = `${DOMAIN}login`;
@@ -13,3 +13,11 @@ export const TIP = `${DOMAIN}support/tip`;
 export const FOODS = `${DOMAIN}support/foods`;
 // export const VIDEOS = `${DOMAIN}support/videos`;
 export const VIDEOS = `https://k11b108.p.ssafy.io/api/support/videos?keyword=잠잘오는`;
+
+// 먼슬리 차트 조회
+export const MONTHLY = (date: string) =>
+  `${DOMAIN}totalInformation/sleepRecords?date=${date}`;
+
+// 데일리 차트 조회
+export const DAILY = (totalInformationId: string) =>
+  `${DOMAIN}totalInformation/sleepRecords/${totalInformationId}`;
