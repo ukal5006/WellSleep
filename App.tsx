@@ -8,6 +8,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Luck from "./screens/Mypage/Luck";
 import SleepLab from "./screens/Mypage/SleepLab";
 import Info from "./screens/Mypage/Info";
+import MonthlyChart from "./screens/Chart/MonthlyChart";
+import DailyChart from "./screens/Chart/DailyChart";
 import { StackParamList } from "./types/navigation";
 import Tip from "./screens/Main/Tip";
 import { Provider } from "react-redux";
@@ -46,6 +48,8 @@ export default function App() {
           <Stack.Screen name="Luck" component={Luck} />
           <Stack.Screen name="SleepLab" component={SleepLab} />
           <Stack.Screen name="Info" component={Info} />
+          <Stack.Screen name="MonthlyChart" component={MonthlyChart} />
+          <Stack.Screen name="DailyChart" component={DailyChart} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
