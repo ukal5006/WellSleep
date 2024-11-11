@@ -16,8 +16,8 @@ public class FortuneScheduler {
     private final ConstellationFortuneService constellationFortuneService;
     private final FortuneCrawler fortuneCrawler;
 
-    // 매일 자정에 실행 (매일 00:00, 00:01에 실행)
-    @Scheduled(cron = "0 0,1 0 * * *")
+    // 매일 오전 6시에 실행 
+    @Scheduled(cron = "0 0,1 6 * * *")
     @Transactional
     public void scheduleDailyFortuneUpdate() {
 
