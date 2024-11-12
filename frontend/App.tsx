@@ -5,7 +5,7 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import NavBar from "./components/NavBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Luck from "./screens/Mypage/Luck/Index";
+import Luck from "./screens/Mypage/Luck";
 import SleepLab from "./screens/Mypage/SleepLab";
 import Info from "./screens/Mypage/Info";
 import MonthlyChart from "./screens/Chart/MonthlyChart";
