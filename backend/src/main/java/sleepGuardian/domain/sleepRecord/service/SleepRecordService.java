@@ -64,9 +64,9 @@ public class SleepRecordService {
                 .humidity(record.getHumidity())
                 .temperature(record.getTemperature())
                 .noise(record.getNoise())
-                .emg(userEmg)
-                .o2(userO2)
-                .pulse(userPulse)
+                .emg(record.getEmg())
+                .o2(record.getO2())
+                .pulse(record.getPulse())
                 .score(avg)
                 .build();
 
