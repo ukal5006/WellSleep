@@ -32,13 +32,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
   console.log("Chart Data:", chartData);
 
   return (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: "white",
-        borderRadius: 20,
-      }}
-    >
+    <View>
       <VictoryChart height={300} domain={{ y: [yDomain.min, yDomain.max] }}>
         <VictoryAxis
           tickValues={xTickValues}
