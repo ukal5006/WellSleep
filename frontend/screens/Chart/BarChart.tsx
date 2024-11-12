@@ -6,6 +6,7 @@ import {
   VictoryAxis,
   VictoryGroup,
 } from "victory-native";
+import { YELLOW } from "../../constants/colors";
 
 type BarChartProps = {
   data: any[];
@@ -58,7 +59,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
               x="day"
               y="sleepTime"
               style={{
-                data: { fill: "#FFE770", opacity: 0.5, width: 6 },
+                data: { fill: YELLOW, opacity: 0.5, width: 6 },
               }}
             />
             <VictoryBar
@@ -66,7 +67,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
               x="day"
               y="realSleepTime"
               style={{
-                data: { fill: "#FFE770", opacity: 1, width: 6 },
+                data: { fill: YELLOW, opacity: 1, width: 6 },
               }}
             />
           </VictoryGroup>
@@ -76,7 +77,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
             x="day"
             y="avg"
             style={{
-              data: { fill: "#FFE770", width: 6 },
+              data: { fill: YELLOW, width: 6 },
             }}
           />
         )}
