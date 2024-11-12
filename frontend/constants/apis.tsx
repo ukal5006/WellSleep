@@ -21,3 +21,9 @@ export const MONTHLY = (date: string) =>
 // 데일리 차트 조회
 export const DAILY = (totalInformationId: string) =>
   `${DOMAIN}totalInformation/sleepRecords/${totalInformationId}`;
+
+// 별자리 운세 조회
+export const CONSTELLATION = `${DOMAIN}user/constellation`;
+
+// 별자리 저장
+export const CONSTELLATION_SAVE = `${DOMAIN}user/constellation`;

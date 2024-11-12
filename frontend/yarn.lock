@@ -1632,7 +1632,7 @@
 
 "@react-native-kakao/user@^2.2.6":
   version "2.2.6"
-  resolved "https://registry.npmjs.org/@react-native-kakao/user/-/user-2.2.6.tgz"
+  resolved "https://registry.yarnpkg.com/@react-native-kakao/user/-/user-2.2.6.tgz#b8f21752411aac2634aecb2ee7f70ebbf797ce7c"
   integrity sha512-C/DP066b4rGH+aNnX7rZa8hkqWa+L6qzjCKGkTUmsoSz2KxOjUX1yGbXZCbxLA2lDd/sAALcJ1TMr0IakgLIcA==
   dependencies:
     "@mj-studio/js-util" "1.1.3"
@@ -6554,6 +6554,13 @@ react-native-gesture-handler@~2.16.1:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
     lodash "^4.17.21"
+    prop-types "^15.7.2"
+
+react-native-modal-datetime-picker@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-18.0.0.tgz#0555b2c9ab34318629a251f250de68a0e3b3980d"
+  integrity sha512-0jdvhhraZQlRACwr7pM6vmZ2kxgzJ4CpnmV6J3TVA6MrXMXK6Zo/upRBKkRp0+fTOiKuNblzesA2U59rYo6SGA==
+  dependencies:
     prop-types "^15.7.2"
 
 react-native-reanimated@~3.10.1:
