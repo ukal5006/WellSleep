@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  View,
   Text,
   StyleSheet,
   Image,
@@ -8,32 +7,63 @@ import {
   ImageBackground,
 } from "react-native";
 import { FONTS } from "../../../constants/fonts";
-const Tip: React.FC = () => {
+
+import useAxios from "../../../hooks/useAxios";
+import { CONSTELLATION } from "../../../constants/apis";
+import LuckImage from "../../../components/LuckImage";
+import LuckDate from "../../../components/LuckDate";
+
+interface ConstellationDataType {
+  id: number;
+  constellation: string;
+  fortune: string;
+}
+
+const Luck: React.FC = () => {
+  const [constellationData, setConstellationData] =
+    useState<ConstellationDataType | null>(null);
+  const { dataFetch, data, loading, error } = useAxios();
+
+  // 별자리 조회
+  const fetchConstellationData = async () => {
+    await dataFetch("GET", CONSTELLATION, {
+      headers: {
+        Authorization: "{accessToken}",
+        RefreshToken: "{refreshToken}",
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (data) {
+      console.log("Constellation Data:", data);
+      setConstellationData(data as ConstellationDataType);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    fetchConstellationData();
+  }, []);
+
   return (
     <ImageBackground
       source={require("../../../assets/blackmain.png")}
       style={styles.background}
     >
       <ScrollView style={styles.container}>
-        <Image
-          source={require("../../../assets/constellation/fish.png")}
-          style={styles.starimage}
-        />
-
-        <Text style={styles.starname}>물고기 자리</Text>
-        <Text style={styles.stardate}>2/19 ~ 3/20</Text>
-        <Text style={styles.content}>
-          한 번 뜻을 정했으면, 그 길로 쭉 밀고 나가야 합니다. 어렵게 잡은 기회가
-          있다면, 놓치지 않기 위해서라도 이 시기의 변화의 흐름을 놓치지 마세요.
-          잦은 기회가 아니니 지금 물러서면 후회할 수 있으니 유념하세요. 이동수가
-          있어요. 결정한 곳이 있다면 빨리 움직이는 것이 득이에요.번 뜻을
-          정했으면, 그 길로 쭉 밀고 나가야 합니다. 어렵게 잡은 기회가 있다면,
-          놓치지 않기 위해서라도 이 시기의 변화의 흐름을 놓치지 마세요. 잦은
-          기회가 아니니 지금 물러서면 후회할 수 있으니 유념하세요. 이동수가
-          있어요. 결정한 곳이 있다면 빨리 움직이는 것이 득이에요.번 뜻을
-          정했으면, 그 길로 쭉 밀고 나가야 합니다. 어렵게 잡은 기회가 있다면,
-          놓치지
-        </Text>
+        {constellationData && (
+          <>
+            <LuckImage constellation={constellationData.constellation} />
+            <Text style={styles.starname}>
+              {constellationData.constellation}
+            </Text>
+            <LuckDate constellation={constellationData.constellation} />
+            <Text style={styles.content}>{constellationData.fortune}</Text>
+          </>
+        )}
+        {!constellationData && !loading && (
+          <Text style={styles.content}>별자리 정보를 불러오는 중입니다...</Text>
+        )}
       </ScrollView>
     </ImageBackground>
   );
@@ -49,7 +79,6 @@ const styles = StyleSheet.create({
   },
   starname: {
     fontSize: 34,
-    // fontWeight: "bold",
     color: "#cb9c48",
     marginTop: 50,
     textAlign: "center",
@@ -57,7 +86,6 @@ const styles = StyleSheet.create({
   },
   stardate: {
     fontSize: 24,
-    // fontWeight: "bold",
     color: "#cb9c48",
     marginTop: 1,
     textAlign: "center",
@@ -79,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Tip;
+export default Luck;
