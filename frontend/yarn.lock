@@ -909,6 +909,11 @@
   resolved "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.8.1.tgz"
   integrity sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==
 
+"@expo-google-fonts/noto-sans-kr@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/noto-sans-kr/-/noto-sans-kr-0.2.3.tgz#b25290ea2c50d28430ebd66cab763ecd0a2ff617"
+  integrity sha512-ha+y6yJsjtcSW9E4UmF6J/pVf5HQdv6iO72o8sZNbmimMXpEL94djjDD+l3TGq3Rp6Y8npKpEqYbnPK0SB247A==
+
 "@expo-google-fonts/noto-serif-kr@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/noto-serif-kr/-/noto-serif-kr-0.2.3.tgz#967a808fd4dca2dab010acccc9d06cad3f87052a"
