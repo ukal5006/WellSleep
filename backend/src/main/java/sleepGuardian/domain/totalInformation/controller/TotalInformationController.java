@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sleepGuardian.domain.totalInformation.dto.SleepRecordDetailResponseDTO;
-import sleepGuardian.domain.totalInformation.dto.SleepSummariesResponseDTO;
-import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
-import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
+import sleepGuardian.domain.totalInformation.dto.*;
 import sleepGuardian.domain.totalInformation.service.TotalInformationService;
 
 import java.util.HashMap;
@@ -24,8 +21,8 @@ public class TotalInformationController {
     //total_information 생성
     @PostMapping("/start-sleep")
     public ResponseEntity<?> startSleep(HttpServletRequest request) {
-        totalInformationService.startSleep((Integer) request.getAttribute("userId"));
-        return ResponseEntity.ok("수면측정 시작");
+        int totalInformationId = totalInformationService.startSleep((Integer) request.getAttribute("userId"));
+        return ResponseEntity.ok(totalInformationId);
     }
 
     //알코올, 카페인 조회
@@ -46,9 +43,9 @@ public class TotalInformationController {
         return ResponseEntity.ok(responseMap);
     }
 
-    @PostMapping("/end-sleep/{totalInformationId}")
-    public ResponseEntity<?> endSleep(HttpServletRequest request, @PathVariable int totalInformationId) {
-        totalInformationService.endSleep(totalInformationId);
+    @PostMapping("/end-sleep")
+    public ResponseEntity<?> endSleep(@RequestBody SleepEndDTO sleepEndDTO) {
+        totalInformationService.endSleep(sleepEndDTO.getTotalInformationId());
         return ResponseEntity.ok("수면 측정 완료");
     }
 
