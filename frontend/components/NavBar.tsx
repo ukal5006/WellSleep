@@ -11,6 +11,7 @@ import { setUserInfo } from "../store/userSlice";
 // import Main from "../screens/Main/Main";
 
 import MainSleep from "../screens/Main/MainSleep";
+import { Image } from "react-native";
 const Tab = createBottomTabNavigator();
 
 function NavBar() {
@@ -55,10 +56,54 @@ function NavBar() {
         headerShown: false, // 모든 스크린에서 헤더를 숨기려면 추가
       }}
     >
-      <Tab.Screen name="홈" component={MainSleep} />
-      <Tab.Screen name="수면일지" component={MonthlyChart} />
-      <Tab.Screen name="알람" component={Exampage} />
-      <Tab.Screen name="마이페이지" component={Mypage} />
+      <Tab.Screen
+        name="홈"
+        component={MainSleep}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require("../assets/Navicon/mainicon.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="수면일지"
+        component={MonthlyChart}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require("../assets/Navicon/timeicon.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="영상"
+        component={Exampage}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require("../assets/Navicon/bellicon.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="마이페이지"
+        component={Mypage}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require("../assets/Navicon/usericon.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
