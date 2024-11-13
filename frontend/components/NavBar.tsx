@@ -8,7 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 import { USER } from "../constants/apis";
 import useAxios from "../hooks/useAxios";
 import { setUserInfo } from "../store/userSlice";
-import Main from "../screens/Main/Main";
+// import Main from "../screens/Main/Main";
+
 import MainSleep from "../screens/Main/MainSleep";
 const Tab = createBottomTabNavigator();
 
