@@ -49,6 +49,26 @@ public class SleepRecordService {
         double userEmg = 96 - (((record.getEmg() / user.getEmg()) * 100) / 3);
         double userO2 = 260 - (((record.getO2() / user.getO2()) * 100) * 2);
         double userPulse = 115 - (((record.getPulse() / user.getPulse()) * 100) / 2);
+
+        if(userEmg < 0) {
+            userEmg = 0;
+        }
+        else if(userEmg > 100) {
+            userEmg = 100;
+        }
+        if(userO2 < 0) {
+            userO2 = 0;
+        }
+        else if(userO2 > 100) {
+            userO2 = 100;
+        }
+        if(userPulse < 0) {
+            userPulse = 0;
+        }
+        else if(userPulse > 100) {
+            userPulse = 100;
+        }
+        
         double avg = (userEmg + userO2 + userPulse) / 3;
 
         if (avg < 0) {
