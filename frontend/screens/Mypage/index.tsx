@@ -64,16 +64,21 @@ const NavigatorContainer = styled(View)`
 const NavigatorBtn = styled(TouchableOpacity)`
   width: 100%;
   padding: 20px;
-  background-color: rgba(219, 176, 189, 0.5);
-  justify-content: center;
+  height: 65px;
+  background-color: rgba(219, 176, 189, 0.6);
+
   border-radius: 15px;
-  margin-bottom: 13px;
+  margin-bottom: 14px;
+  flex-direction: row;
+  gap: 1px;
 `;
 
 const NavigatorText = styled(Text)`
   font-size: 15px;
   color: white;
-  margin-left: 5px;
+
+  font-weight: bold;
+  margin-top: 2px;
 `;
 
 const ReminderContainer = styled(View)`
@@ -82,7 +87,7 @@ const ReminderContainer = styled(View)`
 `;
 
 const BlurContainer = styled(View)`
-  background-color: rgba(2, 18, 40, 0.23);
+  background-color: rgba(2, 18, 40, 0.3);
   width: 100%;
   border-radius: 20px;
   padding: 20px;
@@ -92,7 +97,7 @@ const NotificationWrapper = styled(View)`
   width: 100%;
   align-items: center;
   flex-direction: row;
-  padding: 10px 0;
+  padding: 13px 12px;
   justify-content: space-between;
 `;
 
@@ -102,7 +107,7 @@ const ReminderText = styled(Text)`
 `;
 
 const Toggle = styled(Switch)`
-  transform: scaleY(1.3);
+  transform: scaleX(1.4) scaleY(1.4);
 `;
 
 const MemberContainer = styled(View)`
@@ -189,12 +194,26 @@ function Mypage() {
 
           <NavigatorContainer>
             <NavigatorBtn onPress={() => navigation.navigate("Luck")}>
+              <Image
+                source={require("../../assets/luckwhite.png")}
+                style={{ width: 25, height: 25, marginRight: 11 }}
+              />
               <NavigatorText>오늘의 운세</NavigatorText>
             </NavigatorBtn>
+
             <NavigatorBtn onPress={() => navigation.navigate("SleepLab")}>
+              <Image
+                source={require("../../assets/bookwhite.png")}
+                style={{ width: 27, height: 27, marginRight: 11 }}
+              />
               <NavigatorText>수면 연구소</NavigatorText>
             </NavigatorBtn>
+
             <NavigatorBtn onPress={() => navigation.navigate("Info")}>
+              <Image
+                source={require("../../assets/bedicon.png")}
+                style={{ width: 27, height: 27, marginRight: 11 }}
+              />
               <NavigatorText>이용 안내</NavigatorText>
             </NavigatorBtn>
           </NavigatorContainer>
@@ -207,7 +226,7 @@ function Mypage() {
                   onValueChange={() => setSleepNoti(!sleepNoti)}
                   value={sleepNoti}
                   trackColor={{ false: "#767577", true: "#FFD7E3" }}
-                  thumbColor={"#45475C"}
+                  thumbColor={"#ffffff"}
                 />
               </NotificationWrapper>
               <NotificationWrapper>
@@ -216,7 +235,7 @@ function Mypage() {
                   onValueChange={() => setWakeAlarm(!wakeAlarm)}
                   value={wakeAlarm}
                   trackColor={{ false: "#767577", true: "#FFD7E3" }}
-                  thumbColor={"#45475C"}
+                  thumbColor={"#ffffff"}
                 />
               </NotificationWrapper>
               <NotificationWrapper>
@@ -225,7 +244,7 @@ function Mypage() {
                   onValueChange={() => setLimitNoti(!limitNoti)}
                   value={limitNoti}
                   trackColor={{ false: "#767577", true: "#FFD7E3" }}
-                  thumbColor={"#45475C"}
+                  thumbColor={"#ffffff"}
                 />
               </NotificationWrapper>
               <NotificationWrapper>
@@ -234,7 +253,7 @@ function Mypage() {
                   onValueChange={() => setLuckNoti(!luckNoti)}
                   value={luckNoti}
                   trackColor={{ false: "#767577", true: "#FFD7E3" }}
-                  thumbColor={"#45475C"}
+                  thumbColor={"#ffffff"}
                 />
               </NotificationWrapper>
             </BlurContainer>
