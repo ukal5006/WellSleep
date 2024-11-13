@@ -67,7 +67,7 @@ function LoginBtn() {
         console.log(userInfo); // 사용자 데이터 확인
         if (userInfo) {
           dispatch(setUserInfo(userInfo)); // 사용자 정보를 Redux에 저장
-          navigation.navigate("MainSleep");
+          // navigation.navigate("MainSleep");
         }
 
         console.log("WellSleep 로그인 성공");
