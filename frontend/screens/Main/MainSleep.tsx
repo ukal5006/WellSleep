@@ -6,19 +6,28 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
-  Modal,
+  Alert,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import PushNotification from "react-native-push-notification";
-import { useNavigation } from "@react-navigation/native"; // 네비게이션 훅 import
+import { useNavigation } from "@react-navigation/native";
+import IntakeModal from "./IntakeModal";
+import * as SecureStore from "expo-secure-store";
+import axios from "axios";
+import { INTAKE_SAVE, START_SLEEP } from "../../constants/apis";
 
 const MainSleep = () => {
-  const navigation = useNavigation(); // 네비게이션 훅 사용
+  const navigation = useNavigation();
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [totalInformationId, setTotalInformationId] = useState<number | null>(
+    null
+  );
 
-  const onChange = (event, selectedTime) => {
+  const [caffeine, setCaffeine] = useState(0);
+  const [alcohol, setAlcohol] = useState(0);
+
+  const onChange = (event: any, selectedTime: any) => {
     setShowPicker(false);
     if (selectedTime) {
       setTime(selectedTime);
@@ -29,37 +38,122 @@ const MainSleep = () => {
     setShowPicker(true);
   };
 
+  // 수면 측정 시작 API 호출 후 섭취량 저장
+  const startSleepTracking = async () => {
+    try {
+      // 액세스 토큰과 리프레시 토큰을 가져와 확인
+      const accessToken = await SecureStore.getItemAsync("accessToken");
+      const refreshToken = await SecureStore.getItemAsync("refreshToken");
+
+      console.log("Access Token:", accessToken);
+      console.log("Refresh Token:", refreshToken);
+
+      // 수면 측정 시작 API 호출
+      const response = await axios.post(
+        START_SLEEP,
+        {},
+        {
+          headers: {
+            Authorization: accessToken || "",
+            RefreshToken: refreshToken || "",
+          },
+        }
+      );
+
+      console.log("수면 측정 시작 API 응답:", response.data);
+
+      // 서버에서 필요한 ID가 포함되어 응답이 온 경우
+      if (response.data && response.data.id) {
+        setTotalInformationId(response.data.id); // totalInformationId 설정
+        console.log("Total Information ID:", response.data.id);
+
+        // ID 설정 후 섭취량 저장 API 호출
+        saveIntakeData(caffeine, alcohol);
+      } else {
+        console.warn("ID가 응답에 포함되어 있지 않습니다.");
+      }
+    } catch (error) {
+      console.error("수면 측정 시작 오류:", error);
+      Alert.alert("오류", "수면 측정을 시작하는 데 실패했습니다.");
+    }
+  };
+
+  // 알코올 및 카페인 섭취량 저장 요청
+  const saveIntakeData = async (
+    caffeineIntake: number,
+    alcoholIntake: number
+  ) => {
+    if (totalInformationId === null) {
+      Alert.alert("오류", "수면 측정 ID가 없습니다.");
+      return;
+    }
+
+    try {
+      const accessToken = await SecureStore.getItemAsync("accessToken");
+      const refreshToken = await SecureStore.getItemAsync("refreshToken");
+
+      const response = await axios.post(
+        INTAKE_SAVE,
+        {
+          id: totalInformationId,
+          alcoholIntake: alcoholIntake,
+          caffeineIntake: caffeineIntake,
+        },
+        {
+          headers: {
+            Authorization: accessToken || "",
+            RefreshToken: refreshToken || "",
+          },
+        }
+      );
+
+      console.log(
+        `섭취량 저장 완료 - 커피: ${caffeineIntake}, 알코올: ${alcoholIntake}`
+      );
+      console.log("섭취량 저장 API 응답:", response.data);
+      Alert.alert("알림", "섭취량 데이터가 저장되었습니다.");
+    } catch (error) {
+      console.error("섭취량 저장 오류:", error);
+      Alert.alert("오류", "섭취량 데이터를 저장하는 데 실패했습니다.");
+    }
+  };
+
   const setAlarm = () => {
+    startSleepTracking(); // 수면 측정 시작 API 호출 후 섭취량 저장 진행
     setShowModal(true);
   };
 
-  const confirmAlarm = (caffeineIntake) => {
-    const hours = time.getHours();
-    const minutes = time.getMinutes();
-    const now = new Date();
-    const alarmTime = new Date(now);
-    alarmTime.setHours(hours);
-    alarmTime.setMinutes(minutes);
-    alarmTime.setSeconds(0);
+  const confirmAlarm = (caffeineIntake: number, alcoholIntake: number) => {
+    setCaffeine(caffeineIntake);
+    setAlcohol(alcoholIntake);
 
-    if (alarmTime <= now) {
-      alarmTime.setDate(alarmTime.getDate() + 1);
-    }
+    // 알람 설정 주석 처리
+    // const hours = time.getHours();
+    // const minutes = time.getMinutes();
+    // const now = new Date();
+    // const alarmTime = new Date(now);
+    // alarmTime.setHours(hours);
+    // alarmTime.setMinutes(minutes);
+    // alarmTime.setSeconds(0);
 
-    PushNotification.localNotificationSchedule({
-      channelId: "alarm-channel",
-      title: "기상 알람",
-      message: caffeineIntake
-        ? "카페인을 섭취하셨습니다. 기상 시간이 다가옵니다!"
-        : "기상 시간이 다가옵니다!",
-      date: alarmTime,
-      allowWhileIdle: true,
-    });
+    // if (alarmTime <= now) {
+    //   alarmTime.setDate(alarmTime.getDate() + 1);
+    // }
 
-    console.log(
-      `Alarm set for ${hours}:${minutes} with caffeine intake: ${caffeineIntake}`
-    );
-    setShowModal(false);
+    // PushNotification.localNotificationSchedule({
+    //   channelId: "alarm-channel",
+    //   title: "기상 알람",
+    //   message:
+    //     caffeineIntake > 0 || alcoholIntake > 0
+    //       ? `커피 섭취량: ${caffeineIntake}, 알코올: ${alcoholIntake}. 기상 시간이 다가옵니다!`
+    //       : "기상 시간이 다가옵니다!",
+    //   date: alarmTime,
+    //   allowWhileIdle: true,
+    // });
+
+    // console.log(
+    //   `알람 설정 시간: ${hours}:${minutes}, 커피: ${caffeineIntake}, 알코올: ${alcoholIntake}`
+    // );
   };
 
   return (
@@ -86,46 +180,16 @@ const MainSleep = () => {
           />
         )}
       </View>
-
       <TouchableOpacity style={styles.sleepButton} onPress={setAlarm}>
         <Image source={require("../../assets/moon.png")} style={styles.icon} />
         <Text style={styles.buttonText}>수면 시작</Text>
       </TouchableOpacity>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
+      <IntakeModal
         visible={showModal}
-        onRequestClose={() => setShowModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>카페인을 섭취하셨나요?</Text>
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => confirmAlarm(true)}
-              >
-                <Text style={styles.modalButtonText}>네</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => confirmAlarm(false)}
-              >
-                <Text style={styles.modalButtonText}>아니요</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      {/* Tip 페이지로 이동하는 버튼 */}
-      <TouchableOpacity
-        style={styles.tipButton}
-        onPress={() => navigation.navigate("Tip")}
-      >
-        <Text style={styles.tipButtonText}>수면 관련 팁 보기</Text>
-      </TouchableOpacity>
+        onClose={() => setShowModal(false)}
+        onConfirm={confirmAlarm}
+      />
     </ImageBackground>
   );
 };
@@ -190,55 +254,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 10,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 30,
-    borderRadius: 10,
-    width: 300,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#211C52",
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-  },
-  modalButton: {
-    backgroundColor: "#211C52",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginHorizontal: 10,
-  },
-  modalButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  tipButton: {
-    backgroundColor: "#FFA500", // 버튼 배경색 (예: 주황색)
-    borderRadius: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    position: "absolute",
-    bottom: 50,
-    alignSelf: "center",
-  },
-  tipButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });
 

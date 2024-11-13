@@ -5,7 +5,7 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import NavBar from "./components/NavBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Main from "./screens/Main/MainSleep";
+import MainSleep from "./screens/Main/MainSleep";
 import Luck from "./screens/Mypage/Luck";
 import SleepLab from "./screens/Mypage/SleepLab";
 import Info from "./screens/Mypage/Info";
@@ -18,7 +18,8 @@ import store from "./store/store";
 import { useFonts } from "expo-font";
 import { FONTS, FONT_IMPORTS } from "./constants/fonts";
 
-const Stack = createNativeStackNavigator<StackParamList>(); // 타입을 명시합니다.
+// Stack 네비게이터 생성
+const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts(FONT_IMPORTS);
@@ -52,8 +53,9 @@ export default function App() {
           <Stack.Screen name="Main" component={NavBar} />
           {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
           {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
-          <Stack.Screen name="Luck" component={Luck} />
           <Stack.Screen name="MainSleep" component={MainSleep} />
+          {/* MainSleep 화면 */}
+          <Stack.Screen name="Luck" component={Luck} />
           <Stack.Screen name="SleepLab" component={SleepLab} />
           <Stack.Screen name="Info" component={Info} />
           <Stack.Screen name="MonthlyChart" component={MonthlyChart} />

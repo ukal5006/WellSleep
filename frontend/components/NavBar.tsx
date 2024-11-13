@@ -5,7 +5,7 @@ import Main from "../screens/Main";
 import Mypage from "../screens/Mypage";
 import MonthlyChart from "../screens/Chart/MonthlyChart";
 import Exampage from "../screens/Exampage";
-
+import MainSleep from "../screens/Main/MainSleep";
 const Tab = createBottomTabNavigator();
 
 function NavBar() {
@@ -32,7 +32,7 @@ function NavBar() {
     >
       <Tab.Screen name="홈" component={Login} />
       <Tab.Screen name="수면일지" component={MonthlyChart} />
-      <Tab.Screen name="알람" component={Exampage} />
+      <Tab.Screen name="알람" component={MainSleep} />
       <Tab.Screen name="마이페이지" component={Mypage} />
     </Tab.Navigator>
   );
