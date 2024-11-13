@@ -4,32 +4,39 @@ import useAxios from "../../hooks/useAxios";
 import { MONTHLY } from "../../constants/apis";
 import MyCalendar from "./MyCalendar";
 import BarChart from "./BarChart";
-
 import { YELLOW } from "../../constants/colors";
-import { useFonts } from "expo-font";
-import { FONTS, FONT_IMPORTS } from "../../constants/fonts";
+import { FONTS } from "../../constants/fonts";
+
+type MonthlyDataType = {
+  avg: number;
+  date: string;
+  isAlcohol: number;
+  isCaffeine: number;
+  realSleepTime: number;
+  sleepTime: number;
+  totalInformationId: number;
+};
 
 const MonthlyChart = () => {
-  const [monthlyData, setMonthlyData] = useState([]);
+  const [monthlyData, setMonthlyData] = useState<MonthlyDataType[]>([]);
   const { dataFetch, data, loading, error } = useAxios();
-  const [fontsLoaded] = useFonts(FONT_IMPORTS);
 
   const fetchMonthlyData = async (month: string) => {
     const url = MONTHLY(month);
     try {
       await dataFetch("GET", url);
-      console.log("API OK");
-    } catch (err) {
-      console.error("API ERR", err);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
     if (data && data.length > 0) {
-      console.log(data);
-      setMonthlyData(data);
+      const convertedData = (data as MonthlyDataType[]).map((record) => ({
+        ...record,
+        realSleepTime: record.realSleepTime / 60,
+        sleepTime: record.sleepTime / 60,
+      }));
+      setMonthlyData(convertedData);
     } else {
-      console.log(data);
       setMonthlyData([]);
     }
   }, [data]);
@@ -40,13 +47,8 @@ const MonthlyChart = () => {
   }, []);
 
   const handleMonthChange = (newMonth: string) => {
-    console.log("월 변경:", newMonth);
     fetchMonthlyData(newMonth);
   };
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <ImageBackground
@@ -62,7 +64,7 @@ const MonthlyChart = () => {
               color: "white",
               fontSize: 20,
               textAlign: "center",
-              fontFamily: FONTS.NotoSerifKRBold,
+              fontFamily: FONTS.NotoSansKRBold,
               marginBottom: -20,
             }}
           >
@@ -77,7 +79,7 @@ const MonthlyChart = () => {
               color: "white",
               fontSize: 20,
               textAlign: "center",
-              fontFamily: FONTS.NotoSerifKRBold,
+              fontFamily: FONTS.NotoSansKRBold,
               marginBottom: -20,
             }}
           >
