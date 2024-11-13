@@ -15,4 +15,6 @@ import java.time.LocalDateTime;
 public class SleepRecordResultDTO {
     private double avg;
     private LocalDateTime startSleepTime;
+    private int sleepTime;
+    private int realSleepTime;
 }
