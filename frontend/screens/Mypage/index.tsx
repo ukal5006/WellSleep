@@ -163,7 +163,7 @@ function Mypage() {
         storeTokens('', '');
         navigation.reset({
             index: 0,
-            routes: [{ name: 'Main' }], // 추후에 메인말고 로그인페이지로 이동...
+            routes: [{ name: 'Login' }],
         });
     };
 

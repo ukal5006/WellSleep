@@ -1017,7 +1017,7 @@
     node-forge "^1.2.1"
     nullthrows "^1.1.1"
 
-"@expo/config-plugins@8.0.10", "@expo/config-plugins@~8.0.8":
+"@expo/config-plugins@8.0.10", "@expo/config-plugins@^7.2.5 || ^8.0.0", "@expo/config-plugins@~8.0.8":
   version "8.0.10"
   resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-8.0.10.tgz"
   integrity sha512-KG1fnSKRmsudPU9BWkl59PyE0byrE2HTnqbOrgwr2FAhqh7tfr9nRs6A9oLS/ntpGzmFxccTEcsV0L4apsuxxg==
@@ -3866,7 +3866,7 @@ expo-status-bar@~1.12.1:
   resolved "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.12.1.tgz"
   integrity sha512-/t3xdbS8KB0prj5KG5w7z+wZPFlPtkgs95BsmrP/E7Q0xHXTcDcQ6Cu2FkFuRM+PKTb17cJDnLkawyS5vDLxMA==
 
-expo@~51.0.28:
+expo@^51.0.14, expo@~51.0.28:
   version "51.0.38"
   resolved "https://registry.npmjs.org/expo/-/expo-51.0.38.tgz"
   integrity sha512-/B9npFkOPmv6WMIhdjQXEY0Z9k/67UZIVkodW8JxGIXwKUZAGHL+z1R5hTtWimpIrvVhyHUFU3f8uhfEKYhHNQ==
@@ -6525,6 +6525,14 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
+react-native-ble-plx@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-ble-plx/-/react-native-ble-plx-3.2.1.tgz#6a518603b2b87caa968edc11c85bc228c3d58596"
+  integrity sha512-cot4pu6qXh7DLcYh91n4BNI5Wm9/oMUSDj24G1tQ86F8sCFJ292AneKxRHkTH2+VxIGQuU2FVvWY1iY6ob0KZQ==
+  dependencies:
+    "@expo/config-plugins" "^7.2.5 || ^8.0.0"
+    expo "^51.0.14"
+
 react-native-calendars@^1.1307.0:
   version "1.1307.0"
   resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1307.0.tgz#2cb8c5abd322037e9b3ef5605afa86f25347068f"
@@ -6550,6 +6558,18 @@ react-native-gesture-handler@~2.16.1:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-push-notification@^8.1.1:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-8.1.1.tgz#a41d20c70ea5a7709417e96261b225461f8dc73a"
+  integrity sha512-XpBtG/w+a6WXTxu6l1dNYyTiHnbgnvjoc3KxPTxYkaIABRmvuJZkFxqruyGvfCw7ELAlZEAJO+dthdTabCe1XA==
+
+react-native-quick-base64@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-quick-base64/-/react-native-quick-base64-2.1.2.tgz#062b09b165c1530095fe99b94544c948318dbe99"
+  integrity sha512-xghaXpWdB0ji8OwYyo0fWezRroNxiNFCNFpGUIyE7+qc4gA/IGWnysIG5L0MbdoORv8FkTKUvfd6yCUN5R2VFA==
+  dependencies:
+    base64-js "^1.5.1"
 
 react-native-reanimated@~3.10.1:
   version "3.10.1"

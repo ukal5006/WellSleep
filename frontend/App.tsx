@@ -11,27 +11,38 @@ import Info from './screens/Mypage/Info';
 import MonthlyChart from './screens/Chart/MonthlyChart';
 import DailyChart from './screens/Chart/DailyChart';
 import { StackParamList } from './types/navigation';
-import Tip from './screens/Main/Tip';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import store from './store/store';
 import { useFonts } from 'expo-font';
 import { FONTS, FONT_IMPORTS } from './constants/fonts';
+import useAxios from './hooks/useAxios';
+import { USER } from './constants/apis';
+import { setUserInfo } from './store/userSlice';
+import Login from './screens/Login';
 
 const Stack = createNativeStackNavigator<StackParamList>(); // 타입을 명시합니다.
 
 export default function App() {
     const [fontsLoaded] = useFonts(FONT_IMPORTS);
+    // const { userDataFetch } = useAxios();
+    // const dispatch = useDispatch();
 
     // if (!fontsLoaded) {
     //     return null; // 폰트가 로드될 때까지 빈 화면을 표시
     // }
 
-    const loginInfo = null;
     useEffect(() => {
         initializeKakaoSDK('c9f9a5b0717e5e19f774465dcb85522b');
-        if (loginInfo === null) {
-            // 로그인 정보가 없을 때의 처리
-        }
+        // const fetchUserData = async () => {
+        //     const userInfo = await userDataFetch('GET', USER); // USER URL로 요청
+        //     console.log(userInfo); // 사용자 데이터 확인
+        //     if (userInfo) {
+        //         dispatch(setUserInfo(userInfo)); // 사용자 정보를 Redux에 저장
+        //     }
+        //     console.log('WellSleep 로그인 성공');
+        // };
+
+        // fetchUserData();
     }, []); // 의존성 배열 추가
 
     return (
@@ -44,7 +55,8 @@ export default function App() {
                         headerShown: false,
                     }}
                 >
-                    <Stack.Screen name="Main" component={NavBar} />
+                    <Stack.Screen name="Nav" component={NavBar} />
+                    <Stack.Screen name="Login" component={Login} />
                     {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
                     {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
                     <Stack.Screen name="Luck" component={Luck} />
