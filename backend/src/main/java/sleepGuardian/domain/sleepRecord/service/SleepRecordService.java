@@ -169,10 +169,14 @@ public class SleepRecordService {
 
         sleepTimeRepository.save(sleepTime);
 
+        int sleepTimeSum = sleepStep[0] + sleepStep[1] + sleepStep[2] + sleepStep[3] + sleepStep[4];
+        int realSleepTime = sleepStep[2] + sleepStep[3] + sleepStep[4];
 
         SleepRecordResultDTO result = SleepRecordResultDTO.builder()   //평균점수, 입면시간 저장
                 .avg(sum / count)
                 .startSleepTime(startSleep)
+                .sleepTime(sleepTimeSum)
+                .realSleepTime(realSleepTime)
                 .build();
 
         return result;

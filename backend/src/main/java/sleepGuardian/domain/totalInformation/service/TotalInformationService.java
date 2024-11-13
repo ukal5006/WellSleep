@@ -64,21 +64,21 @@ public class TotalInformationService {
 
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now(); //수면 측정 완료 시각
-        int sleepTime = (int)Duration.between(totalInfo.getStartTime(), endTime).toMinutes();//총 수면 시간
 //        LocalDateTime start_sleep_time = LocalDateTime.now(); //최용훈이 줄 거.
         System.out.println("레디스 접근?? 전");
         SleepRecordResultDTO sleepRecord = sleepRecordService.getSleepRecord(totalInformationId);
         System.out.println("레디스 접근?? 후");
 
+        int sleepTime = sleepRecord.getSleepTime();
+        int realSleepTime = sleepRecord.getRealSleepTime();
+
         LocalDateTime startSleepTime = sleepRecord.getStartSleepTime();
         double avg = sleepRecord.getAvg();
         System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
 
-        if(startSleepTime == null) {
+        if (startSleepTime == null) {
             startSleepTime = endTime;
         }
-
-        int realSleepTime = (int) Duration.between(totalInfo.getStartTime(), startSleepTime).toMinutes();
 
         totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, startSleepTime);
         totalInformationRepository.save(totalInfo);
