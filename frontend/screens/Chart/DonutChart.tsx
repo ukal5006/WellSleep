@@ -1,32 +1,23 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { VictoryPie } from "victory-native";
+import { PINK, YELLOW, PURPLE, NAVY } from "../../constants/colors";
+import { useFonts } from "expo-font";
+import { FONTS, FONT_IMPORTS } from "../../constants/fonts";
 
-function DonutChart() {
-  // TODO: 이후 API 연결
-  const score = 60;
+interface DonutChartProps {
+  value: number;
+}
+
+function DonutChart({ value }: DonutChartProps) {
+  const [fontsLoaded] = useFonts(FONT_IMPORTS);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: "white",
-        borderRadius: 20,
-        paddingVertical: 20,
-      }}
-    >
-      <Text
-        style={{
-          color: "white",
-          fontSize: 20,
-          fontWeight: "bold",
-          textAlign: "center",
-          marginBottom: 20,
-        }}
-      >
-        수면 점수
-      </Text>
-
+    <View style={{}}>
       <View
         style={{
           position: "relative",
@@ -36,12 +27,12 @@ function DonutChart() {
       >
         <VictoryPie
           data={[
-            { x: " ", y: score },
-            { x: " ", y: 100 - score },
+            { x: " ", y: value },
+            { x: " ", y: 100 - value },
           ]}
-          colorScale={["#FFE770", "rgba(255, 255, 255, 0.3)"]}
+          colorScale={[YELLOW, NAVY]}
           radius={90}
-          innerRadius={70}
+          innerRadius={60}
           startAngle={0}
           endAngle={360}
           animate={{
@@ -56,10 +47,10 @@ function DonutChart() {
             position: "absolute",
             color: "white",
             fontSize: 20,
-            fontWeight: "bold",
+            fontFamily: FONTS.NotoSansKRBold,
           }}
         >
-          {score} 점
+          {value} 점
         </Text>
       </View>
     </View>
