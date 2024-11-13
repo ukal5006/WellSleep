@@ -8,8 +8,18 @@ import {
 } from "victory-native";
 import { YELLOW } from "../../constants/colors";
 
+type MonthlyDataType = {
+  avg: number;
+  date: string;
+  isAlcohol: number;
+  isCaffeine: number;
+  realSleepTime: number;
+  sleepTime: number;
+  totalInformationId: number;
+};
+
 type BarChartProps = {
-  data: any[];
+  data: MonthlyDataType[];
   dataType: string;
 };
 
@@ -30,11 +40,13 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
     avg: Math.round(Number(record.avg)) || 0,
   }));
 
-  console.log("Chart Data:", chartData);
-
   return (
     <View>
-      <VictoryChart height={300} domain={{ y: [yDomain.min, yDomain.max] }}>
+      <VictoryChart
+        padding={{ left: 50, right: 60, top: 20, bottom: 40 }}
+        height={300}
+        domain={{ y: [yDomain.min, yDomain.max] }}
+      >
         <VictoryAxis
           tickValues={xTickValues}
           style={{
