@@ -27,3 +27,9 @@ export const CONSTELLATION = `${DOMAIN}user/constellation`;
 
 // 별자리 저장
 export const CONSTELLATION_SAVE = `${DOMAIN}user/constellation`;
+
+// 수면 측정 시작
+export const START_SLEEP = `${DOMAIN}totalInformation/start-sleep`;
+
+// 카페인 및 알코올 섭취 기록 저장
+export const INTAKE_SAVE = `${DOMAIN}totalInformation/sleepImpact`;
