@@ -54,7 +54,7 @@ function NavBar() {
         headerShown: false, // 모든 스크린에서 헤더를 숨기려면 추가
       }}
     >
-      <Tab.Screen name="홈" component={Main} />
+      <Tab.Screen name="홈" component={MainSleep} />
       <Tab.Screen name="수면일지" component={MonthlyChart} />
       <Tab.Screen name="알람" component={MainSleep} />
       <Tab.Screen name="마이페이지" component={Mypage} />
