@@ -27,14 +27,12 @@ const ContentWrapper = styled(View)`
     width: 90%;
     padding: 20px 10px;
     height: 35%;
-    align-items: center;
     border-radius: 20px;
 `;
 
-// const ContentImg = styled(View)`
 const ContentImg = styled(Image)`
-    width: 80%;
-    height: 50%;
+    width: 100%;
+    height: 60%;
 
     margin-bottom: 20px;
     border-radius: 20px;
@@ -150,8 +148,7 @@ function SleepLab() {
             </TitleWrapper>
             <ContentWrapper>
                 {category === 'youtube' ? (
-                    // <Youtube videoId={} />
-                    <></>
+                    <Youtube videoId={selectedData?.videoId} />
                 ) : (
                     <>
                         <ContentImg
@@ -186,7 +183,13 @@ function SleepLab() {
             <ListWrapper>
                 <ScrollContainer>
                     {categoryData?.map((e: any) => (
-                        <ListItemWrapper key={e.title} onPress={() => setSelectedData(e)}>
+                        <ListItemWrapper
+                            key={e.title}
+                            onPress={() => {
+                                console.log(e);
+                                setSelectedData(e);
+                            }}
+                        >
                             <ListItem>{e.title}</ListItem>
                         </ListItemWrapper>
                     ))}

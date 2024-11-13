@@ -1,12 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-function Youtube(videoId: string) {
-    return (
-        <View>
-            <YoutubePlayer height={300} play={false} videoId={videoId} />
-        </View>
-    );
+function Youtube(videoId: any) {
+    return <YoutubePlayer height={300} play={false} videoId={videoId.videoId} />;
 }
 export default Youtube;
