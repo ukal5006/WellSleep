@@ -12,7 +12,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import PushNotification from "react-native-push-notification";
 import { useNavigation } from "@react-navigation/native"; // 네비게이션 훅 import
 
-const Main = () => {
+const MainSleep = () => {
   const navigation = useNavigation(); // 네비게이션 훅 사용
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -242,4 +242,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default MainSleep;

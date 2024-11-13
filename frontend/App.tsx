@@ -5,6 +5,7 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import NavBar from "./components/NavBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Main from "./screens/Main/MainSleep";
 import Luck from "./screens/Mypage/Luck";
 import SleepLab from "./screens/Mypage/SleepLab";
 import Info from "./screens/Mypage/Info";
@@ -52,6 +53,7 @@ export default function App() {
           {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
           {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
           <Stack.Screen name="Luck" component={Luck} />
+          <Stack.Screen name="MainSleep" component={MainSleep} />
           <Stack.Screen name="SleepLab" component={SleepLab} />
           <Stack.Screen name="Info" component={Info} />
           <Stack.Screen name="MonthlyChart" component={MonthlyChart} />
