@@ -32,12 +32,13 @@ public class TotalInformationService {
     private final SleepRecordRepository sleepRecordRepository;
     private final SleepTimeRepository sleepTimeRepository;
 
-    public void startSleep(int userId) {
+    public int startSleep(int userId) {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 정보가 잘못되었습니다"));
         TotalInformation totalInformation = new TotalInformation(user);
         System.out.println(totalInformation);
         totalInformationRepository.save(totalInformation);
+        return totalInformation.getId();
     }
 
     // 알코올, 카페인 기록 조회
