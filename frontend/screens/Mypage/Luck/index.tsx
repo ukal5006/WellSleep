@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   starname: {
     fontSize: 34,
     color: "#cb9c48",
-    marginTop: 50,
+    marginTop: 20,
     textAlign: "center",
     fontFamily: FONTS.NotoSerifKRRegular, // 폰트 적용
   },
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 29,
     marginTop: 32,
     marginBottom: 45,
+    letterSpacing: 1, // 글자 간격 설정
     fontFamily: FONTS.NotoSerifKRRegular, // 폰트 적용
   },
   starimage: {
