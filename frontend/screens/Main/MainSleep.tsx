@@ -20,9 +20,6 @@ const MainSleep = () => {
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [totalInformationId, setTotalInformationId] = useState<number | null>(
-    null
-  );
 
   const [caffeine, setCaffeine] = useState(0);
   const [alcohol, setAlcohol] = useState(0);
@@ -41,7 +38,6 @@ const MainSleep = () => {
   // 수면 측정 시작 API 호출 후 섭취량 저장
   const startSleepTracking = async () => {
     try {
-      // 액세스 토큰과 리프레시 토큰을 가져와 확인
       const accessToken = await SecureStore.getItemAsync("accessToken");
       const refreshToken = await SecureStore.getItemAsync("refreshToken");
 
@@ -62,16 +58,8 @@ const MainSleep = () => {
 
       console.log("수면 측정 시작 API 응답:", response.data);
 
-      // 서버에서 필요한 ID가 포함되어 응답이 온 경우
-      if (response.data && response.data.id) {
-        setTotalInformationId(response.data.id); // totalInformationId 설정
-        console.log("Total Information ID:", response.data.id);
-
-        // ID 설정 후 섭취량 저장 API 호출
-        saveIntakeData(caffeine, alcohol);
-      } else {
-        console.warn("ID가 응답에 포함되어 있지 않습니다.");
-      }
+      // 수면 측정 시작 성공 후 섭취량 저장 API 호출
+      saveIntakeData(caffeine, alcohol);
     } catch (error) {
       console.error("수면 측정 시작 오류:", error);
       Alert.alert("오류", "수면 측정을 시작하는 데 실패했습니다.");
@@ -83,11 +71,6 @@ const MainSleep = () => {
     caffeineIntake: number,
     alcoholIntake: number
   ) => {
-    if (totalInformationId === null) {
-      Alert.alert("오류", "수면 측정 ID가 없습니다.");
-      return;
-    }
-
     try {
       const accessToken = await SecureStore.getItemAsync("accessToken");
       const refreshToken = await SecureStore.getItemAsync("refreshToken");
@@ -95,7 +78,7 @@ const MainSleep = () => {
       const response = await axios.post(
         INTAKE_SAVE,
         {
-          id: totalInformationId,
+          // id는 서버에서 자동으로 할당되는듯?
           alcoholIntake: alcoholIntake,
           caffeineIntake: caffeineIntake,
         },
@@ -126,34 +109,6 @@ const MainSleep = () => {
   const confirmAlarm = (caffeineIntake: number, alcoholIntake: number) => {
     setCaffeine(caffeineIntake);
     setAlcohol(alcoholIntake);
-
-    // 알람 설정 주석 처리
-    // const hours = time.getHours();
-    // const minutes = time.getMinutes();
-    // const now = new Date();
-    // const alarmTime = new Date(now);
-    // alarmTime.setHours(hours);
-    // alarmTime.setMinutes(minutes);
-    // alarmTime.setSeconds(0);
-
-    // if (alarmTime <= now) {
-    //   alarmTime.setDate(alarmTime.getDate() + 1);
-    // }
-
-    // PushNotification.localNotificationSchedule({
-    //   channelId: "alarm-channel",
-    //   title: "기상 알람",
-    //   message:
-    //     caffeineIntake > 0 || alcoholIntake > 0
-    //       ? `커피 섭취량: ${caffeineIntake}, 알코올: ${alcoholIntake}. 기상 시간이 다가옵니다!`
-    //       : "기상 시간이 다가옵니다!",
-    //   date: alarmTime,
-    //   allowWhileIdle: true,
-    // });
-
-    // console.log(
-    //   `알람 설정 시간: ${hours}:${minutes}, 커피: ${caffeineIntake}, 알코올: ${alcoholIntake}`
-    // );
   };
 
   return (
