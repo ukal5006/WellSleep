@@ -84,10 +84,10 @@ public class TotalInformationService {
             totalNoise += record.getNoise();
         }
 
-        totalHumidity /= count;
-        totalTemperature /= count;
-        totalIllumination /= count;
-        totalNoise /= count;
+        totalHumidity = adjustValue(totalHumidity / count);
+        totalTemperature = adjustValue(totalTemperature / count);
+        totalIllumination = adjustValue(totalIllumination / count);
+        totalNoise = adjustValue(totalNoise / count);
 
         return new SleepSolutionRequestDTO(
                 avg,
@@ -96,17 +96,27 @@ public class TotalInformationService {
                 shallowSleepTime,
                 deepSleepTime,
                 remSleepTime,
-                totalHumidity,
-                totalTemperature,
-                totalIllumination,
-                totalNoise,
+                (int) totalHumidity,
+                (int) totalTemperature,
+                (int) totalIllumination,
+                (int) totalNoise,
                 caffeineIntake,
                 alcoholIntake
         );
     }
 
+    private int adjustValue(double value) {
+        int roundedValue = (int) (Math.round(value / 10.0) * 10);
+        if (roundedValue > 100) {
+            return 100;
+        } else if (roundedValue < 10) {
+            return 10;
+        }
+        return roundedValue;
+    }
+
     // 수면 솔루션 저장
-    public String generateSolution(int totalInformationId, SleepSolutionRequestDTO sleepSolutionRequestDTO) {
+    private String generateSolution(int totalInformationId, SleepSolutionRequestDTO sleepSolutionRequestDTO) {
         TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
                 .orElseThrow(() -> new IllegalArgumentException("수면정보종합이 잘못되었습니다."));
 
@@ -128,16 +138,10 @@ public class TotalInformationService {
         boolean isSufficientSleep = true; // 수면의 양
         boolean isEfficiencySleep = true; // 수면의 효율
 
-        // 환경 요소
-        boolean isGoodIllumination = true;
-        boolean isGoodNoise = true;
-        boolean isGoodHumidity = true;
-        boolean isGoodTemperature = true;
-
         // 수면 솔루션 생성
         StringBuilder solution = new StringBuilder();
 
-        // 수면 점수 및 실제 수면 시간 평가
+        // 수면 점수 및 실제 수면 시간 평가(수면의 질)
         if (avgScore >= 90 && realSleepTime >= 390 && realSleepTime <= 540) {
             solution.append("수면의 질이 좋고, 적절한 수면 시간입니다. 현재 수면 습관을 유지하세요.");
         } else if (avgScore >= 75) {
@@ -145,49 +149,52 @@ public class TotalInformationService {
         } else if (avgScore >= 60) {
             solution.append("수면의 질이 보통입니다. 충분한 회복을 위해 더 자는 것이 좋습니다.");
         } else {
+            isWellSleep = false;
             solution.append("수면의 질이 낮습니다. 수면 습관과 환경을 개선해보세요.");
         }
 
-        // 실제 수면 시간 평가
+        // 수면의 양 평가
         if (realSleepTime > 540) { // 9시간 이상
-            solution.append("수면 주기가 깨져 피로감이 증가할 수 있습니다. ");
-        } else if (realSleepTime >= 390) { // 6시간 30분 이상 9시간 이하
-            solution.append("적절한 수면 시간입니다. ");
-        } else { // 6시간 30분 미만
+            isSufficientSleep = false;
+            solution.append("지나친 잠은 피로감이 증가할 수 있습니다. ");
+        }  else if (realSleepTime < 360) { // 6시간 30분 미만
+            isSufficientSleep = false;
             solution.append("충분한 회복을 위해 더 자는 것이 좋습니다.");
         }
 
-        // 수면 단계 평가 추가
-        if (deepSleepTime < 60) {
-            solution.append(" 깊은 수면 시간이 부족하니, 일찍 잠자리에 드는 것을 추천합니다.");
-        }
-        if (remSleepTime < 90) {
-            solution.append(" 렘 수면 시간이 부족하니, 수면의 연속성을 높이세요.");
+        // 수면 단계 평가 추가(수면의 효율)
+        if (noSleepTime + shallowSleepTime > deepSleepTime + remSleepTime) {
+            isEfficiencySleep = false;
+            solution.append(" 일찍 잠자리에 드는 것을 추천합니다. 수면의 연속성을 높이세요.");
         }
         if (noSleepTime > 30) {
+            isWellSleep = false;
+            isEfficiencySleep = false;
             solution.append(" 수면 중 자주 깼습니다. 스트레스 관리나 환경 개선이 필요합니다.");
         }
 
         // 환경 요소 평가 추가
-        if (illumination > 30) {
-            solution.append(" 방을 어둡게 유지하세요.");
-        }
-        if (humidity < 40 || humidity > 60) {
-            solution.append(" 습도를 40-60%로 유지하세요.");
-        }
-        if (temperature < 18 || temperature > 22) {
-            solution.append(" 온도를 18-22°C로 조절하세요.");
-        }
-        if (noise > 30) {
-            solution.append(" 조용한 환경을 만들면 수면의 질이 높아질 수 있습니다.");
-        }
+        if (!isWellSleep || !isSufficientSleep || !isEfficiencySleep) {
+            if (illumination > 30) {
+                solution.append(" 방을 어둡게 유지하세요.");
+            }
+            if (humidity < 40 || humidity > 60) {
+                solution.append(" 습도를 40-60%로 유지하세요.");
+            }
+            if (temperature < 15 || temperature > 23) {
+                solution.append(" 온도를 18-22°C로 조절하세요.");
+            }
+            if (noise > 30) {
+                solution.append(" 조용한 환경을 만들면 수면의 질이 높아질 수 있습니다.");
+            }
 
-        // 카페인 및 알코올 섭취 평가 추가
-        if (caffeineIntake > 0) {
-            solution.append(" 카페인 섭취가 수면에 영향을 줄 수 있습니다. 잠들기 최소 6시간 전에는 카페인을 피하세요.");
-        }
-        if (alcoholIntake > 0) {
-            solution.append(" 알코올 섭취가 수면 패턴에 영향을 줄 수 있습니다. 더 나은 수면을 위해 취침 전 음주를 삼가세요.");
+            // 카페인 및 알코올 섭취 평가
+            if (caffeineIntake > 0) {
+                solution.append(" 카페인 섭취가 수면에 영향을 줄 수 있습니다. 잠들기 최소 6시간 전에는 카페인을 피하세요.");
+            }
+            if (alcoholIntake > 0) {
+                solution.append(" 알코올 섭취가 수면 패턴에 영향을 줄 수 있습니다. 더 나은 수면을 위해 취침 전 음주를 삼가세요.");
+            }
         }
 
         // SleepSolutionResponseDTO 생성 및 반환
