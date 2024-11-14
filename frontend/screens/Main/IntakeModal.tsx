@@ -7,14 +7,18 @@ interface IntakeModalProps {
   onClose: () => void;
   onConfirm: (caffeine: number, alcohol: number) => void;
 }
-
 const IntakeModal: React.FC<IntakeModalProps> = ({
   visible,
   onClose,
   onConfirm,
 }) => {
-  const [caffeine, setCaffeine] = useState(0); // 커피 섭취량
-  const [alcohol, setAlcohol] = useState(0); // 알코올 섭취량
+  const [caffeineIntake, setCaffeineIntake] = useState(0); // 커피 섭취량
+  const [alcoholIntake, setAlcoholIntake] = useState(0); // 알코올 섭취량
+
+  const handleConfirm = () => {
+    onConfirm(caffeineIntake, alcoholIntake); // 현재 값 전달
+    onClose();
+  };
 
   return (
     <Modal
@@ -34,14 +38,14 @@ const IntakeModal: React.FC<IntakeModalProps> = ({
           <View style={styles.counterContainer}>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={() => setCaffeine(Math.max(0, caffeine - 1))}
+              onPress={() => setCaffeineIntake((prev) => Math.max(0, prev - 1))}
             >
               <Text style={styles.counterText}>-</Text>
             </TouchableOpacity>
-            <Text style={styles.counterValue}>{caffeine}</Text>
+            <Text style={styles.counterValue}>{caffeineIntake}</Text>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={() => setCaffeine(caffeine + 1)}
+              onPress={() => setCaffeineIntake((prev) => prev + 1)}
             >
               <Text style={styles.counterText}>+</Text>
             </TouchableOpacity>
@@ -52,14 +56,14 @@ const IntakeModal: React.FC<IntakeModalProps> = ({
           <View style={styles.counterContainer}>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={() => setAlcohol(Math.max(0, alcohol - 1))}
+              onPress={() => setAlcoholIntake((prev) => Math.max(0, prev - 1))}
             >
               <Text style={styles.counterText}>-</Text>
             </TouchableOpacity>
-            <Text style={styles.counterValue}>{alcohol}</Text>
+            <Text style={styles.counterValue}>{alcoholIntake}</Text>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={() => setAlcohol(alcohol + 1)}
+              onPress={() => setAlcoholIntake((prev) => prev + 1)}
             >
               <Text style={styles.counterText}>+</Text>
             </TouchableOpacity>
@@ -68,10 +72,7 @@ const IntakeModal: React.FC<IntakeModalProps> = ({
           {/* 확인 버튼 */}
           <TouchableOpacity
             style={styles.modalConfirmButton}
-            onPress={() => {
-              onConfirm(caffeine, alcohol);
-              onClose();
-            }}
+            onPress={handleConfirm}
           >
             <Text style={styles.modalButtonText}>알람 설정 완료</Text>
           </TouchableOpacity>

@@ -75,9 +75,8 @@ const NavigatorBtn = styled(TouchableOpacity)`
 
 const NavigatorText = styled(Text)`
   font-size: 15px;
-  color: black;
+  color: white;
 
-  font-weight: bold;
   margin-top: 2px;
 `;
 
