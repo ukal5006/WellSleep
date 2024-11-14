@@ -17,10 +17,10 @@ public class SleepSolutionRequestDTO {
     private int shallowSleepTime;
     private int deepSleepTime;
     private int remSleepTime;
-    private double humidity;
-    private double temperature;
-    private double illumination;
-    private double noise;
+    private int humidity;
+    private int temperature;
+    private int illumination;
+    private int noise;
     private int caffeineIntake;
     private int alcoholIntake;
 }
