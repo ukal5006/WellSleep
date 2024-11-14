@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Mypage from "../screens/Mypage";
 import MonthlyChart from "../screens/Chart/MonthlyChart";
 import Exampage from "../screens/Exampage";
+import MorningAlarm from "../screens/Alarm/MorningAlarm";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
@@ -81,8 +82,8 @@ function NavBar() {
         }}
       />
       <Tab.Screen
-        name="영상"
-        component={Exampage}
+        name="알람"
+        component={MorningAlarm}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Image
