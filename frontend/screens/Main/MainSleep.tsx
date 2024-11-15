@@ -21,15 +21,19 @@ const MainSleep: React.FC = () => {
     const [caffeine, setCaffeine] = useState(0);
     const [alcohol, setAlcohol] = useState(0);
     const [isSleep, setIsSleep] = useState(false);
+    const [sleepStartTime, setSleepStartTime] = useState<Date | null>(null);
+    const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
 
     // 수면 측정 시작
     const startSleep = async () => {
         await dataFetch('POST', START_SLEEP);
+        setSleepStartTime(new Date()); // 수면 시작 시간 저장
     };
 
     const endSleep = async () => {
         await userDataFetch('POST', END_SLEEP, { sleepId });
         setIsSleep(false);
+        setSleepStartTime(null); // 수면 종료 시 초기화
     };
 
     useEffect(() => {
@@ -56,6 +60,28 @@ const MainSleep: React.FC = () => {
 
         return () => clearInterval(interval);
     }, []);
+
+    // 수면 경과 시간 업데이트
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (sleepStartTime) {
+                const now = new Date();
+                const diff = Math.floor((now.getTime() - sleepStartTime.getTime()) / 1000);
+
+                const hours = Math.floor(diff / 3600)
+                    .toString()
+                    .padStart(2, '0');
+                const minutes = Math.floor((diff % 3600) / 60)
+                    .toString()
+                    .padStart(2, '0');
+                const seconds = (diff % 60).toString().padStart(2, '0');
+
+                setElapsedTime(`${hours}:${minutes}:${seconds}`);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [sleepStartTime]);
 
     // 카페인 및 알코올 섭취 기록 저장 요청
     const saveIntakeRecord = async () => {
@@ -92,6 +118,7 @@ const MainSleep: React.FC = () => {
             {isSleep ? (
                 <Container>
                     <BLE totalInformationId={sleepId} />
+                    <Text style={styles.elapsedTimeText}>수면 시간 : {elapsedTime}</Text>
                     <TouchableOpacity style={styles.sleepButton} onPress={endSleep}>
                         <Image source={require('../../assets/moon.png')} style={styles.icon} />
                         <Text style={styles.buttonText}>수면 종료</Text>
@@ -155,6 +182,11 @@ const styles = StyleSheet.create({
     secondsText: {
         fontSize: 14,
         color: '#fff',
+    },
+    elapsedTimeText: {
+        fontSize: 20,
+        color: '#fff',
+        marginBottom: 20,
     },
     sleepButton: {
         backgroundColor: '#211C52',
