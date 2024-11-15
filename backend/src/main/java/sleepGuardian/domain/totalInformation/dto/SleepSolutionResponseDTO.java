@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SleepSolutionResponseDTO {
     private int totalInformationId;
-    private double illumination;
-    private double noise;
-    private double humidity;
-    private double temperature;
+    private int illumination;
+    private int noise;
+    private int humidity;
+    private int temperature;
     private String solution;
 }
