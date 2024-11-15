@@ -59,7 +59,7 @@ const useAxios = () => {
             };
             console.log(config);
             const response = await axios(config);
-            return response; // 응답 데이터 반환
+            return response.data; // 응답 데이터 반환
         } catch (err) {
             setError(err);
             return null; // 응답 데이터 반환
