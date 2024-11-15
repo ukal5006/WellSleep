@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { ScrollView, Text, View, ImageBackground } from "react-native";
 import useAxios from "../../hooks/useAxios";
-import { DAILY } from "../../constants/apis";
+import { DAILY, SOLUTION } from "../../constants/apis";
 import AreaChart from "./AreaChart";
 import DonutChart from "./DonutChart";
+import Solution from "./Solution";
+import Loading from "../../components/Loading";
 import { StackParamList } from "../../types/navigation";
 import { FONTS } from "../../constants/fonts";
 
@@ -29,15 +31,45 @@ interface DailyDataType {
   sleepRecord: SleepRecord[];
 }
 
+interface SolutionDataType {
+  totalInformationId: number;
+  illumination: number;
+  humidity: number;
+  temperature: number;
+  noise: number;
+  solution: string;
+}
+
 const DailyChart = () => {
   const route = useRoute<RouteProp<StackParamList, "DailyChart">>();
   const totalInformationId = route.params?.totalInformationId;
   const [dailyData, setDailyData] = useState<DailyDataType | null>(null);
-  const { dataFetch, data, loading, error } = useAxios();
+  const [solutionData, setSolutionData] = useState<SolutionDataType | null>(
+    null
+  );
+
+  const {
+    dataFetch: dataFetchDaily,
+    data: dataDaily,
+    loading: loadingDaily,
+    error: errorDaily,
+  } = useAxios();
+
+  const {
+    dataFetch: dataFetchSolution,
+    data: dataSolution,
+    loading: loadingSolution,
+    error: errorSolution,
+  } = useAxios();
 
   const fetchDailyData = async (id: string) => {
     const url = DAILY(id);
-    await dataFetch("GET", url);
+    await dataFetchDaily("GET", url);
+  };
+
+  const fetchSolutionData = async (id: string) => {
+    const url = SOLUTION(id);
+    await dataFetchSolution("GET", url);
   };
 
   const avgRounded = dailyData ? Math.floor(dailyData.avg) : 0;
@@ -71,15 +103,22 @@ const DailyChart = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      const processedData = processData(data as DailyDataType);
+    if (dataDaily) {
+      const processedData = processData(dataDaily as DailyDataType);
       setDailyData(processedData);
     }
-  }, [data]);
+  }, [dataDaily]);
+
+  useEffect(() => {
+    if (dataSolution) {
+      setSolutionData(dataSolution as SolutionDataType);
+    }
+  }, [dataSolution]);
 
   useEffect(() => {
     if (totalInformationId) {
       fetchDailyData(totalInformationId);
+      fetchSolutionData(totalInformationId);
     }
   }, [totalInformationId]);
 
@@ -138,6 +177,18 @@ const DailyChart = () => {
     ]);
   };
 
+  if (loadingDaily || loadingSolution) {
+    return (
+      <ImageBackground
+        source={require("../../assets/backgroundImg.png")}
+        resizeMode="cover"
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <Loading />
+      </ImageBackground>
+    );
+  }
+
   return (
     <ImageBackground
       source={require("../../assets/backgroundImg.png")}
@@ -155,7 +206,11 @@ const DailyChart = () => {
               marginBottom: -20,
             }}
           >
-            일별 수면 데이터
+            {dailyData
+              ? `${parseInt(dailyData.date.slice(5, 7))}월 ${parseInt(
+                  dailyData.date.slice(8)
+                )}일 수면 데이터`
+              : "수면 데이터"}
           </Text>
 
           {dailyData && (
@@ -189,6 +244,31 @@ const DailyChart = () => {
                 </Text>
 
                 <DonutChart value={avgRounded} />
+              </View>
+
+              <View
+                style={{
+                  marginTop: 50,
+                  marginBottom: 40,
+                  paddingTop: 20,
+                  paddingBottom: 30,
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  borderRadius: 30,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 20,
+                    textAlign: "center",
+                    fontFamily: FONTS.NotoSansKRBold,
+                    marginTop: 10,
+                    marginBottom: -30,
+                  }}
+                >
+                  수면 솔루션
+                </Text>
+                <Solution solutionData={solutionData} />
               </View>
             </>
           )}
