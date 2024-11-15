@@ -96,7 +96,7 @@ const MainSleep: React.FC = () => {
   };
 
   const handleStartSleep = () => {
-    startSleepMeasurement();
+    startSleep();
   };
 
   return (

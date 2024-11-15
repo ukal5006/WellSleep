@@ -9,7 +9,8 @@ export type StackParamList = {
   SleepLab: undefined;
   Info: undefined;
   MonthlyChart: undefined;
-  DailyChart: { totalInformationId: string }; // DailyChart 화면에 전달할 매개변수 포함
+  DailyChart: { totalInformationId: string };
+  Solution: { totalInformationId: string };
 };
 
 export type MainNavigationProp = NativeStackNavigationProp<
@@ -23,4 +24,5 @@ export type MypageNavigationProp = NativeStackNavigationProp<
 export type StackParamList = {
   MonthlyChart: undefined;
   DailyChart: { totalInformationId: string };
+  Solution: { totalInformationId: string };
 };

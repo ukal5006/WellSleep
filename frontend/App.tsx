@@ -6,7 +6,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import NavBar from "./components/NavBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainSleep from "./screens/Main/MainSleep";
-import Sleeping from "./screens/Main/Sleeping";
 import Luck from "./screens/Mypage/Luck";
 import SleepLab from "./screens/Mypage/SleepLab";
 import Info from "./screens/Mypage/Info";
@@ -22,31 +21,14 @@ import { USER } from "./constants/apis";
 import { setUserInfo } from "./store/userSlice";
 import Login from "./screens/Login";
 
-// Stack 네비게이터 생성
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts(FONT_IMPORTS);
-  // const { userDataFetch } = useAxios();
-  // const dispatch = useDispatch();
-
-  // if (!fontsLoaded) {
-  //     return null; // 폰트가 로드될 때까지 빈 화면을 표시
-  // }
 
   useEffect(() => {
     initializeKakaoSDK("c9f9a5b0717e5e19f774465dcb85522b");
-    // const fetchUserData = async () => {
-    //     const userInfo = await userDataFetch('GET', USER); // USER URL로 요청
-    //     console.log(userInfo); // 사용자 데이터 확인
-    //     if (userInfo) {
-    //         dispatch(setUserInfo(userInfo)); // 사용자 정보를 Redux에 저장
-    //     }
-    //     console.log('WellSleep 로그인 성공');
-    // };
-
-    // fetchUserData();
-  }, []); // 의존성 배열 추가
+  }, []);
 
   return (
     <Provider store={store}>
@@ -57,18 +39,14 @@ export default function App() {
           animated={true}
         />
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName="NavBar"
           screenOptions={{
             headerShown: false,
           }}
         >
           <Stack.Screen name="Nav" component={NavBar} />
           <Stack.Screen name="Login" component={Login} />
-          {/* <Stack.Screen name="History" component={Exampage} options={{ headerShown: false }} /> */}
-          {/* <Stack.Screen name="Alarm" component={Exampage} options={{ headerShown: false }} /> */}
           <Stack.Screen name="MainSleep" component={MainSleep} />
-          <Stack.Screen name="Sleeping" component={Sleeping} />
-
           <Stack.Screen name="Luck" component={Luck} />
           <Stack.Screen name="SleepLab" component={SleepLab} />
           <Stack.Screen name="Info" component={Info} />
