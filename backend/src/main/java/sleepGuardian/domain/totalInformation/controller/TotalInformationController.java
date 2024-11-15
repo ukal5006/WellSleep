@@ -1,6 +1,7 @@
 package sleepGuardian.domain.totalInformation.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,11 @@ public class TotalInformationController {
     @GetMapping("/sleepRecords/{totalInformationId}")
     public ResponseEntity<SleepRecordDetailResponseDTO> getSleepRecordDetail(@PathVariable int totalInformationId) {
         return ResponseEntity.ok(totalInformationService.getSleepRecordDetail(totalInformationId));
+    }
+
+    @GetMapping("/solution/{totalInformationId}")
+    public ResponseEntity<?> getSleepSolution(@PathVariable int totalInformationId) {
+        SleepSolutionResponseDTO response = totalInformationService.getSolutionInfo(totalInformationId);
+        return ResponseEntity.ok(response);
     }
 }
