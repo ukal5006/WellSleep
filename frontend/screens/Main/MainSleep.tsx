@@ -29,6 +29,7 @@ const MainSleep: React.FC = () => {
 
     const endSleep = async () => {
         await userDataFetch('POST', END_SLEEP, { sleepId });
+        setIsSleep(false);
     };
 
     useEffect(() => {

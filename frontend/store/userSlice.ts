@@ -29,8 +29,13 @@ const userSlice = createSlice({
         clearUserInfo(state) {
             state.userInfo = null;
         },
+        updateUserInfo(state, action: PayloadAction<Partial<UserInfo>>) {
+            if (state.userInfo) {
+                state.userInfo = { ...state.userInfo, ...action.payload };
+            }
+        },
     },
 });
 
-export const { setUserInfo, clearUserInfo } = userSlice.actions;
+export const { setUserInfo, clearUserInfo, updateUserInfo } = userSlice.actions; // updateUserInfo 추가
 export default userSlice.reducer;
