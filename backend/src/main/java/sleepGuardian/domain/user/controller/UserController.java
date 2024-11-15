@@ -116,7 +116,7 @@ public class UserController {
     }
 
     @Operation(summary = "프로필 이미지 변경")
-    @PostMapping("/update-profile")
+    @PutMapping("/update-profile")
     public ResponseEntity<?> updateProfileImage(HttpServletRequest request, @RequestParam("imageUrl") String imageUrl) {
         int userId = (Integer) request.getAttribute("userId");
         userService.updateProfileImage(userId, imageUrl);
