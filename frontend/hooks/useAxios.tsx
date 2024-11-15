@@ -29,11 +29,8 @@ const useAxios = () => {
                 headers,
                 data: body,
             };
-            console.log('보낸요청');
-            console.log(config);
             const response = await axios(config);
             setData(response.data); // 요청 성공 시 데이터 저장
-            // console.log(response.data);
         } catch (err) {
             setError(err);
         } finally {
@@ -60,12 +57,12 @@ const useAxios = () => {
                 headers,
                 data: body,
             };
+            console.log(config);
             const response = await axios(config);
-            return response.data; // 응답 데이터 반환
+            return response; // 응답 데이터 반환
         } catch (err) {
             setError(err);
             return null; // 응답 데이터 반환
-            throw err; // 에러 발생 시 에러를 던짐
         } finally {
             setLoading(false);
         }
