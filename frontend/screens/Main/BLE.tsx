@@ -5,7 +5,10 @@ import { atob } from 'react-native-quick-base64'; // Base64 디코딩을 위해 
 import { useAndroidPermissions } from '../../useAndroidPermissions';
 import useAxios from '../../hooks/useAxios';
 import styled from 'styled-components';
-import { END_SLEEP, LIVE_SLEEP } from '../../constants/apis';
+import { END_SLEEP, INIT_SLEEP, LIVE_SLEEP } from '../../constants/apis';
+import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserInfo } from '../../store/userSlice';
 
 const bleManager = new BleManager();
 
@@ -36,7 +39,8 @@ export default function BLE({ totalInformationId }) {
     const [buffer, setBuffer] = useState(''); // 데이터 버퍼
     const { userDataFetch } = useAxios();
     const [tmpId, setTmpId] = useState(0);
-
+    const userInfo = useSelector((state: RootState) => state.user.userInfo);
+    const dispatch = useDispatch(); // dispatch 가져오기
     // 실시간 수면 측정
     const liveSleep = async (tmpId: number) => {
         await userDataFetch('POST', LIVE_SLEEP, {
@@ -44,11 +48,23 @@ export default function BLE({ totalInformationId }) {
             value: sensorData,
         });
     };
+    //초기값
+    const initSleep = async (emg: number, o2: number, pulse: number) => {
+        await userDataFetch('POST', INIT_SLEEP, {
+            emg,
+            o2,
+            pulse,
+        });
+
+        // userInfo 업데이트
+        dispatch(updateUserInfo({ emg, o2, pulse })); // 상태 업데이트
+    };
 
     useEffect(() => {
         if (sensorData) {
-            console.log('데이터 들어옴 or 갱신');
-            console.log(sensorData);
+            if (userInfo?.pulse === 0) {
+                initSleep(sensorData.emg, sensorData.o2, sensorData.pulse);
+            }
             liveSleep(tmpId);
             setTmpId(tmpId + 1);
         }
