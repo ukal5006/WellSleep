@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import NavBar from "./components/NavBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainSleep from "./screens/Main/MainSleep";
+import Sleeping from "./screens/Main/Sleeping";
 import Luck from "./screens/Mypage/Luck";
 import SleepLab from "./screens/Mypage/SleepLab";
 import Info from "./screens/Mypage/Info";
@@ -47,6 +48,7 @@ export default function App() {
           <Stack.Screen name="Nav" component={NavBar} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainSleep" component={MainSleep} />
+          <Stack.Screen name="Sleeping" component={Sleeping} />
           <Stack.Screen name="Luck" component={Luck} />
           <Stack.Screen name="SleepLab" component={SleepLab} />
           <Stack.Screen name="Info" component={Info} />

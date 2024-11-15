@@ -11,15 +11,12 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import useAxios from "../../hooks/useAxios";
 import IntakeModal from "./IntakeModal";
-import * as SecureStore from "expo-secure-store";
 import { INTAKE_SAVE, START_SLEEP } from "../../constants/apis";
-import Sleeping from "./Sleeping";
 import { FONTS } from "../../constants/fonts";
 
 const MainSleep: React.FC = () => {
   const { dataFetch, data } = useAxios();
   const [sleepId, setSleepId] = useState<number | null>(null);
-  const navigation = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
   const [caffeine, setCaffeine] = useState(0);
@@ -39,6 +36,7 @@ const MainSleep: React.FC = () => {
 
   // 요청 후 응답 데이터 확인
   useEffect(() => {
+    console.log("응답 데이터:", data); // 데이터 확인을 위한 로그 출력
     const handleDataResponse = async () => {
       if (data) {
         setSleepId(data);
@@ -96,7 +94,7 @@ const MainSleep: React.FC = () => {
   };
 
   const handleStartSleep = () => {
-    startSleep();
+    startSleepMeasurement(); // startSleepMeasurement 호출
   };
 
   return (
@@ -105,7 +103,6 @@ const MainSleep: React.FC = () => {
       style={styles.background}
     >
       <Text style={styles.title}>수면 시작하기</Text>
-      {/* <Text style={styles.subtitle}>현재 시각</Text> */}
       <View style={styles.overlay}>
         <Text style={styles.timeText}>
           {currentTime.slice(0, 5)}
