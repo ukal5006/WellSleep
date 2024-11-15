@@ -109,8 +109,8 @@ public class TotalInformationService {
         int roundedValue = (int) (Math.round(value / 10.0) * 10);
         if (roundedValue > 100) {
             return 100;
-        } else if (roundedValue < 10) {
-            return 10;
+        } else if (roundedValue < 0) {
+            return 0;
         }
         return roundedValue;
     }
