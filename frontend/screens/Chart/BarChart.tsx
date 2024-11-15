@@ -30,7 +30,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
   const yTickValues =
     dataType === "avg"
       ? [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-      : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const xTickValues = [1, 8, 15, 22, 29];
 
   const chartData = data.map((record) => ({
@@ -45,7 +45,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, dataType }) => {
       <VictoryChart
         padding={{ left: 50, right: 60, top: 20, bottom: 40 }}
         height={300}
-        domain={{ y: [yDomain.min, yDomain.max] }}
+        domain={{ x: [1, 31], y: [yDomain.min, yDomain.max] }}
       >
         <VictoryAxis
           tickValues={xTickValues}
