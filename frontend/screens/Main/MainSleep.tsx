@@ -14,6 +14,7 @@ import IntakeModal from "./IntakeModal";
 import * as SecureStore from "expo-secure-store";
 import { INTAKE_SAVE, START_SLEEP } from "../../constants/apis";
 import Sleeping from "./Sleeping";
+import { FONTS } from "../../constants/fonts";
 
 const MainSleep: React.FC = () => {
   const { dataFetch, data } = useAxios();
@@ -26,23 +27,32 @@ const MainSleep: React.FC = () => {
 
   // 수면 측정 시작 요청
   const startSleepMeasurement = async () => {
-    await dataFetch("POST", START_SLEEP, {
-      headers: {
-        Authorization: "{accessToken}",
-        RefreshToken: "{refreshToken}",
-      },
+    await dataFetch("POST", START_SLEEP);
+  };
+
+  // 수면 측정 시작 alert 이후에 카페인 섭취 모달 표시
+  const showAlert = (title: string, message: string): Promise<void> => {
+    return new Promise((resolve) => {
+      Alert.alert(title, message, [{ text: "확인", onPress: () => resolve() }]);
     });
   };
 
   // 요청 후 응답 데이터 확인
   useEffect(() => {
-    if (data) {
-      setSleepId(data);
-      Alert.alert("수면 측정 시작", `수면 측정이 시작되었습니다. ID: ${data}`);
-      setIsModalVisible(true); // 모달 열기
-    } else if (data) {
-      Alert.alert("수면 측정 시작", "데이터를 받지 못했습니다.");
-    }
+    const handleDataResponse = async () => {
+      if (data) {
+        setSleepId(data);
+        await showAlert(
+          `수면 측정 시작 (ID: ${data})`,
+          "수면 측정이 시작되었습니다!"
+        );
+        setIsModalVisible(true);
+      } else {
+        Alert.alert("수면 측정 시작", "데이터를 받지 못했습니다.");
+      }
+    };
+
+    handleDataResponse();
   }, [data]);
 
   // 현재 시각 업데이트
@@ -66,28 +76,23 @@ const MainSleep: React.FC = () => {
     if (sleepId === null) return;
     try {
       await dataFetch("POST", INTAKE_SAVE, {
-        headers: {
-          Authorization: "{accessToken}",
-          RefreshToken: "{refreshToken}",
-        },
         data: {
           id: sleepId,
           alcoholIntake: alcohol,
           caffeineIntake: caffeine,
         },
       });
-      Alert.alert("기록 저장", "카페인 및 알코올 섭취 기록이 저장되었습니다.");
       setIsModalVisible(false);
+      Alert.alert(
+        "기록 저장",
+        `수면 측정 시작 카페인 : ${caffeine} 알코올: ${alcohol} `
+      );
+      setCaffeine(0); // 상태 초기화
+      setAlcohol(0); // 상태 초기화
     } catch (error) {
       console.error("기록 저장 오류:", error);
       Alert.alert("오류", "기록 저장에 실패했습니다.");
     }
-  };
-
-  const confirmAlarm = (caffeineIntake: number, alcoholIntake: number) => {
-    setCaffeine(caffeineIntake);
-    setAlcohol(alcoholIntake);
-    saveIntakeRecord();
   };
 
   const handleStartSleep = () => {
@@ -99,8 +104,8 @@ const MainSleep: React.FC = () => {
       source={require("../../assets/main.png")}
       style={styles.background}
     >
-      <Text style={styles.title}>수면을 시작합니다</Text>
-      <Text style={styles.subtitle}>현재 시각</Text>
+      <Text style={styles.title}>수면 시작하기</Text>
+      {/* <Text style={styles.subtitle}>현재 시각</Text> */}
       <View style={styles.overlay}>
         <Text style={styles.timeText}>
           {currentTime.slice(0, 5)}
@@ -109,13 +114,14 @@ const MainSleep: React.FC = () => {
       </View>
       <TouchableOpacity style={styles.sleepButton} onPress={handleStartSleep}>
         <Image source={require("../../assets/moon.png")} style={styles.icon} />
-        <Text style={styles.buttonText}>수면 시작</Text>
+        <Text style={styles.buttonText}>측정 시작</Text>
       </TouchableOpacity>
 
       <IntakeModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        onConfirm={confirmAlarm}
+        onConfirm={saveIntakeRecord} // confirmAlarm 대신 saveIntakeRecord 사용
+        sleepId={sleepId} // 전달할 sleepId
       />
     </ImageBackground>
   );
@@ -128,17 +134,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     padding: 20,
     borderRadius: 10,
-    marginTop: 150,
+    marginTop: 139,
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 25,
     color: "#fff",
-    fontWeight: "bold",
+    // fontWeight: "bold",
     marginTop: 90,
+    fontFamily: FONTS.NotoSerifKRRegular,
   },
   subtitle: {
     fontSize: 16,
@@ -146,9 +152,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   timeText: {
-    fontSize: 24,
+    fontSize: 50,
     color: "#fff",
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: FONTS.NotoSerifKRRegular,
   },
   secondsText: {
     fontSize: 14,
