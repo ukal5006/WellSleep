@@ -62,6 +62,7 @@ const useAxios = () => {
             return response.data; // 응답 데이터 반환
         } catch (err) {
             setError(err);
+            console.log(err);
             return null; // 응답 데이터 반환
         } finally {
             setLoading(false);

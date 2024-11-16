@@ -166,10 +166,5 @@ export default function BLE({ totalInformationId }) {
         return () => sub.remove();
     }, [device]);
 
-    return (
-        <SleepingContainer>
-            <SleepingTitle>수면 측정중</SleepingTitle>
-            <SleepingText>수면모드로 설정되었습니다.</SleepingText>
-        </SleepingContainer>
-    );
+    return <SleepingContainer></SleepingContainer>;
 }
