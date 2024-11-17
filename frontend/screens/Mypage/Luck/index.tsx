@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Text,
   StyleSheet,
   Image,
   ScrollView,
   ImageBackground,
+  Animated,
 } from "react-native";
 import { FONTS } from "../../../constants/fonts";
 
@@ -45,11 +46,42 @@ const Luck: React.FC = () => {
     fetchConstellationData();
   }, []);
 
+  // 별 이미지 반짝이는 효과 애니메이션
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const blinkAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0.01,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+    blinkAnimation.start();
+
+    return () => {
+      blinkAnimation.stop();
+    };
+  }, []);
+
   return (
     <ImageBackground
       source={require("../../../assets/blackmain.png")}
       style={styles.background}
     >
+      <Animated.Image
+        source={require("../../../assets/stars.png")}
+        style={[styles.starsImage, { opacity: fadeAnim }]}
+        resizeMode="cover"
+      />
+
       <ScrollView style={styles.container}>
         {constellationData && (
           <>
@@ -70,6 +102,11 @@ const Luck: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  starsImage: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 1,
+  },
+
   background: {
     flex: 1,
   },
