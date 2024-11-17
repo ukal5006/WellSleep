@@ -5,9 +5,7 @@ import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { StackParamList } from "../../types/navigation";
 import moment from "moment";
 import { NAVY, PURPLE, YELLOW, PINK } from "../../constants/colors";
-
-import { useFonts } from "expo-font";
-import { FONTS, FONT_IMPORTS } from "../../constants/fonts";
+import { FONTS } from "../../constants/fonts";
 
 interface CalendarDate {
   dateString: string;
@@ -50,8 +48,8 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
         (acc: MarkedDatesType, record: DataRecord) => {
           acc[record.date] = {
             dots: [
-              record.isAlcohol === 1 ? { key: "alcohol", color: YELLOW } : null,
-              record.isCaffeine === 1 ? { key: "caffeine", color: PINK } : null,
+              record.isAlcohol > 0 ? { key: "alcohol", color: YELLOW } : null,
+              record.isCaffeine > 0 ? { key: "caffeine", color: PINK } : null,
             ].filter(Boolean) as { key: string; color: string }[],
             avg: Math.floor(record.avg),
           };
@@ -63,12 +61,15 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
     }
   }, [data]);
 
+  const hasDataForDate = (dateString: string): boolean => {
+    return data.some((record) => record.date === dateString);
+  };
+
   const onDatePress = (dateString: string) => {
     const selectedRecord = data.find((record) => record.date === dateString);
     if (selectedRecord) {
-      const { totalInformationId } = selectedRecord;
       navigation.navigate("DailyChart", {
-        totalInformationId: totalInformationId.toString(),
+        totalInformationId: selectedRecord.totalInformationId.toString(),
       });
     }
   };
@@ -76,6 +77,65 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
   const handleMonthChange = (month: { year: number; month: number }) => {
     const newMonth = `${month.year}-${String(month.month).padStart(2, "0")}`;
     onMonthChange(newMonth);
+  };
+
+  const renderDayComponent = ({ date }: { date: CalendarDate }) => {
+    const isToday = date.dateString === today;
+    const hasRecord = !isToday && hasDataForDate(date.dateString);
+    const dateData = markedDates[date.dateString];
+
+    const backgroundColor =
+      date.dateString === today
+        ? "white"
+        : hasRecord && dateData?.avg !== undefined
+        ? PURPLE
+        : "transparent";
+
+    return (
+      <TouchableOpacity
+        onPress={() => (hasRecord ? onDatePress(date.dateString) : null)}
+        disabled={!hasRecord}
+      >
+        <View
+          style={{
+            alignItems: "center",
+            width: 44,
+            height: 44,
+            borderRadius: 22,
+            backgroundColor,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              color: date.dateString === today ? NAVY : "white",
+            }}
+          >
+            {date.day}
+          </Text>
+
+          {/* 데이터가 있는 경우에만 평균 점수 표시 */}
+          {hasRecord && dateData?.avg !== undefined && (
+            <Text style={{ color: "white", fontSize: 12 }}>{dateData.avg}</Text>
+          )}
+
+          {/* 알콜/카페인 도트 표시 */}
+          <View style={{ flexDirection: "row", marginTop: 2 }}>
+            {dateData?.dots.map((dot, index) => (
+              <View
+                key={index}
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 10,
+                  backgroundColor: dot.color,
+                }}
+              />
+            ))}
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -94,52 +154,7 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
         markingType="multi-dot"
         markedDates={markedDates}
         onMonthChange={handleMonthChange}
-        dayComponent={({ date }: { date: CalendarDate }) => (
-          <TouchableOpacity onPress={() => onDatePress(date.dateString)}>
-            <View
-              style={{
-                alignItems: "center",
-                width: 44,
-                height: 44,
-                borderRadius: 22,
-                backgroundColor:
-                  date.dateString === today
-                    ? "white"
-                    : markedDates[date.dateString]?.avg
-                    ? PURPLE
-                    : "transparent",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: date.dateString === today ? NAVY : "white",
-                }}
-              >
-                {date.day}
-              </Text>
-
-              {markedDates[date.dateString]?.avg !== undefined && (
-                <Text style={{ color: "white", fontSize: 12 }}>
-                  {markedDates[date.dateString].avg}
-                </Text>
-              )}
-              <View style={{ flexDirection: "row", marginTop: 2 }}>
-                {markedDates[date.dateString]?.dots.map((dot, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: 10,
-                      backgroundColor: dot.color,
-                    }}
-                  />
-                ))}
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
+        dayComponent={renderDayComponent}
       />
 
       <View
