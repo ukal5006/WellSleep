@@ -21,6 +21,7 @@ const MainSleep: React.FC = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [caffeine, setCaffeine] = useState(0);
   const [alcohol, setAlcohol] = useState(0);
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // 초기 로딩 상태
 
   // 수면 측정 시작 요청
   const startSleepMeasurement = async () => {
@@ -36,7 +37,11 @@ const MainSleep: React.FC = () => {
 
   // 요청 후 응답 데이터 확인
   useEffect(() => {
-    console.log("응답 데이터:", data); // 데이터 확인을 위한 로그 출력
+    if (isInitialLoad) {
+      setIsInitialLoad(false); // 초기 로딩 상태를 false로 변경
+      return;
+    }
+
     const handleDataResponse = async () => {
       if (data) {
         setSleepId(data);
@@ -46,12 +51,12 @@ const MainSleep: React.FC = () => {
         );
         setIsModalVisible(true);
       } else {
-        Alert.alert("수면 측정 시작", "데이터를 받지 못했습니다.");
+        console.log("데이터를 받지 못했습니다."); // 알람 대신 로그로 처리
       }
     };
 
     handleDataResponse();
-  }, [data]);
+  }, [data, isInitialLoad]);
 
   // 현재 시각 업데이트
   useEffect(() => {
@@ -102,7 +107,7 @@ const MainSleep: React.FC = () => {
       source={require("../../assets/main.png")}
       style={styles.background}
     >
-      <Text style={styles.title}>수면 시작하기</Text>
+      <Text style={styles.title}> 수면 시작하기 </Text>
       <View style={styles.overlay}>
         <Text style={styles.timeText}>
           {currentTime.slice(0, 5)}
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
   overlay: {
     padding: 20,
     borderRadius: 10,
-    marginTop: 139,
+    marginTop: 129,
     alignItems: "center",
   },
   title: {

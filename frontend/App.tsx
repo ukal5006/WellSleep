@@ -1,6 +1,6 @@
 import { initializeKakaoSDK } from "@react-native-kakao/core";
-import { useEffect } from "react";
-import { StatusBar } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Platform, StatusBar } from "react-native";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import NavBar from "./components/NavBar";
@@ -21,16 +21,38 @@ import useAxios from "./hooks/useAxios";
 import { USER } from "./constants/apis";
 import { setUserInfo } from "./store/userSlice";
 import Login from "./screens/Login";
+import PushNotification from "react-native-push-notification";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts(FONT_IMPORTS);
-
   useEffect(() => {
     initializeKakaoSDK("c9f9a5b0717e5e19f774465dcb85522b");
-  }, []);
 
+    if (Platform.OS === "android") {
+      // // 기존의 모든 채널 삭제 (앱 초기화 시)
+      // PushNotification.deleteChannel("alarm-channel-new-one");
+
+      // 새로운 알림 채널 생성
+      PushNotification.createChannel(
+        {
+          channelId: "alarm-channel-new-onee",
+          channelName: "Alarm Channel New Onee",
+          importance: PushNotification.Importance.HIGH,
+          soundName: "alarm.mp3",
+          vibrate: true,
+        },
+        (created) => {
+          console.log(
+            created
+              ? "알림 채널 생성 성공: Alarm Channel New One"
+              : "알림 채널 생성 실패"
+          );
+        }
+      );
+    }
+  }, []);
   return (
     <Provider store={store}>
       <NavigationContainer>

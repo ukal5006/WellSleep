@@ -21,6 +21,8 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 
+import { GowunDodum_400Regular } from "@expo-google-fonts/gowun-dodum";
+
 export const FONTS = {
   InterRegular: "Inter_400Regular",
   InterSemiBold: "Inter_600SemiBold",
@@ -33,6 +35,8 @@ export const FONTS = {
   NotoSansKRRegular: "NotoSansKR_400Regular",
   NotoSansKRBold: "NotoSansKR_700Bold",
   NotoSansKRLight: "NotoSansKR_300Light",
+
+  GowunDodumRegular: "GowunDodum_400Regular",
 };
 
 export const FONT_IMPORTS = {
@@ -47,4 +51,6 @@ export const FONT_IMPORTS = {
   NotoSansKR_400Regular,
   NotoSansKR_700Bold,
   NotoSansKR_300Light,
+
+  GowunDodum_400Regular,
 };
