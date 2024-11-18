@@ -14,23 +14,6 @@ import { Image } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 function NavBar() {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
-    const { userDataFetch } = useAxios();
-    useEffect(() => {
-        const fetchUserData = async () => {
-            // 사용자 정보 가져오기
-            const userInfo = await userDataFetch('GET', USER); // USER URL로 요청
-            console.log(userInfo); // 사용자 데이터 확인
-            if (userInfo) {
-                dispatch(setUserInfo(userInfo)); // 사용자 정보를 Redux에 저장
-            } else {
-                navigation.navigate('Login');
-            }
-        };
-        console.log('사용자 데이터 확인');
-        fetchUserData();
-    }, []);
     return (
         <Tab.Navigator
             screenOptions={{

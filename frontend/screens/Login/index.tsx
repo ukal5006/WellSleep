@@ -5,21 +5,34 @@ import LogoutBtn from '../../components/LogoutBtn';
 import mainBackground from '../../assets/loginback.png';
 import { useFonts } from 'expo-font';
 import { FONTS, FONT_IMPORTS } from '../../constants/fonts';
-import { useSelector } from 'react-redux'; // Redux에서 사용자 정보 선택
+import { useDispatch, useSelector } from 'react-redux'; // Redux에서 사용자 정보 선택
 import { useNavigation } from '@react-navigation/native'; // 네비게이션 훅 임포트
 import { RootState } from '../../store/store';
+import useAxios from '../../hooks/useAxios';
+import { setUserInfo } from '../../store/userSlice';
+import { USER } from '../../constants/apis';
 
 function Login() {
     const [fontsLoaded] = useFonts(FONT_IMPORTS);
     const navigation = useNavigation();
-    const userInfo = useSelector((state: RootState) => state.user.userInfo); // 사용자 정보 가져오기
+    const dispatch = useDispatch();
+    const { userDataFetch } = useAxios();
 
     useEffect(() => {
-        if (userInfo) {
-            // 사용자 정보가 있을 경우 이동
-            navigation.navigate('Nav'); // 이동할 화면 이름
-        }
-    }, [userInfo, navigation]); // userInfo가 변경될 때마다 실행
+        const fetchUserData = async () => {
+            // 사용자 정보 가져오기
+            const userInfo = await userDataFetch('GET', USER); // USER URL로 요청
+            console.log(userInfo); // 사용자 데이터 확인
+            if (userInfo) {
+                dispatch(setUserInfo(userInfo)); // 사용자 정보를 Redux에 저장
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Nav' }], // 로그인 후 NavBar로 이동
+                });
+            }
+        };
+        fetchUserData();
+    }, []);
 
     if (!fontsLoaded) {
         return null;

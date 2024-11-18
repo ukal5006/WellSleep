@@ -1,64 +1,62 @@
 {
-  "expo": {
-    "name": "wellSleep",
-    "slug": "wellSleep",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "example.com"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.example"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "extraMavenRepos": [
-              "https://devrepo.kakao.com/nexus/content/groups/public/"
+    "expo": {
+        "name": "wellSleep",
+        "slug": "wellSleep",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "cover",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "example.com"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.example"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            [
+                "expo-build-properties",
+                {
+                    "android": {
+                        "extraMavenRepos": ["https://devrepo.kakao.com/nexus/content/groups/public/"],
+                        "newArchEnabled": true
+                    },
+                    "ios": {
+                        "newArchEnabled": true
+                    }
+                }
             ],
-            "newArchEnabled": true
-          },
-          "ios": {
-            "newArchEnabled": true
-          }
+            [
+                "@react-native-kakao/core",
+                {
+                    "nativeAppKey": "c9f9a5b0717e5e19f774465dcb85522b",
+                    "android": {
+                        "authCodeHandlerActivity": true
+                    },
+                    "ios": {
+                        "handleKakaoOpenUrl": true
+                    }
+                }
+            ],
+            "expo-secure-store",
+            "expo-font"
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "e2e4a34f-a6a2-4210-98ea-4d159238773b"
+            }
         }
-      ],
-      [
-        "@react-native-kakao/core",
-        {
-          "nativeAppKey": "c9f9a5b0717e5e19f774465dcb85522b",
-          "android": {
-            "authCodeHandlerActivity": true
-          },
-          "ios": {
-            "handleKakaoOpenUrl": true
-          }
-        }
-      ],
-      "expo-secure-store",
-      "expo-font"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "e2e4a34f-a6a2-4210-98ea-4d159238773b"
-      }
     }
-  }
 }

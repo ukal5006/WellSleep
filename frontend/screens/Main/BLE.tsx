@@ -62,6 +62,7 @@ export default function BLE({ totalInformationId }) {
 
     useEffect(() => {
         if (sensorData) {
+            console.log(sensorData);
             if (userInfo?.pulse === 0) {
                 initSleep(sensorData.emg, sensorData.o2, sensorData.pulse);
             }
@@ -143,6 +144,7 @@ export default function BLE({ totalInformationId }) {
 
                 // 수신된 데이터를 버퍼에 추가
                 setBuffer((prevBuffer) => {
+                    console.log(char.value);
                     const newBuffer = prevBuffer + atob(char.value); // Base64 디코딩 후 추가
 
                     // JSON 파싱 시도
