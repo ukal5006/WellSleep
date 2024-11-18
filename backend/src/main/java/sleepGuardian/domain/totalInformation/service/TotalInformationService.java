@@ -282,7 +282,6 @@ public class TotalInformationService {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 TotalInformationID"));
         List<SleepRecord> allByTotalInformation = sleepRecordRepository.findAllByTotalInformation(totalInformation);
         SleepTime sleepTimes = sleepTimeRepository.findByTotalInformation(totalInformation);
-        // SleepRecord를 SleepRecordDTO로 변환
         List<SleepRecordDetailResponseDTO.SleepRecordDTO> sleepRecordDTOList = new ArrayList<>();
         for (SleepRecord sleepRecord : allByTotalInformation) {
             sleepRecordDTOList.add(SleepRecordDetailResponseDTO.SleepRecordDTO.builder()

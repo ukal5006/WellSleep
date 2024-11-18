@@ -37,7 +37,7 @@ public class Users {
     private LocalDateTime createdAt;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "constellation", nullable = true)
+    @Column(name = "constellation")
     private Constellation constellation;
 
     @Column(name = "emg")
@@ -55,12 +55,10 @@ public class Users {
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TotalInformation> totalInformationList;
 
-    // refreshToken을 변경하는 메서드 추가
     public void updateRefreshToken(String token) {
         this.refreshToken = token;
     }
 
-    // 별자리 update
     public void updateConstellation(Constellation newConstellation) {
         this.constellation = newConstellation;
     }
