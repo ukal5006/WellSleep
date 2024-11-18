@@ -9,7 +9,7 @@ interface SolutionDataType {
   humidity: number;
   temperature: number;
   noise: number;
-  solution: string;
+  solution: string | null;
 }
 
 interface SolutionProps {
@@ -27,6 +27,10 @@ const SolutionChart: React.FC<SolutionProps> = ({ solutionData }) => {
     { category: "습도", value: solutionData.humidity },
     { category: "온도", value: solutionData.temperature },
   ];
+
+  const solutionText = solutionData.solution
+    ? solutionData.solution
+    : "솔루션 데이터가 없습니다.";
 
   return (
     <View>
@@ -105,7 +109,7 @@ const SolutionChart: React.FC<SolutionProps> = ({ solutionData }) => {
           lineHeight: 24,
         }}
       >
-        {solutionData.solution}
+        {solutionText}
       </Text>
     </View>
   );
