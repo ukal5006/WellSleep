@@ -151,7 +151,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
       <img src="images/jkw.jpg" width="100" height="30%" style="margin: 0;"/><br>정경원
     </td>
     <td style="text-align:center;">
-      팀장, Back-End
+      팀장, Back-End, Infra
     </td>
     <td>
       우선 프로젝트가 잘 마무리될 수 있도록 도와준 팀원들에게 감사하다는 말을 전하고 싶습니다. 엘라스틱 서치에 대해 학습하고 구현해본 것이 많이 유익했고, DB를 해킹당하면서 데이터 관리의 중요성에 대해 다시한번 체감하는 계기가 되었습니다. 이번 프로젝트를 통해 어떤 프로젝트라도 해낼 수 있다는 자신감이 생겼습니다.
@@ -162,7 +162,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
       <img src="images/cyh.jpg" width="100" height="30%" style="margin: 0;"/><br>최용훈
     </td>
     <td style="text-align:center;">
-      Back-End리더, Infra
+      Back-End리더, 아두이노
     </td>
     <td>
       이번 프로젝트는 개인적으로도 큰 성장의 기회였고 팀원들과의 협업을 통해 기술적으로도 그리고 프로젝트 관리 측면에서도 많은 것을 배우고 익힐 수 있었습니다. 프로젝트를 마무리하며 느끼는 점은 기술적 지식뿐만 아니라 협업의 중요성과 사용자 관점에서의 서비스 기획의 중요성입니다. 앞으로도 이 경험을 바탕으로 지속적으로 배워나가며 더 나은 서비스를 제공할 수 있도록 노력하겠습니다.
@@ -173,7 +173,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
       <img src="images/hjh.JPG" width="100" height="30%" style="margin: 0;"/><br>한지훈
     </td>
     <td style="text-align:center;">
-      Back-End, AI
+      Back-End, 아두이노
     </td>
     <td>
       우선 모든 팀원들에게 기획부터 개발, 배포까지의 프로젝트 개발은 모두 고생했다고 말씀드리고 싶습니다.
@@ -187,7 +187,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
       <img src="images/lys.jpg" width="100" height="30%" style="margin: 0;"/><br>이용성
     </td>
     <td style="text-align:center;">
-      Front-End리더
+      Front-End 리더
     </td>
     <td>
       이번 프로젝트를 통해 멋진 팀원들과 함께 할 수 있어서 정말 좋았습니다. 각자의 아이디어와 열정을 공유하며 협력할 수 있었던 경험이 큰 힘이 되었습니다. 특히 PWA와 VITE를 처음 다뤄보는 것이었는데, 새로운 기술을 배우고 적용하는 과정이 매우 흥미로웠습니다. 처음에는 어려움이 많았지만, 팀원들과 함께 문제를 해결해 나가면서 많은 것을 배우고 성장할 수 있었습니다.
@@ -198,7 +198,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
       <img src="images/kkm.jpeg" width="100" height="30%" style="margin: 0;"/><br>강경민
     </td>
     <td style="text-align:center;">
-      Front-End
+      Front-End, UX/UI
     </td>
     <td>
       이번 프로젝트에서 오류를 해결하느라 다들 정말 고생 많았어요! 함께 문제를 해결하려고 애쓴 시간이 많이 기억에 남습니다. 여러 어려움 속에서도 끝까지 함께해주어서 감사했습니다. 모두 앞으로도 원하는 진로에서 좋은 성과 만들어나가길 바랍니다!
@@ -209,7 +209,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
       <img src="images/oyj.jpg" width="100" height="30%" style="margin: 0;"/><br>오예진
     </td>
     <td style="text-align:center;">
-      Front-End
+      Front-End, UX/UI
     </td>
     <td>
       유능한 프론트 리더 덕분에 많은 것을 배울 수 있는 프로젝트였습니다. 코드의 가독성과 최적화 하는 것의 중요성을 알 수 있었고, 서로의 의견을 갈등 없이 반영하면서 할 수 있어서 재미있게 프로젝트를 진행할 수 있었습니다. 중간에 어려움이 있었지만, 서로 많은 도움을 주셔서 문제를 해결 할 수 있었습니다.
