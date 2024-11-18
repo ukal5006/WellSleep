@@ -58,4 +58,10 @@ public class TotalInformationController {
     public ResponseEntity<SleepRecordDetailResponseDTO> getSleepRecordDetail(@PathVariable int totalInformationId) {
         return ResponseEntity.ok(totalInformationService.getSleepRecordDetail(totalInformationId));
     }
+
+    @GetMapping("/solution/{totalInformationId}")
+    public ResponseEntity<?> getSleepSolution(@PathVariable int totalInformationId) {
+        SleepSolutionResponseDTO response = totalInformationService.getSolutionInfo(totalInformationId);
+        return ResponseEntity.ok(response);
+    }
 }

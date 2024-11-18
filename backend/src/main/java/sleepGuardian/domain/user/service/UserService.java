@@ -3,7 +3,6 @@ package sleepGuardian.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import sleepGuardian.domain.user.entity.Constellation;
 import sleepGuardian.domain.user.dto.UserInitDataDTO;
 import sleepGuardian.domain.user.dto.UserResponseDTO;
@@ -16,7 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final S3Service s3Service;
 
     @Transactional
     public boolean updateUserConstellation(int userId, Constellation constellation) {
@@ -64,10 +62,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateProfileImage(int userId, MultipartFile file) {
-        String fileName = userId + "_" + file.getOriginalFilename();  // 사용자 ID를 파일 이름에 포함하여 고유하게 만듦
-        String imageUrl = s3Service.uploadFile(file, fileName);
-
+    public void updateProfileImage(int userId, String imageUrl) {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
