@@ -1,6 +1,5 @@
 package sleepGuardian.domain.user.entity;
 
-//별자리 12개
 public enum Constellation {
     물병자리,
     물고기자리,

@@ -22,10 +22,7 @@ public class FortuneScheduler {
     public void scheduleDailyFortuneUpdate() {
 
         log.info("스케줄러가 실행되어 오늘의 별자리 운세가 갱신되었습니다!");
-
-        // 별자리 운세 데이터를 크롤링하여 가져옴
         List<FortuneUpdateRequest> dailyFortunes = fortuneCrawler.crawlDailyFortunes();
-
         constellationFortuneService.updateDailyFortunes(dailyFortunes);
     }
 }
