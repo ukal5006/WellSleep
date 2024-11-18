@@ -7,7 +7,8 @@
 5. 프로젝트 기획
 6. 프로젝트 산출물
 7. 프로젝트 회고
-   <br>
+<br>
+<br>
 
 ## ✨ 1. 프로젝트 소개
 
@@ -28,6 +29,7 @@
 | 이용성 | Front-End리더, 아두이노       |
 | 강경민 | Front-End, UX/UI           |
 | 오예진 | Front-End, UX/UI           |
+<br>
 
 ### 기능
 
@@ -39,6 +41,7 @@
 | **알람 기능**      | 사용자가 설정한 시간에 맞춰 알람을 제공하는 기본 기능                                                            |
 | **별자리 운세**    | 사용자의 별자리에 따라 매일 운세를 제공                                                                          |
 | **유튜브 추천**    | 수면에 도움을 주는 음악이나 릴렉싱 콘텐츠를 유튜브에서 추천 및 제공.                                             |
+<br>
 
 ### 기대효과
 
@@ -46,8 +49,10 @@
 - IoT 모듈과 연동해 심박수, 산소포화도, 근전도 등의 데이터를 손쉽게 확인하고 분석할 수 있어 편리합니다.
 - 온도, 습도, 소음 등 수면 환경 정보를 분석하여 개선 방안을 제공합니다.
 - 알람 기능을 통해 규칙적인 수면 습관을 형성할 수 있습니다.
+<br>
+<br>
 
-### ✨ 기획 배경
+## ✨ 2. 기획 배경
 
 ### 페르소나
 
@@ -55,19 +60,22 @@
 **배경:**  
 한지훈씨는 직장인으로, 불규칙한 생활 패턴과 스트레스 때문에 불면증을 자주 겪고 있습니다. 밤새 뒤척이며 잠들기 어려운 날이 많아 일상생활에서 피로도가 높아지고 있습니다. 또한, 수면 클리닉과 병원에서의 전문적인 수면 분석은 비용이 너무 비싸고 접근성이 낮아 실질적인 해결책을 찾기 힘든 상황입니다.
 
-**니즈:**
+-**니즈:**
 
 - 수면 패턴과 환경을 분석해 불면증의 원인을 파악하고 싶음.
 - 수면의 질을 개선할 수 있는 구체적인 가이드 제공.
 - 규칙적인 수면 리듬을 조절할 수 있는 알람 기능 필요.
 
-**목표:**  
+-**목표:**  
 수면의 질을 높이고 불면증을 완화하여 일상생활의 에너지를 회복하는 것.
+<br>
 
 ### 현 상황
 
 - [불면증 환자 증가, 수면 부족이 건강에 미치는 영향](https://www.ytn.co.kr/_ln/0103_202408080833238626)
 - [수면장애 100만명 시대…치료 필요성 인식해야](https://www.medicaltimes.com/Main/News/NewsView.html?ID=1157876)
+<br>
+<br>
 
 ## ✨ 3. 특화 기능 소개
 
@@ -119,9 +127,11 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 - 사용자의 별자리에 따라 매일 최신화된 운세를 제공
 
 &emsp; <img src="images/8.생일수정.jpg" width="380" height="50%"/> <img src="images/9.별자리조회.jpg" width="380" height="50%"/><br>
+<br>
 
 ## ✨ 4. 사용 기술 & 아키텍쳐
 
+### 사용 기술
 - **프론트엔드** : Arduino, React-Native, TypeScript, Styled-Components, Axios, Redux, Webview, Expo
 - **백엔드** : SpringBoot, SpringSecurity, JPA, Oauth2.0, JWT, Swagger
 - **DB** : MariaDB, Redis
@@ -131,6 +141,8 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 ### 아키텍쳐
 
 &emsp; <img src="images/아키텍처.png" width="1000" height="600"/>
+<br>
+<br>
 
 ## ✨ 5. 프로젝트 기획
 
@@ -139,14 +151,18 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 &emsp; <img src="images/기능명세서1.PNG" width="480" height="50%"/> &emsp; <img src="images/기능명세서2.PNG" width="480" height="50%"/>
 &emsp; <img src="images/기능명세서3.PNG" width="480" height="50%"/> &emsp; <img src="images/기능명세서4.PNG" width="480" height="50%"/>
 &emsp; <img src="images/기능명세서5.PNG" width="480" height="50%"/> &emsp; <img src="images/기능명세서6.PNG" width="480" height="50%"/>
+<br>
 
 ### API명세서
 
 &emsp; <img src="images/api명세서1.PNG" width="480" height="50%"/> &emsp; <img src="images/api명세서2.PNG" width="480" height="50%"/> <img src="images/api명세서3.PNG" width="480" height="50%"/>
+<br>
 
 ### ERD
 
 &emsp; &emsp; <img src="images/erd.png" width="1000" height="450"/>
+<br>
+<br>
 
 ## ✨ 7. 프로젝트 회고
 
