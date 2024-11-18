@@ -36,3 +36,7 @@ export const INIT_SLEEP = `${DOMAIN}user/end-init`;
 
 // 카페인 및 알코올 섭취 기록 저장
 export const INTAKE_SAVE = `${DOMAIN}totalInformation/sleepImpact`;
+
+// 이미지 로드, 변경
+export const IMAGELIST = `${DOMAIN}profile-images`;
+export const UPDATEIMAGE = `${DOMAIN}update-profile`;

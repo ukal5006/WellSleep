@@ -9,6 +9,7 @@ export interface UserInfo {
     emg: number;
     o2: number;
     pulse: number;
+    profileImage: string | null;
 }
 
 interface UserState {
