@@ -112,10 +112,10 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 
 ## ✨ 4. 사용 기술 & 아키텍쳐
 
-- **프론트엔드** : Arduino, React-Native, JavaScript, Styled-Components, PWA, Recoil
-- **백엔드** : SpringBoot, SpringSecurity, Oauth2.0, FireBase
-- **DB** : MariaDB, ElasticSearch
-- **인프라** : Docker, Nginx, Jenkins, Ubuntu
+- **프론트엔드** : Arduino, React-Native, TypeScript, Styled-Components, Axios, Redux, Webview, Expo
+- **백엔드** : SpringBoot, SpringSecurity, JPA, Oauth2.0, JWT, Swagger
+- **DB** : MariaDB, Redis
+- **인프라** : Docker, Nginx, Jenkins, Ubuntu, EC2, S3
 - **이슈 관리** : JIRA, GitLab, Notion
 
 ### 아키텍쳐
