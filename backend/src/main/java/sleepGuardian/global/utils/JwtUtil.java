@@ -106,7 +106,7 @@ public class JwtUtil {
 
     // HttpServletRequest에서 Authorization Header를 통해 access token을 추출하는 메서드입니다.
     public String getAccessToken(HttpServletRequest httpServletRequest) {
-//        System.out.println("httpServletRequest: " + httpServletRequest);
+        System.out.println("httpServletRequest: " + httpServletRequest);
 
 
         String bearerToken = httpServletRequest.getHeader(AUTHORIZATION_HEADER);
