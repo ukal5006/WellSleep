@@ -147,7 +147,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
   </tr>
   <tr>
     <td style="text-align:center;">
-      <img src="image/cyh.jpg" width="100" height="30%" style="margin: 0;"/><br>정경원
+      <img src="image/jkw.jpg" width="100" height="30%" style="margin: 0;"/><br>정경원
     </td>
     <td style="text-align:center;">
       팀장, Back-End
@@ -158,7 +158,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
   </tr>
   <tr>
     <td style="text-align:center;">
-      <img src="image/jkw.jpg" width="100" height="30%" style="margin: 0;"/><br>최용훈
+      <img src="image/cyh.jpg" width="100" height="30%" style="margin: 0;"/><br>최용훈
     </td>
     <td style="text-align:center;">
       Back-End리더, Infra
@@ -194,7 +194,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
   </tr>
   <tr>
     <td style="text-align:center;">
-      <img src="image/jyj.jpg" width="100" height="30%" style="margin: 0;"/><br>강경민
+      <img src="image/kkm.jpeg" width="100" height="30%" style="margin: 0;"/><br>강경민
     </td>
     <td style="text-align:center;">
       Front-End
@@ -205,7 +205,7 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
   </tr>
   <tr>
     <td style="text-align:center;">
-      <img src="image/psm.jpg" width="100" height="30%" style="margin: 0;"/><br>오예진
+      <img src="image/oyj.jpg" width="100" height="30%" style="margin: 0;"/><br>오예진
     </td>
     <td style="text-align:center;">
       Front-End
