@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface SleepRecordRepository extends JpaRepository<SleepRecord, Integer> {
-    public List<SleepRecord> findAllByTotalInformation(TotalInformation totalInformation);
+    List<SleepRecord> findAllByTotalInformation(TotalInformation totalInformation);
     List<SleepRecord> findAllByTotalInformationId(int totalInformationId);
 }

@@ -19,10 +19,4 @@ public class SleepRecordController {
         sleepRecordService.saveSleepRecord(userId, requestDto.getKey(), requestDto.getValue());
         return ResponseEntity.ok("Sleep record saved successfully.");
     }
-//    @PostMapping("/live-record/get")
-//    public ResponseEntity<?> tmp(@RequestParam int totalInformationId) {
-//        SleepRecordResultDTO result = sleepRecordService.getSleepRecord(totalInformationId);
-//
-//        return ResponseEntity.ok(result);
-//    }
 }
