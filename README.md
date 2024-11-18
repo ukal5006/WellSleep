@@ -126,13 +126,13 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 
 ### 기능명세서
 
-&emsp; <img src="images/기능명세서1.png" width="480" height="50%"/> &emsp; <img src="images/기능명세서2.png" width="480" height="50%"/>
-&emsp; <img src="images/기능명세서3.png" width="480" height="50%"/> &emsp; <img src="images/기능명세서4.png" width="480" height="50%"/>
-&emsp; <img src="images/기능명세서5.png" width="480" height="50%"/> &emsp;
+&emsp; <img src="images/기능명세서1.PNG" width="480" height="50%"/> &emsp; <img src="images/기능명세서2.PNG" width="480" height="50%"/>
+&emsp; <img src="images/기능명세서3.PNG" width="480" height="50%"/> &emsp; <img src="images/기능명세서4.PNG" width="480" height="50%"/>
+&emsp; <img src="images/기능명세서5.PNG" width="480" height="50%"/> &emsp; <img src="images/기능명세서6.PNG" width="480" height="50%"/>
 
 ### API명세서
 
-&emsp; <img src="images/API명세서1.png" width="480" height="50%"/> &emsp; <img src="images/API명세서2.png" width="480" height="50%"/>
+&emsp; <img src="images/API명세서1.PNG" width="480" height="50%"/> &emsp; <img src="images/API명세서2.PNG" width="480" height="50%"/> <img src="images/API명세서3.PNG" width="480" height="50%"/>
 
 ### ERD
 
