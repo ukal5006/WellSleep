@@ -24,8 +24,10 @@ public class S3Service {
         List<String> imageUrls = new ArrayList<>();
         List<S3ObjectSummary> objects = amazonS3.listObjects(bucketName, "profileImage/").getObjectSummaries();
         for (S3ObjectSummary os : objects) {
-            String imageUrl = s3Url + "/" + os.getKey();
-            imageUrls.add(imageUrl);
+            if (!os.getKey().equals("profileImage/")) {
+                String imageUrl = s3Url + "/" + os.getKey();
+                imageUrls.add(imageUrl);
+            }
         }
         return imageUrls;
     }
