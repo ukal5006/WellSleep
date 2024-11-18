@@ -24,6 +24,14 @@ function MorningAlarm() {
     // 별 이미지 반짝이는 효과를 위한 애니메이션 설정
     const fadeAnim = useRef(new Animated.Value(1)).current;
 
+    PushNotification.createChannel({
+        channelId: 'alarm-channel-new-onee',
+        channelName: 'Alarm Channel New Onee',
+        importance: PushNotification.Importance.HIGH,
+        soundName: 'alarm.mp3',
+        vibrate: true,
+    });
+
     useEffect(() => {
         // 애니메이션 설정
         const blinkAnimation = Animated.loop(
@@ -45,12 +53,12 @@ function MorningAlarm() {
         if (Platform.OS === 'android') {
             // Android 13 이상에서 알림 권한 요청
             if (Platform.Version >= 33) {
-                // requestNotificationPermission();
+                requestNotificationPermission();
             }
 
             // 정확한 알람 권한 요청 (Android 12 이상)
             if (Platform.Version >= 31) {
-                // checkExactAlarmPermission();
+                checkExactAlarmPermission();
             }
         }
 
