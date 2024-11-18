@@ -22,12 +22,12 @@
 
 | 이름   | 역할                |
 | ------ | ------------------- |
-| 최용훈 | 팀장, Back-End      |
-| 정경원 | Back-End리더, Infra |
-| 한지훈 | Back-End, AI        |
-| 이용성 | Front-End리더       |
-| 강경민 | Front-End           |
-| 오예진 | Front-End           |
+| 정경원 | 팀장, Back-End, Infra      |
+| 최용훈 | Back-End리더, 아두이노 |
+| 한지훈 | Back-End, 아두이노     |
+| 이용성 | Front-End리더, 아두이노       |
+| 강경민 | Front-End, UX/UI           |
+| 오예진 | Front-End, UX/UI           |
 
 ### 기능
 
