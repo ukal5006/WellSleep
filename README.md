@@ -96,8 +96,8 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 - 알람 기능
 - 카페인, 알코올 섭취량을 통해 수면에 어떤 영향이 있는지 확인한다.
 
-&emsp; <img src="images/16.수면측정시작페이지.jpg" width="380" height="50%"/> <img src="images/17.카페인알코올여부확인페이지.jpg" width="380" height="50%"/><br>
-&emsp; <img src="images/18.카페인알코올여부저장.jpg" width="380" height="50%"/> <img src="images/19.수면측정페이지.jpg" width="380" height="50%"/><br>
+&emsp; <img src="images/17.카페인알코올여부확인페이지.jpg" width="380" height="50%"/> <img src="images/18.카페인알코올여부저장.jpg" width="380" height="50%"/><br>
+&emsp; <img src="images/16.수면측정시작페이지.jpg" width="380" height="50%"/> <img src="images/19.수면측정페이지.jpg" width="380" height="50%"/><br>
 
 ### 수면 통계 제공
 
@@ -105,11 +105,20 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 - 평균 수면 깊이 점수와 수면 패턴을 분석해 사용자 맞춤형 피드백을 제공한다.
 - 수면 환경(조도, 온도, 습도, 소음)과 수면 질의 연관성을 분석하여 통계로 제공한다.
 
-&emsp; <img src="images/수면분석1.png" width="380" height="1100"/> <img src="images/수면분석2.png" width="380" height="1500"/><br>
+&emsp; <img src="images/20.월별수면기록페이지.jpg" width="380" height="1100"/> <img src="images/21.수면점수및솔루션페이지.jpg" width="380" height="1500"/><br>
+&emsp; <img src="images/25.상세수면기록페이지.jpg" width="380" height="1100"/> <img src="images/26.월별통계페이지.jpg" width="380" height="1500"/><br>
 
-| **알람 기능** | 사용자가 설정한 시간에 맞춰 알람을 제공하는 기본 기능 |
-| **별자리 운세** | 사용자의 별자리에 따라 매일 운세를 제공 |
-| **유튜브 추천** | 수면에 도움을 주는 음악이나 릴렉싱 콘텐츠를 유튜브에서 추천 및 제공. |
+### 알람 기능
+
+- 사용자가 설정한 시간에 맞춰 알람을 제공하는 기본 기능 
+
+&emsp; <img src="images/14.알람페이지.jpg" width="380" height="1100"/> <img src="images/15.알람.jpg" width="380" height="1500"/><br>
+
+### 별자리 운세
+
+- 사용자의 별자리에 따라 매일 최신화된 운세를 제공
+
+&emsp; <img src="images/8.생일수정.jpg" width="380" height="1100"/> <img src="images/9.별자리조회.jpg" width="380" height="1500"/><br>
 
 ## ✨ 4. 사용 기술 & 아키텍쳐
 
