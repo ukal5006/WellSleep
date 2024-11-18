@@ -49,9 +49,6 @@ public class TotalInformation {
     @Column(name = "start_sleep_time")
     private LocalDateTime startSleepTime;
 
-    @Column(name = "solution", columnDefinition = "TEXT")
-    private String solution;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
@@ -73,9 +70,5 @@ public class TotalInformation {
             this.realSleepTime = realSleepTime;
             this.endTime = endTime;
             this.startSleepTime = startSleepTime;
-    }
-
-    public void setSleepSolution(String solution) {
-        this.solution = solution;
     }
 }

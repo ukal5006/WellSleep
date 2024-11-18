@@ -20,7 +20,6 @@ public class UserResponseDTO {
     private double emg;
     private double o2;
     private double pulse;
-    private String profileImage;
 
     public static UserResponseDTO fromEntity(Users user) {
         return UserResponseDTO.builder()
@@ -32,7 +31,6 @@ public class UserResponseDTO {
                 .emg(user.getEmg())
                 .o2(user.getO2())
                 .pulse(user.getPulse())
-                .profileImage(user.getProfileImage())
                 .build();
     }
 }

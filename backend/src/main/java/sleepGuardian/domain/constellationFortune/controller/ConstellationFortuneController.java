@@ -38,4 +38,12 @@ public class ConstellationFortuneController {
         return fortune.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404).build());
     }
+
+    // 테스트 코드 : 개발 완료 시 삭제
+//    @PostMapping("/user/constellation")
+//    public ResponseEntity<?> saveFortune() {
+//        // 별자리와 운세 내용이 포함된 FortuneUpdateRequest 객체를 받아서 저장
+//        fortuneScheduler.scheduleDailyFortuneUpdate();
+//        return ResponseEntity.ok("성공");
+//    }
 }
