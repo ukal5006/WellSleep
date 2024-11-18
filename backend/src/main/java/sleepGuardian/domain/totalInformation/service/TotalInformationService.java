@@ -14,6 +14,7 @@ import sleepGuardian.domain.totalInformation.repository.TotalInformationReposito
 import sleepGuardian.domain.user.entity.Users;
 import sleepGuardian.domain.user.repository.UserRepository;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,6 +226,7 @@ public class TotalInformationService {
 
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now(); //수면 측정 완료 시각
+//        LocalDateTime start_sleep_time = LocalDateTime.now(); //최용훈이 줄 거.
         System.out.println("레디스 접근?? 전");
         SleepRecordResultDTO sleepRecord = sleepRecordService.getSleepRecord(totalInformationId);
         System.out.println("레디스 접근?? 후");
@@ -241,11 +243,6 @@ public class TotalInformationService {
         }
 
         totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, startSleepTime);
-
-        SleepSolutionRequestDTO sleepDataDTO = getSleepData(totalInformationId);
-        String solution = generateSolution(totalInformationId, sleepDataDTO);
-        totalInfo.setSleepSolution(solution);
-
         totalInformationRepository.save(totalInfo);
     }
 
@@ -282,6 +279,7 @@ public class TotalInformationService {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 TotalInformationID"));
         List<SleepRecord> allByTotalInformation = sleepRecordRepository.findAllByTotalInformation(totalInformation);
         SleepTime sleepTimes = sleepTimeRepository.findByTotalInformation(totalInformation);
+        // SleepRecord를 SleepRecordDTO로 변환
         List<SleepRecordDetailResponseDTO.SleepRecordDTO> sleepRecordDTOList = new ArrayList<>();
         for (SleepRecord sleepRecord : allByTotalInformation) {
             sleepRecordDTOList.add(SleepRecordDetailResponseDTO.SleepRecordDTO.builder()

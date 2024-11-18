@@ -184,7 +184,6 @@ public class SleepRecordService {
 
     public SleepRecordValueDTO getSleep(int totalInformationId, int tmpId) {
         String key = "sleep_record:" + totalInformationId + ":" + tmpId;
-        System.out.println(key);
         Object value = redisTemplate.opsForValue().get(key);
 
         if (value == null) {
