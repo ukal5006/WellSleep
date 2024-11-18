@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { ScrollView, Text, View, ImageBackground } from "react-native";
 import useAxios from "../../hooks/useAxios";
 import { MONTHLY } from "../../constants/apis";
@@ -32,6 +33,7 @@ const MonthlyChart = () => {
     if (data && data.length > 0) {
       const convertedData = (data as MonthlyDataType[]).map((record) => ({
         ...record,
+        date: moment(record.date).subtract(1, "days").format("YYYY-MM-DD"),
         realSleepTime: record.realSleepTime / 60,
         sleepTime: record.sleepTime / 60,
       }));

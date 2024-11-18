@@ -42,6 +42,10 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
   const [markedDates, setMarkedDates] = useState<MarkedDatesType>({});
   const today = moment().format("YYYY-MM-DD");
 
+  const [currentMonth, setCurrentMonth] = useState<number>(
+    moment().month() + 1
+  );
+
   useEffect(() => {
     if (data) {
       const transformedData: MarkedDatesType = data.reduce(
@@ -77,12 +81,15 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
   const handleMonthChange = (month: { year: number; month: number }) => {
     const newMonth = `${month.year}-${String(month.month).padStart(2, "0")}`;
     onMonthChange(newMonth);
+    setCurrentMonth(month.month);
   };
 
   const renderDayComponent = ({ date }: { date: CalendarDate }) => {
     const isToday = date.dateString === today;
     const hasRecord = !isToday && hasDataForDate(date.dateString);
     const dateData = markedDates[date.dateString];
+
+    const isCurrentMonth = date.month === currentMonth;
 
     const backgroundColor =
       date.dateString === today
@@ -108,7 +115,12 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ data, onMonthChange }) => {
           <Text
             style={{
               fontSize: 14,
-              color: date.dateString === today ? NAVY : "white",
+              color:
+                date.dateString === today
+                  ? NAVY
+                  : isCurrentMonth
+                  ? "white"
+                  : PURPLE,
             }}
           >
             {date.day}

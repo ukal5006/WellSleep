@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { ScrollView, Text, View, ImageBackground } from "react-native";
 import useAxios from "../../hooks/useAxios";
@@ -207,9 +208,12 @@ const DailyChart = () => {
             }}
           >
             {dailyData
-              ? `${parseInt(dailyData.date.slice(5, 7))}월 ${parseInt(
-                  dailyData.date.slice(8)
-                )}일 수면 데이터`
+              ? (() => {
+                  const sleepDate = moment(dailyData.date)
+                    .subtract(1, "days")
+                    .format("M월 D일");
+                  return `${sleepDate} 수면 데이터`;
+                })()
               : "수면 데이터"}
           </Text>
 
