@@ -33,7 +33,7 @@ public class TotalInformationService {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 정보가 잘못되었습니다"));
         TotalInformation totalInformation = new TotalInformation(user);
-        System.out.println(totalInformation);
+//        System.out.println(totalInformation);
         totalInformationRepository.save(totalInformation);
         return totalInformation.getId();
     }
@@ -226,17 +226,16 @@ public class TotalInformationService {
 
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now(); //수면 측정 완료 시각
-//        LocalDateTime start_sleep_time = LocalDateTime.now(); //최용훈이 줄 거.
-        System.out.println("레디스 접근?? 전");
+//        System.out.println("레디스 접근?? 전");
         SleepRecordResultDTO sleepRecord = sleepRecordService.getSleepRecord(totalInformationId);
-        System.out.println("레디스 접근?? 후");
+//        System.out.println("레디스 접근?? 후");
 
         int sleepTime = sleepRecord.getSleepTime();
         int realSleepTime = sleepRecord.getRealSleepTime();
 
         LocalDateTime startSleepTime = sleepRecord.getStartSleepTime();
         double avg = sleepRecord.getAvg();
-        System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
+//        System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
 
         if (startSleepTime == null) {
             startSleepTime = endTime;
