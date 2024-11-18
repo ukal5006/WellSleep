@@ -1,14 +1,27 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import { Alert, Image, ImageBackground, Switch, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+    Alert,
+    Image,
+    ImageBackground,
+    Switch,
+    Text,
+    TouchableOpacity,
+    View,
+    ScrollView,
+    Modal,
+    FlatList,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { MypageNavigationProp } from '../../types/navigation';
 import useAxios from '../../hooks/useAxios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import * as SecureStore from 'expo-secure-store';
-import { LOGOUT, USER } from '../../constants/apis';
+import { IMAGELIST, LOGOUT, UPDATEIMAGE, USER } from '../../constants/apis';
 import SaveBirthday from '../Mypage/SaveBirthday';
+import { updateUserInfo } from '../../store/userSlice';
+import { Ionicons } from '@expo/vector-icons';
 
 const MypageContainer = styled(ImageBackground)`
     flex: 1;
@@ -103,7 +116,6 @@ const Toggle = styled(Switch)`
 const MemberContainer = styled(View)`
     width: 90%;
     margin-top: 10px;
-    margin-bottom: 30px;
 `;
 
 const MemberBtn = styled(TouchableOpacity)`
@@ -117,15 +129,74 @@ const MemberText = styled(Text)`
     text-align: center;
 `;
 
+const MemberWrapper = styled(View)`
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+`;
+
+const ModalContainer = styled(View)`
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+`;
+
+const ModalContent = styled(View)`
+    background-color: white;
+    width: 80%;
+    border-radius: 10px;
+    padding: 20px;
+    align-items: center;
+`;
+
+const ImageOptionWrapper = styled(View)`
+    margin: 10px;
+    position: relative;
+`;
+
+const ImageOption = styled(Image)`
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+`;
+
+const CheckIcon = styled(View)`
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 5px;
+`;
+
+const SaveButton = styled(TouchableOpacity)`
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #dbb0bd;
+    border-radius: 10px;
+`;
+
+const SaveButtonText = styled(Text)`
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+`;
+
 function Mypage() {
-    const { dataFetch } = useAxios();
+    const { dataFetch, userDataFetch } = useAxios();
     const navigation = useNavigation<MypageNavigationProp>();
+    const dispatch = useDispatch();
     const userInfo = useSelector((state: RootState) => state.user.userInfo);
 
     const [sleepNoti, setSleepNoti] = useState(false);
     const [wakeAlarm, setWakeAlarm] = useState(false);
     const [limitNoti, setLimitNoti] = useState(false);
     const [luckNoti, setLuckNoti] = useState(false);
+
+    const [imageList, setImageList] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     async function storeTokens(accessToken: string, refreshToken: string) {
         await SecureStore.setItemAsync('accessToken', accessToken);
@@ -160,24 +231,52 @@ function Mypage() {
         });
     };
 
+    useEffect(() => {
+        userDataFetch('GET', IMAGELIST).then((e) => setImageList(e));
+    }, []);
+
+    const handleSaveImage = () => {
+        if (selectedImage) {
+            dispatch(updateUserInfo({ profileImage: selectedImage }));
+            userDataFetch('PUT', `${UPDATEIMAGE}?imageUrl=${selectedImage}`);
+            setIsModalVisible(false);
+        }
+    };
+
     return (
         <MypageContainer source={require('@assets/backgroundImg.png')}>
-            <View>
+            <ScrollView>
                 <ContentContainer>
                     <ProfileContainer>
                         <UserNameWrapper>
                             <UserName>{userInfo ? userInfo.name : '이름 없음'}</UserName>
                             <UserEmail>{userInfo ? userInfo.email : '이메일 없음'}</UserEmail>
                         </UserNameWrapper>
-                        <ProfileImg source={require('@assets/profileimg.png')} />
+                        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                            <ProfileImg
+                                source={
+                                    userInfo?.profileImage
+                                        ? { uri: userInfo.profileImage }
+                                        : require('@assets/profileimg.png')
+                                }
+                            />
+                        </TouchableOpacity>
                     </ProfileContainer>
 
-                    <MemberContainer>
+                    <MemberWrapper>
                         <SaveBirthday />
-                    </MemberContainer>
+                    </MemberWrapper>
 
                     <NavigatorContainer>
-                        <NavigatorBtn onPress={() => navigation.navigate('Luck')}>
+                        <NavigatorBtn
+                            onPress={() => {
+                                if (userInfo?.constellation === null) {
+                                    Alert.alert('등록된 별자리가 없습니다.');
+                                } else {
+                                    navigation.navigate('Luck');
+                                }
+                            }}
+                        >
                             <Image
                                 source={require('../../assets/luckwhite.png')}
                                 style={{ width: 25, height: 25, marginRight: 11 }}
@@ -192,14 +291,6 @@ function Mypage() {
                             />
                             <NavigatorText>수면 연구소</NavigatorText>
                         </NavigatorBtn>
-
-                        {/* <NavigatorBtn onPress={() => navigation.navigate("Info")}>
-              <Image
-                source={require("../../assets/bedicon.png")}
-                style={{ width: 27, height: 27, marginRight: 11 }}
-              />
-              <NavigatorText>이용 안내</NavigatorText>
-            </NavigatorBtn> */}
                     </NavigatorContainer>
 
                     <ReminderContainer>
@@ -252,7 +343,35 @@ function Mypage() {
                         </MemberBtn>
                     </MemberContainer>
                 </ContentContainer>
-            </View>
+                {isModalVisible && (
+                    <Modal transparent={true} animationType="slide" visible={isModalVisible}>
+                        <ModalContainer>
+                            <ModalContent>
+                                <FlatList
+                                    data={imageList}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    numColumns={3}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity onPress={() => setSelectedImage(item)}>
+                                            <ImageOptionWrapper>
+                                                <ImageOption source={{ uri: item }} />
+                                                {selectedImage === item && (
+                                                    <CheckIcon>
+                                                        <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+                                                    </CheckIcon>
+                                                )}
+                                            </ImageOptionWrapper>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                                <SaveButton onPress={handleSaveImage}>
+                                    <SaveButtonText>저장</SaveButtonText>
+                                </SaveButton>
+                            </ModalContent>
+                        </ModalContainer>
+                    </Modal>
+                )}
+            </ScrollView>
         </MypageContainer>
     );
 }

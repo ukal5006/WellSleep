@@ -5,6 +5,7 @@ import { Alert } from 'react-native';
 import { useEffect } from 'react';
 import useAxios from '../hooks/useAxios';
 import { LOGOUT } from '../constants/apis';
+import { clearUserInfo } from '../store/userSlice';
 
 const Btn = styled(TouchableOpacity)`
     font-size: 24px;
@@ -36,7 +37,7 @@ function LogoutBtn() {
         if (data !== null) {
             console.log(data);
             storeTokens('', '');
-            console.log('WellSleep 로그아웃 성공');
+            clearUserInfo();
         }
     }, [data]);
 
