@@ -96,7 +96,8 @@ HM-10 센서를 사용하여 사용자의 어플과 BLE 통신을 하며 데이�
 - 알람 기능
 - 카페인, 알코올 섭취량을 통해 수면에 어떤 영향이 있는지 확인한다.
 
-&emsp; <img src="images/수면시작1.png" width="380" height="50%"/> <img src="images/수면시작2.png" width="380" height="50%"/><br>
+&emsp; <img src="images/16.수면측정시작페이지.jpg" width="380" height="50%"/> <img src="images/17.카페인알코올여부확인페이지.jpg" width="380" height="50%"/><br>
+&emsp; <img src="images/18.카페인알코올여부저장.jpg" width="380" height="50%"/> <img src="images/19.수면측정페이지.jpg" width="380" height="50%"/><br>
 
 ### 수면 통계 제공
 
