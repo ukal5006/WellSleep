@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sleepGuardian.domain.constellationFortune.entity.ConstellationFortune;
 import sleepGuardian.domain.constellationFortune.service.ConstellationFortuneService;
-import sleepGuardian.domain.constellationFortune.service.FortuneCrawler;
+import sleepGuardian.domain.constellationFortune.service.FortuneScheduler;
 import sleepGuardian.domain.user.service.UserService;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class ConstellationFortuneController {
     private final ConstellationFortuneService constellationFortuneService;
     private final UserService userService;
-    private final FortuneCrawler fortuneCrawler;
+    private final FortuneScheduler fortuneScheduler;
 
     @GetMapping("/user/constellation")
     public ResponseEntity<?> getTodayFortune(HttpServletRequest request) {

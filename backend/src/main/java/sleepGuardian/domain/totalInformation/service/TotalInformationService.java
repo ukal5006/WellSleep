@@ -8,10 +8,7 @@ import sleepGuardian.domain.sleepRecord.repository.SleepRecordRepository;
 import sleepGuardian.domain.sleepRecord.service.SleepRecordService;
 import sleepGuardian.domain.sleepTime.entity.SleepTime;
 import sleepGuardian.domain.sleepTime.repository.SleepTimeRepository;
-import sleepGuardian.domain.totalInformation.dto.SleepImpactRequestDTO;
-import sleepGuardian.domain.totalInformation.dto.SleepImpactResponseDTO;
-import sleepGuardian.domain.totalInformation.dto.SleepRecordDetailResponseDTO;
-import sleepGuardian.domain.totalInformation.dto.SleepSummariesResponseDTO;
+import sleepGuardian.domain.totalInformation.dto.*;
 import sleepGuardian.domain.totalInformation.entity.TotalInformation;
 import sleepGuardian.domain.totalInformation.repository.TotalInformationRepository;
 import sleepGuardian.domain.user.entity.Users;
@@ -32,12 +29,13 @@ public class TotalInformationService {
     private final SleepRecordRepository sleepRecordRepository;
     private final SleepTimeRepository sleepTimeRepository;
 
-    public void startSleep(int userId) {
+    public int startSleep(int userId) {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 정보가 잘못되었습니다"));
         TotalInformation totalInformation = new TotalInformation(user);
-        System.out.println(totalInformation);
+//        System.out.println(totalInformation);
         totalInformationRepository.save(totalInformation);
+        return totalInformation.getId();
     }
 
     // 알코올, 카페인 기록 조회
@@ -57,27 +55,191 @@ public class TotalInformationService {
         return totalInformationRepository.save(totalInfo).getId();
     }
 
+    // 수면 기록 가공
+    private SleepSolutionRequestDTO getSleepData(int totalInformationId) {
+        TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 수면정보가 존재하지 않습니다."));
+        double avg = totalInfo.getAvg();
+        int realSleepTime = totalInfo.getRealSleepTime();
+        int caffeineIntake = totalInfo.getCaffeineIntake();
+        int alcoholIntake = totalInfo.getAlcoholIntake();
+
+        SleepTime sleepTimeInfo = sleepTimeRepository.findByTotalInformationId(totalInformationId);
+        int noSleepTime = sleepTimeInfo.getNoSleepTime();
+        int shallowSleepTime = sleepTimeInfo.getShallowSleepTime();
+        int deepSleepTime = sleepTimeInfo.getDeepSleepTime();
+        int remSleepTime = sleepTimeInfo.getRemSleepTime();
+
+        List<SleepRecord> sleepRecords = sleepRecordRepository.findAllByTotalInformationId(totalInformationId);
+
+        double totalHumidity = 0;
+        double totalTemperature = 0;
+        double totalIllumination = 0;
+        double totalNoise = 0;
+        int count = sleepRecords.size();
+
+        for (SleepRecord record : sleepRecords) {
+            totalHumidity += record.getHumidity();
+            totalTemperature += record.getTemperature();
+            totalIllumination += record.getIllumination();
+            totalNoise += record.getNoise();
+        }
+
+        totalHumidity = adjustValue(totalHumidity / count);
+        totalTemperature = adjustValue(totalTemperature / count);
+        totalIllumination = adjustValue(totalIllumination / count);
+        totalNoise = adjustValue(totalNoise / count);
+
+        return new SleepSolutionRequestDTO(
+                avg,
+                realSleepTime,
+                noSleepTime,
+                shallowSleepTime,
+                deepSleepTime,
+                remSleepTime,
+                (int) totalHumidity,
+                (int) totalTemperature,
+                (int) totalIllumination,
+                (int) totalNoise,
+                caffeineIntake,
+                alcoholIntake
+        );
+    }
+
+    private int adjustValue(double value) {
+        int roundedValue = (int) (Math.round(value / 10.0) * 10);
+        if (roundedValue > 100) {
+            return 100;
+        } else if (roundedValue < 0) {
+            return 0;
+        }
+        return roundedValue;
+    }
+
+    // 수면 솔루션 저장
+    private String generateSolution(int totalInformationId, SleepSolutionRequestDTO sleepSolutionRequestDTO) {
+        TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
+                .orElseThrow(() -> new IllegalArgumentException("수면정보종합이 잘못되었습니다."));
+
+        double avgScore = totalInfo.getAvg();
+        int realSleepTime = totalInfo.getRealSleepTime();
+        int noSleepTime = sleepSolutionRequestDTO.getNoSleepTime();
+        int shallowSleepTime = sleepSolutionRequestDTO.getShallowSleepTime();
+        int deepSleepTime = sleepSolutionRequestDTO.getDeepSleepTime();
+        int remSleepTime = sleepSolutionRequestDTO.getRemSleepTime();
+
+        double illumination = sleepSolutionRequestDTO.getIllumination();
+        double humidity = sleepSolutionRequestDTO.getHumidity();
+        double temperature = sleepSolutionRequestDTO.getTemperature();
+        double noise = sleepSolutionRequestDTO.getNoise();
+        int caffeineIntake = sleepSolutionRequestDTO.getCaffeineIntake();
+        int alcoholIntake = sleepSolutionRequestDTO.getAlcoholIntake();
+
+        boolean isWellSleep = true; //수면의 질
+        boolean isSufficientSleep = true; // 수면의 양
+        boolean isEfficiencySleep = true; // 수면의 효율
+
+        // 수면 솔루션 생성
+        StringBuilder solution = new StringBuilder();
+
+        // 수면 점수 및 실제 수면 시간 평가(수면의 질)
+        if (avgScore >= 90 && realSleepTime >= 390 && realSleepTime <= 540) {
+            solution.append("수면의 질이 좋고, 적절한 수면 시간입니다. 현재 수면 습관을 유지하세요.");
+        } else if (avgScore >= 75) {
+            solution.append("수면의 질이 양호합니다. 더 나은 수면 환경을 위해 환경 요소를 확인해보세요.");
+        } else if (avgScore >= 60) {
+            solution.append("수면의 질이 보통입니다. 충분한 회복을 위해 더 자는 것이 좋습니다.");
+        } else {
+            isWellSleep = false;
+            solution.append("수면의 질이 낮습니다. 수면 습관과 환경을 개선해보세요.");
+        }
+
+        // 수면의 양 평가
+        if (realSleepTime > 540) { // 9시간 이상
+            isSufficientSleep = false;
+            solution.append("지나친 잠은 피로감이 증가할 수 있습니다. ");
+        }  else if (realSleepTime < 360) { // 6시간 30분 미만
+            isSufficientSleep = false;
+            solution.append("충분한 회복을 위해 더 자는 것이 좋습니다.");
+        }
+
+        // 수면 단계 평가 추가(수면의 효율)
+        if (noSleepTime + shallowSleepTime > deepSleepTime + remSleepTime) {
+            isEfficiencySleep = false;
+            solution.append(" 일찍 잠자리에 드는 것을 추천합니다. 수면의 연속성을 높이세요.");
+        }
+        if (noSleepTime > 30) {
+            isWellSleep = false;
+            isEfficiencySleep = false;
+            solution.append(" 수면 중 자주 깼습니다. 스트레스 관리나 환경 개선이 필요합니다.");
+        }
+
+        // 환경 요소 평가 추가
+        if (!isWellSleep || !isSufficientSleep || !isEfficiencySleep) {
+            if (illumination > 30) {
+                solution.append(" 방을 어둡게 유지하세요.");
+            }
+            if (humidity < 40 || humidity > 60) {
+                solution.append(" 습도를 40-60%로 유지하세요.");
+            }
+            if (temperature < 15 || temperature > 23) {
+                solution.append(" 온도를 18-22°C로 조절하세요.");
+            }
+            if (noise > 30) {
+                solution.append(" 조용한 환경을 만들면 수면의 질이 높아질 수 있습니다.");
+            }
+
+            // 카페인 및 알코올 섭취 평가
+            if (caffeineIntake > 0) {
+                solution.append(" 카페인 섭취가 수면에 영향을 줄 수 있습니다. 잠들기 최소 6시간 전에는 카페인을 피하세요.");
+            }
+            if (alcoholIntake > 0) {
+                solution.append(" 알코올 섭취가 수면 패턴에 영향을 줄 수 있습니다. 더 나은 수면을 위해 취침 전 음주를 삼가세요.");
+            }
+        }
+
+        // SleepSolutionResponseDTO 생성 및 반환
+        return solution.toString();
+    }
+
+    // 수면 솔루션 제공
+    public SleepSolutionResponseDTO getSolutionInfo(int totalInformationId) {
+        TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 수면 정보 ID입니다."));
+
+        SleepSolutionRequestDTO sleepDataDTO = getSleepData(totalInformationId);
+        String solution = totalInfo.getSolution();
+        return new SleepSolutionResponseDTO(
+                totalInformationId,
+                sleepDataDTO.getIllumination(),
+                sleepDataDTO.getNoise(),
+                sleepDataDTO.getHumidity(),
+                sleepDataDTO.getTemperature(),
+                solution
+        );
+    }
+
+
     public void endSleep(int totalInformationId) {
         TotalInformation totalInfo = totalInformationRepository.findById(totalInformationId)
                 .orElseThrow(() -> new IllegalArgumentException("수면정보종합이 잘못되었습니다."));
 
         LocalDateTime date = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now(); //수면 측정 완료 시각
-        int sleepTime = (int)Duration.between(totalInfo.getStartTime(), endTime).toMinutes();//총 수면 시간
-//        LocalDateTime start_sleep_time = LocalDateTime.now(); //최용훈이 줄 거.
-        System.out.println("레디스 접근?? 전");
+//        System.out.println("레디스 접근?? 전");
         SleepRecordResultDTO sleepRecord = sleepRecordService.getSleepRecord(totalInformationId);
-        System.out.println("레디스 접근?? 후");
+//        System.out.println("레디스 접근?? 후");
+
+        int sleepTime = sleepRecord.getSleepTime();
+        int realSleepTime = sleepRecord.getRealSleepTime();
 
         LocalDateTime startSleepTime = sleepRecord.getStartSleepTime();
         double avg = sleepRecord.getAvg();
-        System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
+//        System.out.println(avg + " " + totalInfo.getStartTime() + " " + startSleepTime);
 
-        if(startSleepTime == null) {
+        if (startSleepTime == null) {
             startSleepTime = endTime;
         }
-
-        int realSleepTime = (int) Duration.between(totalInfo.getStartTime(), startSleepTime).toMinutes();
 
         totalInfo.setSleepEnd(avg, date, sleepTime, realSleepTime, endTime, startSleepTime);
         totalInformationRepository.save(totalInfo);

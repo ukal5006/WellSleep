@@ -49,6 +49,26 @@ public class SleepRecordService {
         double userEmg = 96 - (((record.getEmg() / user.getEmg()) * 100) / 3);
         double userO2 = 260 - (((record.getO2() / user.getO2()) * 100) * 2);
         double userPulse = 115 - (((record.getPulse() / user.getPulse()) * 100) / 2);
+
+        if(userEmg < 0) {
+            userEmg = 0;
+        }
+        else if(userEmg > 100) {
+            userEmg = 100;
+        }
+        if(userO2 < 0) {
+            userO2 = 0;
+        }
+        else if(userO2 > 100) {
+            userO2 = 100;
+        }
+        if(userPulse < 0) {
+            userPulse = 0;
+        }
+        else if(userPulse > 100) {
+            userPulse = 100;
+        }
+        
         double avg = (userEmg + userO2 + userPulse) / 3;
 
         if (avg < 0) {
@@ -64,9 +84,9 @@ public class SleepRecordService {
                 .humidity(record.getHumidity())
                 .temperature(record.getTemperature())
                 .noise(record.getNoise())
-                .emg(userEmg)
-                .o2(userO2)
-                .pulse(userPulse)
+                .emg(record.getEmg())
+                .o2(record.getO2())
+                .pulse(record.getPulse())
                 .score(avg)
                 .build();
 
@@ -149,10 +169,14 @@ public class SleepRecordService {
 
         sleepTimeRepository.save(sleepTime);
 
+        int sleepTimeSum = sleepStep[0] + sleepStep[1] + sleepStep[2] + sleepStep[3] + sleepStep[4];
+        int realSleepTime = sleepStep[2] + sleepStep[3] + sleepStep[4];
 
         SleepRecordResultDTO result = SleepRecordResultDTO.builder()   //평균점수, 입면시간 저장
                 .avg(sum / count)
                 .startSleepTime(startSleep)
+                .sleepTime(sleepTimeSum)
+                .realSleepTime(realSleepTime)
                 .build();
 
         return result;
@@ -160,7 +184,6 @@ public class SleepRecordService {
 
     public SleepRecordValueDTO getSleep(int totalInformationId, int tmpId) {
         String key = "sleep_record:" + totalInformationId + ":" + tmpId;
-        System.out.println(key);
         Object value = redisTemplate.opsForValue().get(key);
 
         if (value == null) {

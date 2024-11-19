@@ -37,7 +37,7 @@ public class Users {
     private LocalDateTime createdAt;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "constellation", nullable = true)
+    @Column(name = "constellation")
     private Constellation constellation;
 
     @Column(name = "emg")
@@ -49,16 +49,16 @@ public class Users {
     @Column(name = "pulse")
     private double pulse;
 
+    @Column(name = "profile_image")
+    private String profileImage;
 
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TotalInformation> totalInformationList;
 
-    // refreshToken을 변경하는 메서드 추가
     public void updateRefreshToken(String token) {
         this.refreshToken = token;
     }
 
-    // 별자리 update
     public void updateConstellation(Constellation newConstellation) {
         this.constellation = newConstellation;
     }
@@ -67,5 +67,9 @@ public class Users {
         this.emg = userInitDataDTO.getEmg();
         this.o2 = userInitDataDTO.getO2();
         this.pulse = userInitDataDTO.getPulse();
+    }
+
+    public void updateProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

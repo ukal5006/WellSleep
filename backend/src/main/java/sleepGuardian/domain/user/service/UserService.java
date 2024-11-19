@@ -60,4 +60,13 @@ public class UserService {
         return userRepository.findById(userId)
                 .map(Users::getConstellation);
     }
+
+    @Transactional
+    public void updateProfileImage(int userId, String imageUrl) {
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.updateProfileImage(imageUrl);
+        userRepository.save(user);
+    }
 }
