@@ -8,10 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sleepGuardian.domain.user.dto.*;
 import sleepGuardian.domain.user.service.KakaoService;
+import sleepGuardian.domain.user.service.S3Service;
 import sleepGuardian.domain.user.service.UserLoginService;
 import sleepGuardian.domain.user.service.UserService;
 import sleepGuardian.global.auth.JwtResponse;
 import sleepGuardian.global.utils.JwtUtil;
+
+import java.util.List;
 
 @Tag(name = "카카오 로그인")
 @RestController
@@ -22,6 +25,7 @@ public class UserController {
     private final UserLoginService userLoginService;
     private final JwtUtil jwtUtil;
     private final UserService userService;
+    private final S3Service s3Service;
 
     @Operation(summary = "카카오 로그인")
     @PostMapping("/login")
@@ -101,5 +105,20 @@ public class UserController {
         int userId = (Integer) request.getAttribute("userId");
         userService.deleteUser(userId);
         return ResponseEntity.ok("delete Successfully");
+    }
+
+    @Operation(summary = "프로필 이미지 리스트 가져오기")
+    @GetMapping("/profile-images")
+    public ResponseEntity<?> getProfileImages() {
+        List<String> imageUrls = s3Service.getImages();
+        return ResponseEntity.ok(imageUrls);
+    }
+
+    @Operation(summary = "프로필 이미지 변경")
+    @PutMapping("/update-profile")
+    public ResponseEntity<?> updateProfileImage(HttpServletRequest request, @RequestParam("imageUrl") String imageUrl) {
+        int userId = (Integer) request.getAttribute("userId");
+        userService.updateProfileImage(userId, imageUrl);
+        return ResponseEntity.ok("프로필 이미지 변경 성공");
     }
 }
